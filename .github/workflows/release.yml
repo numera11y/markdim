@@ -17,7 +17,7 @@ jobs:
         include: ${{ fromJSON(contains(github.ref_name, '-beta.') && '[{"rid":"win-x64","runner":"windows-latest"},{"rid":"linux-x64","runner":"ubuntu-latest"},{"rid":"linux-arm64","runner":"ubuntu-latest"}]' || '[{"rid":"win-x64","runner":"windows-latest"},{"rid":"osx-x64","runner":"macos-latest"},{"rid":"osx-arm64","runner":"macos-latest"},{"rid":"linux-x64","runner":"ubuntu-latest"},{"rid":"linux-arm64","runner":"ubuntu-latest"}]') }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
       - name: Verify release tag matches project version

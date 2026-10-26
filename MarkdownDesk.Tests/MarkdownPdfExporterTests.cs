@@ -1,5 +1,6 @@
 using System.Text;
 using MarkdownDesk;
+using PdfSharp.Pdf.IO;
 using Xunit;
 
 namespace MarkdownDesk.Tests;
@@ -13,11 +14,14 @@ public sealed class MarkdownPdfExporterTests
 
         try
         {
-            MarkdownPdfExporter.Export("# Heading\n\nA paragraph.\n\n- One item", "sample.md", path);
+            MarkdownPdfExporter.Export("# Édition Markdown\n\nUn paragraphe avec les accents : café, où, à, œ.\n\n- Première option\n- Deuxième option\n\n> Une citation\n\n```csharp\nConsole.WriteLine(\"été\");\n```", "sample.md", path);
 
             var bytes = File.ReadAllBytes(path);
             Assert.True(bytes.Length > 500);
             Assert.StartsWith("%PDF-", Encoding.ASCII.GetString(bytes, 0, 5));
+            using var document = PdfReader.Open(path, PdfDocumentOpenMode.Import);
+            Assert.True(document.PageCount > 0);
+            Assert.Equal("sample.md", document.Info.Title);
         }
         finally
         {

@@ -4,6 +4,12 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 
 ## [Unreleased]
 
+## [0.3.0-beta.4] - 2026-10-26
+
+### Changed
+- Remplace QuestPDF par PDFsharp-MigraDoc 6.2.4 (MIT) pour la génération PDF.
+- Épingle System.Security.Cryptography.Pkcs à 8.0.2 pour éviter les avis CVE de la version transitive précédente.
+
 ## [0.3.0-beta.3] - 2026-10-26
 
 ### Added

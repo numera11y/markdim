@@ -146,6 +146,19 @@
         "resolved": "17.12.0",
         "contentHash": "4svMznBd5JM21JIG2xZKGNanAHNXplxf/kQDFfLHXQ3OnpJkayRK/TjacFjA+EYmoyuNXHo/sOETEfcYtAzIrA=="
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Transitive",
+        "resolved": "8.0.2",
+        "contentHash": "3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg=="
+      },
+      "Microsoft.Extensions.Logging.Abstractions": {
+        "type": "Transitive",
+        "resolved": "8.0.3",
+        "contentHash": "dL0QGToTxggRLMYY4ZYX5AMwBb+byQBd/5dMiZE07Nv73o6I5Are3C7eQTh7K2+A4ct0PVISSr7TZANbiNb2yQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
+        }
+      },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
         "resolved": "17.12.0",
@@ -164,6 +177,15 @@
         "type": "Transitive",
         "resolved": "13.0.1",
         "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
+      },
+      "PDFsharp": {
+        "type": "Transitive",
+        "resolved": "6.2.4",
+        "contentHash": "GhTr9F1uOYXHCIEOB5PXIgqn5a8WLsJL2m0eewTA0IvY1j6N4HGXHKKmEyB90/N6vrjmYamf41V9zbmdW2HY3g==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.3",
+          "System.Security.Cryptography.Pkcs": "8.0.1"
+        }
       },
       "ShimSkiaSharp": {
         "type": "Transitive",
@@ -271,7 +293,8 @@
           "Avalonia.Themes.Fluent": "[11.2.3, )",
           "HtmlAgilityPack": "[1.13.1, )",
           "Markdig": "[0.44.0, )",
-          "QuestPDF": "[2024.12.3, )",
+          "PDFsharp-MigraDoc": "[6.2.4, )",
+          "System.Security.Cryptography.Pkcs": "[8.0.2, )",
           "Tmds.DBus.Protocol": "[0.21.3, )"
         }
       },
@@ -349,11 +372,22 @@
         "resolved": "0.44.0",
         "contentHash": "X+CYMjcUnh/yO24wOSQxVFLiGqWrrtXJ5M7toHiM1Zk4Fg9UMLN5fkaq6FSOWH+mIprsHHgDMlq3MJhmrXalhg=="
       },
-      "QuestPDF": {
+      "PDFsharp-MigraDoc": {
         "type": "CentralTransitive",
-        "requested": "[2024.12.3, )",
-        "resolved": "2024.12.3",
-        "contentHash": "gdIoEC9cTnySnDdbwcguUfSS2+444rGEeecQH5n0IKUA9Tm4473eRrFjPk5HoD5I2BxjuyDW+WCGnwKa+OIXsw=="
+        "requested": "[6.2.4, )",
+        "resolved": "6.2.4",
+        "contentHash": "ZlRUJaAAo4K2oMt1v02GTeGOHIOoOvcH1e1WYMpunCG1MK8jd4EBrbzSHoYSN7yOfKWFtOIUfzvmKhRGPsyWQQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.3",
+          "PDFsharp": "6.2.4",
+          "System.Security.Cryptography.Pkcs": "8.0.1"
+        }
+      },
+      "System.Security.Cryptography.Pkcs": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.2, )",
+        "resolved": "8.0.2",
+        "contentHash": "VWACYq0JGxi9sw3TonSSV4B2MfhYk5nhgOtp9wbrt5NFOtUetFqHkMZylcCwPX+117cBJH5EnIzIy6X4OKn/kA=="
       },
       "Tmds.DBus.Protocol": {
         "type": "CentralTransitive",

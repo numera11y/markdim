@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Markdown source links" extensions=".md;.markdown" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Link" foreground="#F0C987" underline="true"/>
+  <RuleSet>
+    <Rule color="Link">!?\[[^\]]+\]\([^)]+\)</Rule>
+  </RuleSet>
+</SyntaxDefinition>

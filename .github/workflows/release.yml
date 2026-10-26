@@ -1,0 +1,54 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Package ${{ matrix.rid }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(contains(github.ref_name, '-beta.') && '[{"rid":"win-x64","runner":"windows-latest"}]' || '[{"rid":"win-x64","runner":"windows-latest"},{"rid":"osx-x64","runner":"macos-latest"},{"rid":"osx-arm64","runner":"macos-latest"},{"rid":"linux-x64","runner":"ubuntu-latest"},{"rid":"linux-arm64","runner":"ubuntu-latest"}]') }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Verify release tag matches project version
+        shell: pwsh
+        run: |
+          $tagVersion = "${{ github.ref_name }}".TrimStart('v')
+          [xml]$props = Get-Content Directory.Build.props
+          $projectVersion = $props.Project.PropertyGroup.VersionPrefix
+          $versionSuffix = $props.Project.PropertyGroup.VersionSuffix
+          if ($versionSuffix) { $projectVersion = "$projectVersion-$versionSuffix" }
+          if ($tagVersion -ne $projectVersion) { throw "Tag $tagVersion does not match project version $projectVersion" }
+      - name: Build release package
+        shell: pwsh
+        run: ./packaging/Publish-Release.ps1 -Version ("${{ github.ref_name }}".TrimStart('v')) -RuntimeIdentifier "${{ matrix.rid }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.rid }}
+          path: release/${{ github.ref_name }}/**/*
+          if-no-files-found: error
+
+  publish:
+    name: Publish GitHub Release
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-beta.') }}
+          files: artifacts/**/*

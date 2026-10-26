@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Marginalia
+Comment=Read and edit Markdown documents
+Exec=Marginalia %F
+Icon=marginalia
+Terminal=false
+Categories=Office;TextEditor;
+MimeType=text/markdown;text/x-markdown;
+StartupNotify=true

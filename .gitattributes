@@ -1,0 +1,4 @@
+* text=auto eol=lf
+MarkdownDesk.Tests/Fixtures/MarkdownFeatureCoverage.md whitespace=-blank-at-eol
+MarkdownDesk.Tests/Fixtures/MarkdownItFeatureCoverage.md whitespace=-blank-at-eol
+MarkdownDesk/Assets/Fonts/*-OFL.txt whitespace=-blank-at-eol

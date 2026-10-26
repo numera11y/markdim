@@ -1,0 +1,83 @@
+<Application xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:editing="clr-namespace:AvaloniaEdit.Editing;assembly=AvaloniaEdit" x:Class="MarkdownDesk.App" RequestedThemeVariant="Light">
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+    <Style Selector="Window"><Setter Property="Background" Value="{DynamicResource AppWindowBackgroundBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="Window TextBlock"><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="TextBlock"><Setter Property="FontWeight" Value="Medium"/></Style>
+    <Style Selector="ListBoxItem:selected TextBlock"><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="ListBoxItem TextBlock"><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="ComboBoxItem:selected TextBlock"><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource AppAccentBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource AppAccentHoverBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="ListBoxItem:selected:pressed /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource AppAccentHoverBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="ComboBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource AppAccentBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="ComboBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Background" Value="{DynamicResource AppAccentHoverBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="MenuItem /template/ ContentPresenter#PART_HeaderPresenter"><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/><Setter Property="FontWeight" Value="SemiBold"/></Style>
+    <Style Selector="MenuItem:pointerover /template/ Border#PART_LayoutRoot"><Setter Property="Background" Value="{DynamicResource AppHoverBrush}"/></Style>
+    <Style Selector="MenuItem:selected /template/ Border#PART_LayoutRoot"><Setter Property="Background" Value="{DynamicResource AppHoverBrush}"/></Style>
+    <Style Selector="MenuItem:pressed /template/ Border#PART_LayoutRoot"><Setter Property="Background" Value="{DynamicResource AppHoverBrush}"/></Style>
+    <Style Selector="MenuItem:pointerover /template/ ContentPresenter#PART_HeaderPresenter"><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="MenuItem:selected /template/ ContentPresenter#PART_HeaderPresenter"><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="Button.modal-primary TextBlock"><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="Button.modal-destructive TextBlock"><Setter Property="Foreground" Value="{DynamicResource AppOnDangerBrush}"/></Style>
+    <Style Selector="Button"><Setter Property="Background" Value="Transparent"/><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Padding" Value="12,8"/><Setter Property="CornerRadius" Value="7"/></Style>
+    <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="Button.modal-primary /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/></Style>
+    <Style Selector="Button.modal-destructive /template/ ContentPresenter#PART_ContentPresenter"><Setter Property="Foreground" Value="{DynamicResource AppOnDangerBrush}"/></Style>
+    <Style Selector="Button:pointerover"><Setter Property="Background" Value="{DynamicResource AppHoverBrush}"/></Style>
+    <Style Selector="Button:disabled"><Setter Property="Opacity" Value="1"/><Setter Property="Background" Value="{DynamicResource AppSidebarBrush}"/><Setter Property="Foreground" Value="{DynamicResource AppSubtleTextBrush}"/><Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/></Style>
+    <Style Selector="Button.modal-button">
+      <Setter Property="Background" Value="{DynamicResource AppSurfaceBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppBorderBrush}"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="Padding" Value="14,9"/>
+      <Setter Property="MinHeight" Value="40"/>
+      <Setter Property="MinWidth" Value="88"/>
+      <Setter Property="CornerRadius" Value="7"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style Selector="Button.modal-button:pointerover"><Setter Property="Background" Value="{DynamicResource AppHoverBrush}"/></Style>
+    <Style Selector="Button.modal-primary">
+      <Setter Property="Background" Value="{DynamicResource AppAccentBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AppOnAccentBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppAccentBrush}"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+    <Style Selector="Button.modal-primary:pointerover">
+      <Setter Property="Background" Value="{DynamicResource AppAccentHoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppAccentHoverBrush}"/>
+    </Style>
+    <Style Selector="Button.modal-destructive">
+      <Setter Property="Background" Value="{DynamicResource AppDangerBrush}"/>
+      <Setter Property="Foreground" Value="{DynamicResource AppOnDangerBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppDangerBrush}"/>
+    </Style>
+    <Style Selector="Button.modal-destructive:pointerover">
+      <Setter Property="Background" Value="{DynamicResource AppDangerHoverBrush}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource AppDangerHoverBrush}"/>
+    </Style>
+    <Style Selector="TextBox"><Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Foreground" Value="{DynamicResource AppTextBrush}"/></Style>
+    <Style Selector="ToolTip"><Setter Property="Background" Value="{DynamicResource ToolTipBackground}"/><Setter Property="Foreground" Value="{DynamicResource ToolTipForeground}"/><Setter Property="BorderBrush" Value="{DynamicResource ToolTipBorderBrush}"/></Style>
+    <Style Selector="editing|LineNumberMargin"><Setter Property="Margin" Value="2,0,18,0"/></Style>
+  </Application.Styles>
+  <Application.Resources>
+    <SolidColorBrush x:Key="AppWindowBackgroundBrush" Color="#F5F6F8"/>
+    <SolidColorBrush x:Key="AppSurfaceBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AppSidebarBrush" Color="#EEF1F5"/>
+    <SolidColorBrush x:Key="AppCanvasBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AppBorderBrush" Color="#C7CDD6"/>
+    <SolidColorBrush x:Key="AppTextBrush" Color="#171A21"/>
+    <SolidColorBrush x:Key="AppMutedTextBrush" Color="#344054"/>
+    <SolidColorBrush x:Key="AppSubtleTextBrush" Color="#475467"/>
+    <SolidColorBrush x:Key="AppAccentBrush" Color="#275DAD"/>
+    <SolidColorBrush x:Key="AppOnAccentBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AppAccentHoverBrush" Color="#1F4F9D"/>
+    <SolidColorBrush x:Key="AppDangerBrush" Color="#B42318"/>
+    <SolidColorBrush x:Key="AppOnDangerBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="AppDangerHoverBrush" Color="#912018"/>
+    <SolidColorBrush x:Key="AppHoverBrush" Color="#DCE8F8"/>
+    <SolidColorBrush x:Key="AppDividerBrush" Color="#D0D5DD"/>
+  </Application.Resources>
+</Application>

@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MarkdownDesk.Tests/MarkdownDesk.Tests.csproj" />
+  <Project Path="MarkdownDesk/MarkdownDesk.csproj" />
+</Solution>

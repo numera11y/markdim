@@ -1,0 +1,23 @@
+# .NET build output
+**/bin/
+**/obj/
+**/TestResults/
+*.user
+*.suo
+
+# IDE and local tooling
+.vs/
+.idea/
+.vscode/
+.impeccable/
+.impeccable/build/
+.impeccable/review/
+
+# Release output
+artifacts/
+publish/
+/release/
+
+# OS files
+Thumbs.db
+.DS_Store

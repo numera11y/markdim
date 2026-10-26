@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Markdown" extensions=".md;.markdown" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Heading" foreground="#82AAFF"/>
+  <Color name="Strong" foreground="#C792EA" fontWeight="bold"/>
+  <Color name="Emphasis" foreground="#C792EA" fontStyle="italic"/>
+  <Color name="InlineCode" foreground="#ECC48D" background="#252B35"/>
+  <Color name="Link" foreground="#F0C987" underline="true"/>
+  <Color name="Quote" foreground="#A5D6A7" fontStyle="italic"/>
+  <Color name="List" foreground="#FFCB6B"/>
+  <Color name="Rule" foreground="#7F8998"/>
+  <Color name="Fence" foreground="#D7BA7D" background="#202630"/>
+  <RuleSet>
+    <Span color="Fence" multiline="true" begin="^\s*```[^\r\n]*$" end="^\s*```\s*$"/>
+    <Span color="InlineCode" begin="`" end="`"/>
+    <Rule color="Heading">^\s*\#{1,6}\s+\S.*$</Rule>
+    <Rule color="Link">!?\[[^\]]+\]\([^)]+\)</Rule>
+    <Rule color="Strong">\*\*[^*]+\*\*|__[^_]+__</Rule>
+    <Rule color="Emphasis">\*[^*]+\*|_[^_]+_</Rule>
+    <Rule color="Quote">^\s*&gt;.*$</Rule>
+    <Rule color="List">^\s*(?:[-+*]|\d+\.)\s+.*$</Rule>
+    <Rule color="Rule">^\s*(?:-{3,}|\*{3,}|_{3,})\s*$</Rule>
+  </RuleSet>
+</SyntaxDefinition>

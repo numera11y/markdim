@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64;linux-arm64</RuntimeIdentifiers>
+    <AssemblyName>Marginalia</AssemblyName>
+    <Product>Marginalia</Product>
+    <ApplicationIcon>Assets\marginalia.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+    <InformationalVersion>$(Version)</InformationalVersion>
+    <Authors>Marginalia contributors</Authors>
+    <Description>Local Markdown reading, editing, and PDF export workspace.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Deterministic>true</Deterministic>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Svg" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" />
+    <PackageReference Include="Markdig" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="QuestPDF" />
+    <PackageReference Include="Tmds.DBus.Protocol" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\marginalia.ico" />
+    <AvaloniaResource Include="Assets\Icons\*.svg" />
+    <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Bold.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" />
+    <None Include="Assets\marginalia.svg" />
+    <None Update="Assets\Fonts\JetBrainsMono-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="MarkdownDesk.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Highlighting\Markdown.Light.xshd" LogicalName="MarkdownDesk.Highlighting.Markdown.Light.xshd" />
+    <EmbeddedResource Include="Highlighting\Markdown.Dark.xshd" LogicalName="MarkdownDesk.Highlighting.Markdown.Dark.xshd" />
+    <EmbeddedResource Include="Highlighting\Markdown.Source.Light.xshd" LogicalName="MarkdownDesk.Highlighting.Markdown.Source.Light.xshd" />
+    <EmbeddedResource Include="Highlighting\Markdown.Source.Dark.xshd" LogicalName="MarkdownDesk.Highlighting.Markdown.Source.Dark.xshd" />
+    <EmbeddedResource Include="Highlighting\Code.Light.xshd" LogicalName="MarkdownDesk.Highlighting.Code.Light.xshd" />
+    <EmbeddedResource Include="Highlighting\Code.Dark.xshd" LogicalName="MarkdownDesk.Highlighting.Code.Dark.xshd" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SyntaxDefinition name="Code" extensions=".code" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Keyword" foreground="#0757A6" fontWeight="bold"/>
+  <Color name="String" foreground="#A23B20"/>
+  <Color name="Comment" foreground="#39734A" fontStyle="italic"/>
+  <Color name="Number" foreground="#8B4D9E"/>
+  <Color name="Operator" foreground="#795E26"/>
+  <RuleSet ignoreCase="true">
+    <Span color="String" begin="&quot;" end="&quot;"/>
+    <Span color="String" begin="&apos;" end="&apos;"/>
+    <Rule color="Comment">^\s*(\#|//).*\S.*$</Rule>
+    <Rule color="Keyword">\b(if|else|elif|then|fi|for|while|do|done|return|class|struct|public|private|static|void|new|using|import|from|def|function|const|let|var|echo|printf|npm|dotnet|install|true|false|null)\b</Rule>
+    <Rule color="Number">\b\d+(\.\d+)?\b</Rule>
+    <Rule color="Operator">=&gt;|==|!=|=|\+|-|\*|/</Rule>
+  </RuleSet>
+</SyntaxDefinition>

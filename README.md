@@ -2,7 +2,7 @@
 
 Application desktop C#/Avalonia pour ouvrir, lire, corriger et exporter des documents Markdown sous Windows, macOS et Linux.
 
-Version actuelle : **0.3.0-beta.4** — bêta publique Windows et Linux. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
+Version actuelle : **0.3.0-beta.5** — bêta publique Windows et Linux. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
 
 ## Développement
 
@@ -19,17 +19,17 @@ dotnet test Marginalia.slnx -c Release
 Depuis un environnement avec le SDK .NET 10 :
 
 ```sh
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.4 -RuntimeIdentifier win-x64
-./packaging/windows/Build-Installer.ps1 -Version 0.3.0-beta.4
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.4 -RuntimeIdentifier linux-x64
-bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.4 linux-x64
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.4 -RuntimeIdentifier linux-arm64
-bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.4 linux-arm64
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.5 -RuntimeIdentifier win-x64
+./packaging/windows/Build-Installer.ps1 -Version 0.3.0-beta.5
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.5 -RuntimeIdentifier linux-x64
+bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.5 linux-x64
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.5 -RuntimeIdentifier linux-arm64
+bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.5 linux-arm64
 ```
 
-La bêta Windows fournit un installateur graphique `.exe` et une archive ZIP portable. Linux fournit des paquets `.deb` installables sur Debian/Ubuntu (amd64 et arm64), ainsi qu’une archive `.tar.gz` portable pour les autres distributions. Les paquets installables créent les raccourcis et intègrent Marginalia au menu « Ouvrir avec ». Sous Debian/Ubuntu, installer le paquet téléchargé avec `sudo apt install ./Marginalia-v0.3.0-beta.4-linux-amd64.deb`.
+La bêta Windows fournit un installateur graphique `.exe` et une archive ZIP portable. Linux fournit des paquets `.deb` installables sur Debian/Ubuntu (amd64 et arm64), ainsi qu’une archive `.tar.gz` portable pour les autres distributions. Les paquets installables créent les raccourcis et intègrent Marginalia au menu « Ouvrir avec ». Sous Debian/Ubuntu, installer le paquet téléchargé avec `sudo apt install ./Marginalia-v0.3.0-beta.5-linux-amd64.deb`.
 
-L’interface utilise la police par défaut de chaque plateforme; l’éditeur et le code utilisent JetBrains Mono NL, distribuée sous licence SIL Open Font License 1.1 (`Assets/Fonts/JetBrainsMono-OFL.txt`, copiée dans les publications).
+L’interface utilise la police par défaut de chaque plateforme. L’export PDF intègre IBM Plex Sans pour le texte et JetBrains Mono NL pour le code; leurs licences SIL Open Font License 1.1 sont copiées dans les publications (`Assets/Fonts/IBMPlexSans-OFL.txt` et `Assets/Fonts/JetBrainsMono-OFL.txt`).
 
 ## Raccourcis clavier
 

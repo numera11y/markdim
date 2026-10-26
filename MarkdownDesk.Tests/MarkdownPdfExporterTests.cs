@@ -19,6 +19,11 @@ public sealed class MarkdownPdfExporterTests
             var bytes = File.ReadAllBytes(path);
             Assert.True(bytes.Length > 500);
             Assert.StartsWith("%PDF-", Encoding.ASCII.GetString(bytes, 0, 5));
+            var pdfObjects = Encoding.Latin1.GetString(bytes);
+            Assert.Contains("IBM#20Plex#20Sans#20Regular", pdfObjects);
+            Assert.Contains("IBM#20Plex#20Sans#20SmBld", pdfObjects);
+            Assert.Contains("IBM#20Plex#20Sans,Italic", pdfObjects);
+            Assert.Contains("JetBrains#20Mono", pdfObjects);
             using var document = PdfReader.Open(path, PdfDocumentOpenMode.Import);
             Assert.True(document.PageCount > 0);
             Assert.Equal("sample.md", document.Info.Title);

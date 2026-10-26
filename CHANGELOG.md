@@ -4,6 +4,11 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 
 ## [Unreleased]
 
+## [0.3.0-beta.5] - 2026-10-26
+
+### Fixed
+- Utilise IBM Plex Sans pour le texte et les titres du PDF; JetBrains Mono reste réservé aux blocs de code.
+
 ## [0.3.0-beta.4] - 2026-10-26
 
 ### Changed

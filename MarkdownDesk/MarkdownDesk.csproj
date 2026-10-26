@@ -39,11 +39,15 @@
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" />
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" />
     <EmbeddedResource Include="Assets\Fonts\IBMPlexSans.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-SemiBold.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans-SemiBold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-Italic.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans-Italic.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-SemiBoldItalic.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans-SemiBoldItalic.ttf" />
     <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-Regular.ttf" />
     <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Bold.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-Bold.ttf" />
     <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-Italic.ttf" />
     <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-BoldItalic.ttf" />
     <None Include="Assets\marginalia.svg" />
+    <None Update="Assets\Fonts\IBMPlexSans-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\Fonts\JetBrainsMono-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,9 @@ namespace MarkdownDesk;
 public static class MarkdownPdfExporter
 {
     private const string SansRegular = "Marginalia-IBM-Plex-Sans";
+    private const string SansSemiBold = "Marginalia-IBM-Plex-Sans-SemiBold";
+    private const string SansItalic = "Marginalia-IBM-Plex-Sans-Italic";
+    private const string SansSemiBoldItalic = "Marginalia-IBM-Plex-Sans-SemiBoldItalic";
     private const string MonoRegular = "Marginalia-JetBrains-Mono-Regular";
     private const string MonoBold = "Marginalia-JetBrains-Mono-Bold";
     private const string MonoItalic = "Marginalia-JetBrains-Mono-Italic";
@@ -75,7 +78,7 @@ public static class MarkdownPdfExporter
                 var paragraph = section.AddParagraph(CleanInlineMarkdown(heading.Groups[2].Value));
                 paragraph.Format.SpaceBefore = Unit.FromPoint(9);
                 paragraph.Format.SpaceAfter = Unit.FromPoint(7);
-                paragraph.Format.Font.Name = "JetBrains Mono";
+                paragraph.Format.Font.Name = "IBM Plex Sans";
                 paragraph.Format.Font.Size = Unit.FromPoint(size);
                 paragraph.Format.Font.Bold = true;
                 paragraph.Format.KeepWithNext = true;
@@ -158,6 +161,9 @@ public static class MarkdownPdfExporter
         private static readonly IReadOnlyDictionary<string, string> FontResources = new Dictionary<string, string>(StringComparer.Ordinal)
         {
             [SansRegular] = "Marginalia.PdfFonts.IBMPlexSans.ttf",
+            [SansSemiBold] = "Marginalia.PdfFonts.IBMPlexSans-SemiBold.ttf",
+            [SansItalic] = "Marginalia.PdfFonts.IBMPlexSans-Italic.ttf",
+            [SansSemiBoldItalic] = "Marginalia.PdfFonts.IBMPlexSans-SemiBoldItalic.ttf",
             [MonoRegular] = "Marginalia.PdfFonts.JetBrainsMono-Regular.ttf",
             [MonoBold] = "Marginalia.PdfFonts.JetBrainsMono-Bold.ttf",
             [MonoItalic] = "Marginalia.PdfFonts.JetBrainsMono-Italic.ttf",
@@ -181,7 +187,14 @@ public static class MarkdownPdfExporter
                 return new FontResolverInfo(monoFace, false, false);
             }
 
-            return new FontResolverInfo(SansRegular, mustSimulateBold: isBold, mustSimulateItalic: isItalic);
+            var sansFace = (isBold, isItalic) switch
+            {
+                (true, true) => SansSemiBoldItalic,
+                (true, false) => SansSemiBold,
+                (false, true) => SansItalic,
+                _ => SansRegular
+            };
+            return new FontResolverInfo(sansFace, false, false);
         }
 
         public byte[]? GetFont(string faceName)

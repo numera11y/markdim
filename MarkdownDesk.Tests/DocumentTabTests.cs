@@ -77,7 +77,7 @@ public sealed class DocumentTabTests
     [Fact]
     public async Task FileContentIsLoadedOnlyWhenTheTabIsActivated()
     {
-        var path = Path.Combine(Path.GetTempPath(), $"marginalia-test-{Guid.NewGuid():N}.md");
+        var path = Path.Combine(Path.GetTempPath(), $"markdim-test-{Guid.NewGuid():N}.md");
 
         try
         {
@@ -98,8 +98,8 @@ public sealed class DocumentTabTests
     [Fact]
     public async Task LoadingPreservesUtf16BomAndCrLfWhenSavingAtomically()
     {
-        var sourcePath = Path.Combine(Path.GetTempPath(), $"marginalia-source-{Guid.NewGuid():N}.md");
-        var destinationPath = Path.Combine(Path.GetTempPath(), $"marginalia-destination-{Guid.NewGuid():N}.md");
+        var sourcePath = Path.Combine(Path.GetTempPath(), $"markdim-source-{Guid.NewGuid():N}.md");
+        var destinationPath = Path.Combine(Path.GetTempPath(), $"markdim-destination-{Guid.NewGuid():N}.md");
         const string source = "# Header\r\nText\r\n";
 
         try
@@ -122,7 +122,7 @@ public sealed class DocumentTabTests
     [Fact]
     public async Task OversizedDocumentsAreRejectedBeforeReadingTheirContents()
     {
-        var path = Path.Combine(Path.GetTempPath(), $"marginalia-large-{Guid.NewGuid():N}.md");
+        var path = Path.Combine(Path.GetTempPath(), $"markdim-large-{Guid.NewGuid():N}.md");
 
         try
         {

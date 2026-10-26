@@ -8,23 +8,23 @@ release/
     ├── README.txt
     ├── windows/
     │   └── x64/
-    │       ├── Marginalia-v0.3.0-beta.5-windows-x64.zip
-    │       ├── Marginalia-v0.3.0-beta.5-windows-x64.zip.sha256
-    │       ├── Marginalia-Setup-v0.3.0-beta.5-windows-x64.exe
-    │       ├── Marginalia-Setup-v0.3.0-beta.5-windows-x64.exe.sha256
-    │       ├── Install-Marginalia.ps1
+    │       ├── markdim-v0.3.0-beta.5-windows-x64.zip
+    │       ├── markdim-v0.3.0-beta.5-windows-x64.zip.sha256
+    │       ├── markdim-Setup-v0.3.0-beta.5-windows-x64.exe
+    │       ├── markdim-Setup-v0.3.0-beta.5-windows-x64.exe.sha256
+    │       ├── Install-markdim.ps1
     │       ├── register-file-association.ps1
-    │       └── Marginalia/ (payload complet)
+    │       └── markdim/ (payload complet)
     └── linux/
         ├── x64/
-        │   ├── Marginalia-v0.3.0-beta.5-linux-amd64.deb
-        │   └── Marginalia-v0.3.0-beta.5-linux-x64.tar.gz
+        │   ├── markdim-v0.3.0-beta.5-linux-amd64.deb
+        │   └── markdim-v0.3.0-beta.5-linux-x64.tar.gz
         └── arm64/
-            ├── Marginalia-v0.3.0-beta.5-linux-arm64.deb
-            └── Marginalia-v0.3.0-beta.5-linux-arm64.tar.gz
+            ├── markdim-v0.3.0-beta.5-linux-arm64.deb
+            └── markdim-v0.3.0-beta.5-linux-arm64.tar.gz
 ```
 
-Les dossiers macOS sont générés de la même façon. Le dossier `Marginalia/` est le payload autonome complet; ne distribuer que les paquets générés, jamais les fichiers nus à la racine du dépôt. Sous Windows, l’EXE Setup fournit l’installation graphique; sous Debian/Ubuntu Linux, les `.deb` installent l’application et l’entrée de menu. Les ZIP/TAR.GZ restent portables. `README.txt` identifie les paquets et leurs sommes SHA-256.
+Les dossiers macOS sont générés de la même façon. Le dossier `markdim/` est le payload autonome complet; ne distribuer que les paquets générés, jamais les fichiers nus à la racine du dépôt. Sous Windows, l’EXE Setup fournit l’installation graphique; sous Debian/Ubuntu Linux, les `.deb` installent l’application et l’entrée de menu. Les ZIP/TAR.GZ restent portables. `README.txt` identifie les paquets et leurs sommes SHA-256.
 
 Commande de production sous PowerShell :
 

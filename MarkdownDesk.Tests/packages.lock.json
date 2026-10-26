@@ -282,7 +282,7 @@
           "xunit.extensibility.core": "[2.9.3]"
         }
       },
-      "Marginalia": {
+      "markdim": {
         "type": "Project",
         "dependencies": {
           "Avalonia": "[11.2.3, )",

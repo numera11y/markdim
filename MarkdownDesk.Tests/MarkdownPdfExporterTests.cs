@@ -10,7 +10,7 @@ public sealed class MarkdownPdfExporterTests
     [Fact]
     public void ExportCreatesReadablePdfForMarkdownBlocks()
     {
-        var path = Path.Combine(Path.GetTempPath(), $"marginalia-test-{Guid.NewGuid():N}.pdf");
+        var path = Path.Combine(Path.GetTempPath(), $"markdim-test-{Guid.NewGuid():N}.pdf");
 
         try
         {

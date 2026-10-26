@@ -3,15 +3,15 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
     <RuntimeIdentifiers>win-x64;osx-x64;osx-arm64;linux-x64;linux-arm64</RuntimeIdentifiers>
-    <AssemblyName>Marginalia</AssemblyName>
-    <Product>Marginalia</Product>
-    <ApplicationIcon>Assets\marginalia.ico</ApplicationIcon>
+    <AssemblyName>markdim</AssemblyName>
+    <Product>markdim</Product>
+    <ApplicationIcon>Assets\markdim.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
     <FileVersion>$(VersionPrefix).0</FileVersion>
     <InformationalVersion>$(Version)</InformationalVersion>
-    <Authors>Marginalia contributors</Authors>
+    <Authors>Numera11y</Authors>
     <Description>Local Markdown reading, editing, and PDF export workspace.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Deterministic>true</Deterministic>
@@ -32,21 +32,21 @@
     <PackageReference Include="Tmds.DBus.Protocol" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Assets\marginalia.ico" />
+    <AvaloniaResource Include="Assets\markdim.ico" />
     <AvaloniaResource Include="Assets\Icons\*.svg" />
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" />
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Bold.ttf" />
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" />
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-SemiBold.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans-SemiBold.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-Italic.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans-Italic.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-SemiBoldItalic.ttf" LogicalName="Marginalia.PdfFonts.IBMPlexSans-SemiBoldItalic.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-Regular.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Bold.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-Bold.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-Italic.ttf" />
-    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" LogicalName="Marginalia.PdfFonts.JetBrainsMono-BoldItalic.ttf" />
-    <None Include="Assets\marginalia.svg" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans.ttf" LogicalName="markdim.PdfFonts.IBMPlexSans.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-SemiBold.ttf" LogicalName="markdim.PdfFonts.IBMPlexSans-SemiBold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-Italic.ttf" LogicalName="markdim.PdfFonts.IBMPlexSans-Italic.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\IBMPlexSans-SemiBoldItalic.ttf" LogicalName="markdim.PdfFonts.IBMPlexSans-SemiBoldItalic.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" LogicalName="markdim.PdfFonts.JetBrainsMono-Regular.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Bold.ttf" LogicalName="markdim.PdfFonts.JetBrainsMono-Bold.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" LogicalName="markdim.PdfFonts.JetBrainsMono-Italic.ttf" />
+    <EmbeddedResource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" LogicalName="markdim.PdfFonts.JetBrainsMono-BoldItalic.ttf" />
+    <None Include="Assets\markdim.svg" />
     <None Update="Assets\Fonts\IBMPlexSans-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
     <None Update="Assets\Fonts\JetBrainsMono-OFL.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

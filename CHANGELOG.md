@@ -30,7 +30,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.3.0-beta.1] - 2026-10-26
 
 ### Beta
-- Première préversion publique Windows de Marginalia, éditeur Markdown multiplateforme avec aperçu en direct, onglets et export PDF.
+- Première préversion publique Windows de markdim, éditeur Markdown multiplateforme avec aperçu en direct, onglets et export PDF.
 - La préversion ne distribue qu’un paquet Windows x64; les plateformes macOS et Linux seront publiées après validation dédiée.
 
 ## [0.2.34] - 2026-10-25
@@ -109,7 +109,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.2.21] - 2026-10-25
 
 ### Fixed
-- Applique les couleurs Marginalia au contenu réel des présentateurs Fluent pour les menus, onglets, listes, sélections et boutons (pas seulement au contrôle parent).
+- Applique les couleurs markdim au contenu réel des présentateurs Fluent pour les menus, onglets, listes, sélections et boutons (pas seulement au contrôle parent).
 - Rend le mode clair noir sur des surfaces grises et renforce les libellés de bibliothèque/plan.
 
 ## [0.2.20] - 2026-10-25
@@ -174,7 +174,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.2.12] - 2026-10-25
 
 ### Fixed
-- Force les hyperliens automatiques AvaloniaEdit à utiliser le pinceau de lien marginalia au lieu du bleu système par défaut.
+- Force les hyperliens automatiques AvaloniaEdit à utiliser le pinceau de lien markdim au lieu du bleu système par défaut.
 - Diffère l’annulation réseau d’une image pendant 750 ms pour ignorer les détachements transitoires de layout; une vraie navigation annule toujours les téléchargements obsolètes.
 - Rend les images Markdown comme blocs autonomes plutôt que comme objets inline coupés par la hauteur de ligne.
 - Augmente le contraste et le poids du texte courant en thème clair.
@@ -214,7 +214,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.2.7] - 2026-10-25
 
 ### Fixed
-- Configure le thème Fluent depuis ses palettes officielles Marginalia pour rendre les couleurs réellement cohérentes sur les contrôles natifs.
+- Configure le thème Fluent depuis ses palettes officielles markdim pour rendre les couleurs réellement cohérentes sur les contrôles natifs.
 - Affiche les images Markdown HTTPS distantes en plus des images relatives locales, avec validation DNS publique, HTTPS strict et limites mémoire/décodeur.
 
 ## [0.2.6] - 2026-10-25
@@ -226,7 +226,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.2.5] - 2026-10-25
 
 ### Fixed
-- Configure les palettes Fluent Light/Dark officielles avec les tokens de contraste de Marginalia, au lieu de patcher ses ressources internes contrôle par contrôle.
+- Configure les palettes Fluent Light/Dark officielles avec les tokens de contraste de markdim, au lieu de patcher ses ressources internes contrôle par contrôle.
 - Retire effectivement l’opacité de 50 % du watermark des champs de recherche une fois les templates appliqués.
 - Le plan force maintenant une seconde mise à jour du défilement après le layout de l’éditeur.
 
@@ -247,7 +247,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 
 ### Fixed
 - Remplace les bleus à faible contraste en mode sombre pour les liens de l’éditeur et de l’aperçu.
-- Applique une palette syntaxique contrôlée par Marginalia à tous les langages des blocs de code, avec vérification WCAG AA en thèmes clair et sombre.
+- Applique une palette syntaxique contrôlée par markdim à tous les langages des blocs de code, avec vérification WCAG AA en thèmes clair et sombre.
 
 ## [0.2.1] - 2026-10-25
 
@@ -270,7 +270,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.1.31] - 2026-10-25
 
 ### Changed
-- Remplace l’icône historique par le symbole vectoriel fourni, avec fond ardoise et accent bleu assortis au thème Marginalia; met à jour l’icône Windows multi-résolution.
+- Remplace l’icône historique par le symbole vectoriel fourni, avec fond ardoise et accent bleu assortis au thème markdim; met à jour l’icône Windows multi-résolution.
 
 ## [0.1.30] - 2026-10-25
 
@@ -467,7 +467,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 - Séparateurs à glisser pour redimensionner la bibliothèque et les panneaux éditeur/aperçu.
 - Affichage/masquage indépendant des panneaux bibliothèque, éditeur et aperçu.
 - Thème clair/sombre persistant, également appliqué à l’aperçu Markdown.
-- Activation/retrait par utilisateur de Marginalia dans le menu Windows « Ouvrir avec » pour `.md` et `.markdown`.
+- Activation/retrait par utilisateur de markdim dans le menu Windows « Ouvrir avec » pour `.md` et `.markdown`.
 - Éditeur de code avec numéros de ligne et coloration Markdown accordée au thème clair/sombre.
 - Blocs de code d’aperçu avec coloration selon le langage de la fence, numéros de ligne, défilement borné et présentation affinée.
 
@@ -481,7 +481,7 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 ## [0.1.0] - 2026-10-25
 
 ### Added
-- Première version de Marginalia : espace desktop d’édition et de lecture Markdown.
+- Première version de markdim : espace desktop d’édition et de lecture Markdown.
 - Ouverture de fichiers et dossiers, recherche de documents, onglets et aperçu en direct.
 - Export PDF local et journal de diagnostic local avec rotation, sans contenu ni chemin de document.
 - Tests unitaires du modèle document et workflows CI/release multi-plateforme.

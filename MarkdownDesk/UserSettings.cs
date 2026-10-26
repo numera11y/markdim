@@ -43,12 +43,19 @@ public static class UserSettingsStore
 
     public static string DefaultPath => Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Marginalia", "settings.json");
+        "markdim", "settings.json");
 
     public static UserSettings Load(string? path = null)
     {
         var settings = new UserSettings();
         var settingsPath = path ?? DefaultPath;
+        if (path is null && !File.Exists(settingsPath))
+        {
+            var previousSettingsPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Marginalia", "settings.json");
+            if (File.Exists(previousSettingsPath)) settingsPath = previousSettingsPath;
+        }
         if (!File.Exists(settingsPath)) return settings;
 
         try

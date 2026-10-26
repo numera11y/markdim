@@ -69,7 +69,7 @@ public sealed class UserSettingsTests
     [Fact]
     public void SettingsRoundTripThroughJsonStore()
     {
-        var directory = Path.Combine(Path.GetTempPath(), $"marginalia-settings-{Guid.NewGuid():N}");
+        var directory = Path.Combine(Path.GetTempPath(), $"markdim-settings-{Guid.NewGuid():N}");
         var path = Path.Combine(directory, "settings.json");
         var expected = new UserSettings
         {

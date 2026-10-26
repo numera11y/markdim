@@ -78,7 +78,7 @@ internal static class AppTheme
         HoverBrush = SetBrush(application, "AppHoverBrush", palette.Hover);
         DividerBrush = SetBrush(application, "AppDividerBrush", palette.Divider);
         var fluentTheme = application.Styles.OfType<FluentTheme>().FirstOrDefault()
-            ?? throw new InvalidOperationException("Marginalia requires the Fluent theme to be present in Application.Styles.");
+            ?? throw new InvalidOperationException("markdim requires the Fluent theme to be present in Application.Styles.");
         ConfigureFluentTheme(fluentTheme);
         SetBrush(application, "SystemControlHyperlinkTextBrush", IsDark ? "#F0C987" : "#005A9C");
         SetBrush(application, "HyperlinkButtonForeground", IsDark ? "#F0C987" : "#005A9C");

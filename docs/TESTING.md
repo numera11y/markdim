@@ -3,11 +3,11 @@
 ## Commandes locales
 
 ```sh
-dotnet restore Marginalia.slnx
-dotnet format Marginalia.slnx --verify-no-changes
-dotnet build Marginalia.slnx -c Release --no-restore
-dotnet test Marginalia.slnx -c Release --no-build
-dotnet list Marginalia.slnx package --vulnerable --include-transitive
+dotnet restore markdim.slnx
+dotnet format markdim.slnx --verify-no-changes
+dotnet build markdim.slnx -c Release --no-restore
+dotnet test markdim.slnx -c Release --no-build
+dotnet list markdim.slnx package --vulnerable --include-transitive
 ```
 
 Les tests actuels couvrent le nom affiché, la transition propre/modifié, le marquage après sauvegarde, le chargement paresseux, la création réelle d’un PDF, la persistance des préférences, le format de commande « Ouvrir avec », les thèmes de coloration, les alias des fences et la conversion Markdig pour listes imbriquées, liens, tableaux et tâches. `MarkdownDesk.Tests/Fixtures/MarkdownItFeatureCoverage.md` sert de corpus représentatif du guide markdown-it : niveaux de titres, règles horizontales, listes imbriquées/numérotées, code indenté et fences, tables alignées, liens/images de référence, notes de bas de page, listes de définition, abréviations, conteneurs et extensions d’emphase. Les tests documentent aussi deux différences intentionnelles : les shortcodes emoji markdown-it restent textuels et les substitutions typographiques ne sont pas activées. Le fichier `MarkdownDesk.Tests/Fixtures/NestedNumberedCodeList.md` est aussi ouvert dans le smoke test Windows pour la régression de plantage signalée. Les tests UI natifs restent à ajouter avec des runners graphiques dédiés.

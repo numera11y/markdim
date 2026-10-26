@@ -9,7 +9,7 @@ public sealed class MarkdownImagePolicyTests
     [Fact]
     public void RelativeImagePathsStayInsideTheMarkdownFolder()
     {
-        var root = Path.Combine(Path.GetTempPath(), $"marginalia-images-{Guid.NewGuid():N}");
+        var root = Path.Combine(Path.GetTempPath(), $"markdim-images-{Guid.NewGuid():N}");
         var imageDirectory = Path.Combine(root, "images");
         Directory.CreateDirectory(imageDirectory);
         var source = Path.Combine(imageDirectory, "cover.png");

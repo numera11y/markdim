@@ -9,7 +9,7 @@
 
 1. Créer une branche à partir de `main`.
 2. Faire un changement ciblé, avec tests pour les comportements modifiés.
-3. Exécuter `dotnet restore Marginalia.slnx --locked-mode`, `dotnet format Marginalia.slnx --verify-no-changes`, `dotnet build Marginalia.slnx -c Release` et `dotnet test Marginalia.slnx -c Release`.
+3. Exécuter `dotnet restore markdim.slnx --locked-mode`, `dotnet format markdim.slnx --verify-no-changes`, `dotnet build markdim.slnx -c Release` et `dotnet test markdim.slnx -c Release`.
 4. Vérifier `git diff --check`, mettre à jour `CHANGELOG.md` pour tout changement utilisateur, puis ouvrir une pull request.
 
 Les pull requests doivent passer les checks GitHub Actions. Ne jamais inclure documents utilisateur, secrets, binaires de build ou journaux locaux.

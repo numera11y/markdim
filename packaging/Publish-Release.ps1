@@ -10,8 +10,8 @@ param(
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $project = Join-Path $repositoryRoot 'MarkdownDesk/MarkdownDesk.csproj'
-$solution = Join-Path $repositoryRoot 'Marginalia.slnx'
-$windowsInstallerSource = Join-Path $repositoryRoot 'packaging/windows/Install-Marginalia.ps1'
+$solution = Join-Path $repositoryRoot 'markdim.slnx'
+$windowsInstallerSource = Join-Path $repositoryRoot 'packaging/windows/Install-markdim.ps1'
 $windowsAssociationSource = Join-Path $repositoryRoot 'packaging/windows/register-file-association.ps1'
 $dotnetCommand = Get-Command dotnet -ErrorAction SilentlyContinue
 $dotnet = if ($dotnetCommand) { $dotnetCommand.Source } else { $null }
@@ -29,9 +29,9 @@ $platform, $architecture = switch -Regex ($RuntimeIdentifier) {
 }
 
 $ridDirectory = Join-Path $repositoryRoot "release/v$Version/$platform/$architecture"
-$applicationDirectory = Join-Path $ridDirectory 'Marginalia'
+$applicationDirectory = Join-Path $ridDirectory 'markdim'
 $archiveExtension = if ($platform -eq 'windows') { 'zip' } else { 'tar.gz' }
-$archiveName = "Marginalia-v$Version-$platform-$architecture.$archiveExtension"
+$archiveName = "markdim-v$Version-$platform-$architecture.$archiveExtension"
 $archivePath = Join-Path $ridDirectory $archiveName
 
 Write-Host "Verifying solution for release v$Version..."
@@ -55,11 +55,11 @@ if (Test-Path -LiteralPath $archivePath) {
     Remove-Item -LiteralPath $archivePath -Force
 }
 if ($platform -eq 'windows') {
-    $installerPath = Join-Path $ridDirectory 'Install-Marginalia.ps1'
+    $installerPath = Join-Path $ridDirectory 'Install-markdim.ps1'
     $associationPath = Join-Path $ridDirectory 'register-file-association.ps1'
     Copy-Item -LiteralPath $windowsInstallerSource -Destination $installerPath -Force
     Copy-Item -LiteralPath $windowsAssociationSource -Destination $associationPath -Force
-    $payloadManifest = Join-Path $ridDirectory 'Marginalia.sha256'
+    $payloadManifest = Join-Path $ridDirectory 'markdim.sha256'
     $applicationPrefix = $applicationDirectory.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
     $manifestLines = Get-ChildItem -LiteralPath $applicationDirectory -File -Recurse | Sort-Object FullName | ForEach-Object {
         $relativePath = $_.FullName.Substring($applicationPrefix.Length).Replace('\', '/')
@@ -69,7 +69,7 @@ if ($platform -eq 'windows') {
     [System.IO.File]::WriteAllLines($payloadManifest, $manifestLines, [System.Text.Encoding]::ASCII)
     Compress-Archive -Path @($applicationDirectory, $installerPath, $associationPath, $payloadManifest) -DestinationPath $archivePath -CompressionLevel Optimal
 } else {
-    & tar -czf $archivePath -C $ridDirectory 'Marginalia'
+    & tar -czf $archivePath -C $ridDirectory 'markdim'
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
@@ -78,19 +78,19 @@ $hash = (Get-FileHash -LiteralPath $archivePath -Algorithm SHA256).Hash.ToLowerI
 $releaseDirectory = Join-Path $repositoryRoot "release/v$Version"
 $ridReadme = Join-Path $ridDirectory 'README.txt'
 $ridReadmeText = @"
-Marginalia release v$Version
+markdim release v$Version
 
 Platform: $platform / $architecture
-Run: Marginalia/Marginalia$(if ($platform -eq 'windows') { '.exe' })
+Run: markdim/markdim$(if ($platform -eq 'windows') { '.exe' })
 Portable archive: $archiveName
 SHA-256 file: $archiveName.sha256
 
-The Marginalia folder contains the full self-contained application. Keep all its files together.
+The markdim folder contains the full self-contained application. Keep all its files together.
 "@
 [System.IO.File]::WriteAllText($ridReadme, $ridReadmeText, [System.Text.Encoding]::ASCII)
 $releaseReadme = Join-Path $releaseDirectory 'README.txt'
 $releaseReadmeText = @"
-Marginalia release v$Version
+markdim release v$Version
 
 Portable, self-contained builds are organized by platform and architecture:
 - windows/x64, macos/x64, macos/arm64, linux/x64, linux/arm64
@@ -98,7 +98,7 @@ Portable, self-contained builds are organized by platform and architecture:
 - The Windows ZIP contains the portable payload and integrity manifest; the release workflow also builds a graphical Setup executable.
 - Linux beta releases also include installable Debian packages for Debian/Ubuntu.
 
-For Windows, run windows/x64/Marginalia-Setup-v$Version-windows-x64.exe, or extract the portable ZIP and run Install-Marginalia.ps1. On Linux, install the matching .deb on Debian/Ubuntu or use the portable TAR.GZ.
+For Windows, run windows/x64/markdim-Setup-v$Version-windows-x64.exe, or extract the portable ZIP and run Install-markdim.ps1. On Linux, install the matching .deb on Debian/Ubuntu or use the portable TAR.GZ.
 "@
 [System.IO.File]::WriteAllText($releaseReadme, $releaseReadmeText, [System.Text.Encoding]::ASCII)
 

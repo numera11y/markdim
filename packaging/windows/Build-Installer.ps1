@@ -8,9 +8,9 @@ $ErrorActionPreference = 'Stop'
 $repositoryRoot = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $releaseDirectory = Join-Path $repositoryRoot "release/v$Version"
 $ridDirectory = Join-Path $releaseDirectory 'windows/x64'
-$applicationDirectory = Join-Path $ridDirectory 'Marginalia'
-$payloadManifest = Join-Path $ridDirectory 'Marginalia.sha256'
-$installerDefinition = Join-Path $PSScriptRoot 'Marginalia.iss'
+$applicationDirectory = Join-Path $ridDirectory 'markdim'
+$payloadManifest = Join-Path $ridDirectory 'markdim.sha256'
+$installerDefinition = Join-Path $PSScriptRoot 'markdim.iss'
 
 $isccCommand = Get-Command ISCC.exe -ErrorAction SilentlyContinue
 $iscc = if ($isccCommand) { $isccCommand.Source } else {
@@ -43,7 +43,7 @@ try {
 }
 if ($isccExitCode -ne 0) { exit $isccExitCode }
 
-$installerName = "Marginalia-Setup-v$Version-windows-x64.exe"
+$installerName = "markdim-Setup-v$Version-windows-x64.exe"
 $installerPath = Join-Path $ridDirectory $installerName
 $installerHash = (Get-FileHash -LiteralPath $installerPath -Algorithm SHA256).Hash.ToLowerInvariant()
 [System.IO.File]::WriteAllText("$installerPath.sha256", "$installerHash  $installerName`n", [System.Text.Encoding]::ASCII)

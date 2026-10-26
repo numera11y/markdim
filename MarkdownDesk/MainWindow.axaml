@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:edit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit" xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg" x:Class="MarkdownDesk.MainWindow" Title="Marginalia" Width="1360" Height="860" MinWidth="900" MinHeight="600" WindowState="Maximized" KeyDown="WindowKeyDown">
+<Window xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:edit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit" xmlns:svg="clr-namespace:Avalonia.Svg;assembly=Avalonia.Svg" x:Class="MarkdownDesk.MainWindow" Title="markdim" Width="1360" Height="860" MinWidth="900" MinHeight="600" WindowState="Maximized" KeyDown="WindowKeyDown">
   <Grid RowDefinitions="30,*,28" ColumnDefinitions="*">
     <Menu Grid.Row="0" Background="{DynamicResource AppSurfaceBrush}" AutomationProperties.Name="Application menu">
       <MenuItem Name="FileMenuItem" Header="_Fichier">
@@ -41,7 +41,7 @@
       </MenuItem>
       <MenuItem Header="_Aide">
         <MenuItem Header="Raccourcis _clavier" Click="ShortcutsClick"/>
-        <MenuItem Header="À _propos de Marginalia" Click="AboutClick"/>
+        <MenuItem Header="À _propos de markdim" Click="AboutClick"/>
       </MenuItem>
     </Menu>
     <Grid Grid.Row="1" Name="WorkspaceGrid" DragDrop.AllowDrop="True">
@@ -134,7 +134,7 @@
                 </Grid>
               </StackPanel>
             </Border>
-            <edit:TextEditor Grid.Row="2" Name="Editor" ShowLineNumbers="True" LineNumbersForeground="{DynamicResource AppMutedTextBrush}" WordWrap="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource AppCanvasBrush}" Foreground="{DynamicResource AppTextBrush}" FontFamily="avares://Marginalia/Assets/Fonts#JetBrains Mono" FontSize="14" TextChanged="EditorChanged"/>
+            <edit:TextEditor Grid.Row="2" Name="Editor" ShowLineNumbers="True" LineNumbersForeground="{DynamicResource AppMutedTextBrush}" WordWrap="False" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource AppCanvasBrush}" Foreground="{DynamicResource AppTextBrush}" FontFamily="avares://markdim/Assets/Fonts#JetBrains Mono" FontSize="14" TextChanged="EditorChanged"/>
           </Grid>
           <GridSplitter Grid.Column="1" Name="PreviewSplitter" Background="{DynamicResource AppDividerBrush}" ToolTip.Tip="Drag to resize the editor and preview"/>
           <Grid Grid.Column="2" Name="PreviewPane" RowDefinitions="44,*" Background="{DynamicResource AppSurfaceBrush}">

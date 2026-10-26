@@ -1,33 +1,51 @@
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Text;
 
 namespace MarkdownDesk;
 
 public static class FileAssociationService
 {
-    public const string ProgrammaticId = "Marginalia.Markdown";
+    public const string ProgrammaticId = "markdim.Markdown";
     private const string ClassesPath = @"Software\Classes";
+    private const int AppModelErrorNoPackage = 15700;
     private static readonly string[] Extensions = [".md", ".markdown"];
 
     public static bool IsSupported => OperatingSystem.IsWindows();
+    public static bool IsPackagedApplication
+    {
+        get
+        {
+            if (!IsSupported) return false;
+            uint length = 0;
+            try { return GetCurrentPackageFullName(ref length, null) != AppModelErrorNoPackage; }
+            catch (EntryPointNotFoundException) { return false; }
+        }
+    }
     public static bool CanRegisterCurrentApplication =>
-        IsSupported
-        && string.Equals(Path.GetFileNameWithoutExtension(Environment.ProcessPath), "Marginalia", StringComparison.OrdinalIgnoreCase);
+        CanRegisterApplication(IsSupported, IsPackagedApplication, Environment.ProcessPath);
+
+    internal static bool CanRegisterApplication(bool isWindows, bool isPackaged, string? processPath) =>
+        isWindows
+        && !isPackaged
+        && string.Equals(Path.GetFileNameWithoutExtension(processPath), "markdim", StringComparison.OrdinalIgnoreCase);
 
     public static string? RegisteredExecutablePath
     {
         get
         {
             if (!OperatingSystem.IsWindows()) return null;
+            if (IsPackagedApplication) return Environment.ProcessPath;
             using var program = Registry.CurrentUser.OpenSubKey($@"{ClassesPath}\{ProgrammaticId}\shell\open\command");
             return ExtractExecutablePath(program?.GetValue(null) as string);
         }
     }
 
     public static bool IsRegisteredToCurrentApplication =>
-        CanRegisterCurrentApplication
-        && string.Equals(RegisteredExecutablePath, Environment.ProcessPath, StringComparison.OrdinalIgnoreCase);
+        IsPackagedApplication
+        || (CanRegisterCurrentApplication
+            && string.Equals(RegisteredExecutablePath, Environment.ProcessPath, StringComparison.OrdinalIgnoreCase));
 
     public static string? ExtractExecutablePath(string? command)
     {
@@ -54,6 +72,7 @@ public static class FileAssociationService
         get
         {
             if (!OperatingSystem.IsWindows()) return false;
+            if (IsPackagedApplication) return true;
             return Extensions.All(IsRegisteredForExtension);
         }
     }
@@ -62,13 +81,15 @@ public static class FileAssociationService
     {
         if (!OperatingSystem.IsWindows())
             throw new PlatformNotSupportedException("La gestion directe du menu Ouvrir avec est disponible sous Windows.");
+        if (IsPackagedApplication)
+            throw new InvalidOperationException("Les associations Markdown sont gérées par le manifeste du paquet Microsoft Store.");
         var executablePath = GetPreferredExecutablePath();
 
         var programPath = $@"{ClassesPath}\{ProgrammaticId}";
         using (var program = Registry.CurrentUser.CreateSubKey(programPath)
-            ?? throw new InvalidOperationException("Impossible de créer l’entrée Marginalia dans le Registre."))
+            ?? throw new InvalidOperationException("Impossible de créer l’entrée markdim dans le Registre."))
         {
-            program.SetValue(null, "Marginalia Markdown document");
+            program.SetValue(null, "markdim Markdown document");
             using var icon = program.CreateSubKey("DefaultIcon");
             icon.SetValue(null, $"\"{executablePath}\",0");
             using var command = program.CreateSubKey(@"shell\open\command");
@@ -82,10 +103,10 @@ public static class FileAssociationService
             openWith.SetValue(ProgrammaticId, string.Empty, RegistryValueKind.String);
         }
 
-        using (var application = Registry.CurrentUser.CreateSubKey($@"{ClassesPath}\Applications\Marginalia.exe")
-            ?? throw new InvalidOperationException("Impossible de créer l’entrée Marginalia dans le menu Ouvrir avec."))
+        using (var application = Registry.CurrentUser.CreateSubKey($@"{ClassesPath}\Applications\markdim.exe")
+            ?? throw new InvalidOperationException("Impossible de créer l’entrée markdim dans le menu Ouvrir avec."))
         {
-            application.SetValue("FriendlyAppName", "Marginalia");
+            application.SetValue("FriendlyAppName", "markdim");
             using var supportedTypes = application.CreateSubKey("SupportedTypes")
                 ?? throw new InvalidOperationException("Impossible d’enregistrer les types de fichiers pris en charge.");
             foreach (var extension in Extensions) supportedTypes.SetValue(extension, string.Empty, RegistryValueKind.String);
@@ -98,6 +119,8 @@ public static class FileAssociationService
     {
         if (!OperatingSystem.IsWindows())
             throw new PlatformNotSupportedException("La gestion directe du menu Ouvrir avec est disponible sous Windows.");
+        if (IsPackagedApplication)
+            throw new InvalidOperationException("Les associations Markdown sont gérées par le manifeste du paquet Microsoft Store.");
         foreach (var extension in Extensions)
         {
             using var openWith = Registry.CurrentUser.OpenSubKey($@"{ClassesPath}\{extension}\OpenWithProgids", writable: true);
@@ -105,7 +128,7 @@ public static class FileAssociationService
         }
 
         Registry.CurrentUser.DeleteSubKeyTree($@"{ClassesPath}\{ProgrammaticId}", throwOnMissingSubKey: false);
-        Registry.CurrentUser.DeleteSubKeyTree($@"{ClassesPath}\Applications\Marginalia.exe", throwOnMissingSubKey: false);
+        Registry.CurrentUser.DeleteSubKeyTree($@"{ClassesPath}\Applications\markdim.exe", throwOnMissingSubKey: false);
         NotifyShellAssociationChanged();
     }
 
@@ -121,18 +144,18 @@ public static class FileAssociationService
     {
         var currentPath = Environment.ProcessPath;
         if (string.IsNullOrWhiteSpace(currentPath)
-            || !Path.GetFileNameWithoutExtension(currentPath).Equals("Marginalia", StringComparison.OrdinalIgnoreCase))
+            || !Path.GetFileNameWithoutExtension(currentPath).Equals("markdim", StringComparison.OrdinalIgnoreCase))
         {
-            throw new InvalidOperationException("L’association doit être activée depuis l’application publiée Marginalia.exe.");
+            throw new InvalidOperationException("L’association doit être activée depuis l’application publiée markdim.exe.");
         }
 
         var installedRoot = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "Programs", "Marginalia");
+            "Programs", "markdim");
         if (!Directory.Exists(installedRoot)) return currentPath;
 
         var currentVersion = ReadVersion(currentPath);
-        var newestInstalled = Directory.EnumerateFiles(installedRoot, "Marginalia.exe", SearchOption.AllDirectories)
+        var newestInstalled = Directory.EnumerateFiles(installedRoot, "markdim.exe", SearchOption.AllDirectories)
             .Select(path => (Path: path, Version: ReadVersion(path)))
             .Where(item => item.Version is not null)
             .OrderByDescending(item => item.Version)
@@ -155,6 +178,9 @@ public static class FileAssociationService
     {
         if (OperatingSystem.IsWindows()) SHChangeNotify(0x08000000, 0, IntPtr.Zero, IntPtr.Zero);
     }
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+    private static extern int GetCurrentPackageFullName(ref uint packageFullNameLength, StringBuilder? packageFullName);
 
     [DllImport("shell32.dll")]
     private static extern void SHChangeNotify(int eventId, uint flags, IntPtr item1, IntPtr item2);

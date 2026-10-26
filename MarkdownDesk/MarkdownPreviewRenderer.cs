@@ -330,7 +330,7 @@ public static class MarkdownPreviewRenderer
             case "code":
             case "kbd":
                 span.Foreground = AppTheme.AccentBrush;
-                span.FontFamily = new FontFamily("avares://Marginalia/Assets/Fonts#JetBrains Mono");
+                span.FontFamily = new FontFamily("avares://markdim/Assets/Fonts#JetBrains Mono");
                 span.FontSize = 13;
                 break;
             case "sup": span.FontSize = 11; span.BaselineAlignment = BaselineAlignment.Superscript; break;
@@ -431,7 +431,7 @@ public static class MarkdownPreviewRenderer
             WordWrap = false,
             HorizontalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Auto,
             VerticalScrollBarVisibility = Avalonia.Controls.Primitives.ScrollBarVisibility.Disabled,
-            FontFamily = new FontFamily("avares://Marginalia/Assets/Fonts#JetBrains Mono"),
+            FontFamily = new FontFamily("avares://markdim/Assets/Fonts#JetBrains Mono"),
             FontFeatures = MarkdownCodeHighlighting.CodeFontFeatures,
             FontSize = 13,
             LineNumbersForeground = AppTheme.SubtleTextBrush,
@@ -442,7 +442,7 @@ public static class MarkdownPreviewRenderer
         };
         Avalonia.Controls.Documents.TextElement.SetFontFeatures(editor.TextArea.TextView, MarkdownCodeHighlighting.CodeFontFeatures);
 
-        // Use the theme-aware Marginalia palette for every language. AvaloniaEdit's
+        // Use the theme-aware markdim palette for every language. AvaloniaEdit's
         // registered language definitions can contain low-contrast fixed colors.
         editor.SyntaxHighlighting = MarkdownCodeHighlighting.Load(AppTheme.IsDark);
 

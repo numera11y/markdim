@@ -17,9 +17,9 @@
 
 Les documents restent à leur emplacement et ne sont jamais copiés vers un service distant. Les onglets d’un dossier sont indexés sans charger tout leur contenu : le texte est lu à la première activation, puis conservé en mémoire pour préserver les modifications lors des changements d’onglet. L’aperçu est temporisé de 180 ms après la dernière frappe; au-delà de 500 000 caractères, il est suspendu sans désactiver l’éditeur. Les erreurs du moteur de rendu sont isolées de la navigation. Le filtrage et la prévisualisation ne créent pas de fichiers temporaires persistants.
 
-Le journal applicatif se trouve dans `%LOCALAPPDATA%/Marginalia/logs/application.log` (Windows), `~/Library/Application Support/Marginalia/logs/application.log` (macOS) ou `~/.local/share/Marginalia/logs/application.log` (Linux selon le chemin .NET). La rotation conserve au plus le journal courant et sa copie `.1`. Les textes et chemins des documents ne sont pas journalisés. Aucun télémétrie ni réseau au runtime n’est ajouté.
+Le journal applicatif se trouve dans `%LOCALAPPDATA%/markdim/logs/application.log` (Windows), `~/Library/Application Support/markdim/logs/application.log` (macOS) ou `~/.local/share/markdim/logs/application.log` (Linux selon le chemin .NET). La rotation conserve au plus le journal courant et sa copie `.1`. Les textes et chemins des documents ne sont pas journalisés. Aucun télémétrie ni réseau au runtime n’est ajouté.
 
-Les préférences utilisateur sont séparées dans `%LOCALAPPDATA%/Marginalia/settings.json`, enregistrées de façon atomique. Le choix du thème ne modifie pas les fichiers Markdown.
+Les préférences utilisateur sont séparées dans `%LOCALAPPDATA%/markdim/settings.json`, enregistrées de façon atomique. Le choix du thème ne modifie pas les fichiers Markdown.
 
 ## Dépendances et audit
 

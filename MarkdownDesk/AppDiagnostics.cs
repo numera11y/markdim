@@ -9,7 +9,7 @@ internal static class AppDiagnostics
     private static readonly object Gate = new();
     private static readonly string LogPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Marginalia", "logs", "application.log");
+        "markdim", "logs", "application.log");
     private const long MaxLogBytes = 1_000_000;
     public static bool DebugEnabled { get; private set; }
     public static string? DebugThemeOverride { get; private set; }
@@ -36,7 +36,7 @@ internal static class AppDiagnostics
 
     public static string CreateScreenshotPath(string prefix = "capture")
     {
-        var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Marginalia", "diagnostics");
+        var directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "markdim", "diagnostics");
         Directory.CreateDirectory(directory);
         return Path.Combine(directory, $"{prefix}-{DateTimeOffset.UtcNow:yyyyMMdd-HHmmss-fff}.png");
     }

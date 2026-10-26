@@ -9,14 +9,14 @@ namespace MarkdownDesk;
 /// <summary>Renders common Markdown block conventions to a local PDF.</summary>
 public static class MarkdownPdfExporter
 {
-    private const string SansRegular = "Marginalia-IBM-Plex-Sans";
-    private const string SansSemiBold = "Marginalia-IBM-Plex-Sans-SemiBold";
-    private const string SansItalic = "Marginalia-IBM-Plex-Sans-Italic";
-    private const string SansSemiBoldItalic = "Marginalia-IBM-Plex-Sans-SemiBoldItalic";
-    private const string MonoRegular = "Marginalia-JetBrains-Mono-Regular";
-    private const string MonoBold = "Marginalia-JetBrains-Mono-Bold";
-    private const string MonoItalic = "Marginalia-JetBrains-Mono-Italic";
-    private const string MonoBoldItalic = "Marginalia-JetBrains-Mono-BoldItalic";
+    private const string SansRegular = "markdim-IBM-Plex-Sans";
+    private const string SansSemiBold = "markdim-IBM-Plex-Sans-SemiBold";
+    private const string SansItalic = "markdim-IBM-Plex-Sans-Italic";
+    private const string SansSemiBoldItalic = "markdim-IBM-Plex-Sans-SemiBoldItalic";
+    private const string MonoRegular = "markdim-JetBrains-Mono-Regular";
+    private const string MonoBold = "markdim-JetBrains-Mono-Bold";
+    private const string MonoItalic = "markdim-JetBrains-Mono-Italic";
+    private const string MonoBoldItalic = "markdim-JetBrains-Mono-BoldItalic";
 
     static MarkdownPdfExporter() => GlobalFontSettings.FontResolver = new EmbeddedPdfFontResolver();
 
@@ -160,14 +160,14 @@ public static class MarkdownPdfExporter
         private static readonly Assembly AppAssembly = typeof(MarkdownPdfExporter).Assembly;
         private static readonly IReadOnlyDictionary<string, string> FontResources = new Dictionary<string, string>(StringComparer.Ordinal)
         {
-            [SansRegular] = "Marginalia.PdfFonts.IBMPlexSans.ttf",
-            [SansSemiBold] = "Marginalia.PdfFonts.IBMPlexSans-SemiBold.ttf",
-            [SansItalic] = "Marginalia.PdfFonts.IBMPlexSans-Italic.ttf",
-            [SansSemiBoldItalic] = "Marginalia.PdfFonts.IBMPlexSans-SemiBoldItalic.ttf",
-            [MonoRegular] = "Marginalia.PdfFonts.JetBrainsMono-Regular.ttf",
-            [MonoBold] = "Marginalia.PdfFonts.JetBrainsMono-Bold.ttf",
-            [MonoItalic] = "Marginalia.PdfFonts.JetBrainsMono-Italic.ttf",
-            [MonoBoldItalic] = "Marginalia.PdfFonts.JetBrainsMono-BoldItalic.ttf"
+            [SansRegular] = "markdim.PdfFonts.IBMPlexSans.ttf",
+            [SansSemiBold] = "markdim.PdfFonts.IBMPlexSans-SemiBold.ttf",
+            [SansItalic] = "markdim.PdfFonts.IBMPlexSans-Italic.ttf",
+            [SansSemiBoldItalic] = "markdim.PdfFonts.IBMPlexSans-SemiBoldItalic.ttf",
+            [MonoRegular] = "markdim.PdfFonts.JetBrainsMono-Regular.ttf",
+            [MonoBold] = "markdim.PdfFonts.JetBrainsMono-Bold.ttf",
+            [MonoItalic] = "markdim.PdfFonts.JetBrainsMono-Italic.ttf",
+            [MonoBoldItalic] = "markdim.PdfFonts.JetBrainsMono-BoldItalic.ttf"
         };
 
         public string DefaultFontName => "IBM Plex Sans";

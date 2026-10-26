@@ -1,4 +1,4 @@
-"""Generate the Windows multi-resolution icon from the Marginalia book mark."""
+"""Generate the Windows multi-resolution icon from the markdim book mark."""
 
 from pathlib import Path
 
@@ -39,4 +39,4 @@ draw_curve(draw, [(65, 130), (82, 126), (99, 128), (113, 135)], "#AFC5F2", 7)
 draw_curve(draw, [(143, 107), (157, 100), (174, 98), (191, 102)], "#AFC5F2", 7)
 draw_curve(draw, [(143, 135), (157, 128), (174, 126), (191, 130)], "#AFC5F2", 7)
 
-image.save(ASSET_DIR / "marginalia.ico", format="ICO", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
+image.save(ASSET_DIR / "markdim.ico", format="ICO", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])

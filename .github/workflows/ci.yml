@@ -21,8 +21,8 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - run: dotnet restore Marginalia.slnx --locked-mode
-      - run: dotnet format Marginalia.slnx --verify-no-changes --no-restore
-      - run: dotnet build Marginalia.slnx --configuration Release --no-restore
-      - run: dotnet test Marginalia.slnx --configuration Release --no-build
-      - run: dotnet list Marginalia.slnx package --vulnerable --include-transitive
+      - run: dotnet restore markdim.slnx --locked-mode
+      - run: dotnet format markdim.slnx --verify-no-changes --no-restore
+      - run: dotnet build markdim.slnx --configuration Release --no-restore
+      - run: dotnet test markdim.slnx --configuration Release --no-build
+      - run: dotnet list markdim.slnx package --vulnerable --include-transitive

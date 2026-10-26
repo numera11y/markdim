@@ -45,14 +45,14 @@ jobs:
           name: release-${{ matrix.rid }}
           path: |
             release/${{ github.ref_name }}/README.txt
-            release/${{ github.ref_name }}/**/Marginalia-v*.zip
-            release/${{ github.ref_name }}/**/Marginalia-v*.zip.sha256
-            release/${{ github.ref_name }}/**/Marginalia-Setup-v*.exe
-            release/${{ github.ref_name }}/**/Marginalia-Setup-v*.exe.sha256
-            release/${{ github.ref_name }}/**/Marginalia-v*.deb
-            release/${{ github.ref_name }}/**/Marginalia-v*.deb.sha256
-            release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz
-            release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz.sha256
+            release/${{ github.ref_name }}/**/markdim-v*.zip
+            release/${{ github.ref_name }}/**/markdim-v*.zip.sha256
+            release/${{ github.ref_name }}/**/markdim-Setup-v*.exe
+            release/${{ github.ref_name }}/**/markdim-Setup-v*.exe.sha256
+            release/${{ github.ref_name }}/**/markdim-v*.deb
+            release/${{ github.ref_name }}/**/markdim-v*.deb.sha256
+            release/${{ github.ref_name }}/**/markdim-v*.tar.gz
+            release/${{ github.ref_name }}/**/markdim-v*.tar.gz.sha256
           if-no-files-found: error
 
   publish:

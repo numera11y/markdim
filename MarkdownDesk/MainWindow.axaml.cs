@@ -52,7 +52,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         _startupPaths = startupPaths?.ToArray() ?? [];
         _captureAfterStartup = captureAfterStartup;
-        using (var iconStream = AssetLoader.Open(new Uri("avares://Marginalia/Assets/marginalia.ico")))
+        using (var iconStream = AssetLoader.Open(new Uri("avares://markdim/Assets/markdim.ico")))
             Icon = new WindowIcon(iconStream);
         RefreshRecentFilesMenu();
         Editor.TextArea.Margin = new Avalonia.Thickness(24, 18);
@@ -107,14 +107,14 @@ public partial class MainWindow : Window
 
     private void ShowWelcome()
     {
-        const string welcomeMarkdown = "# Marginalia\n\nUn espace de travail pour lire, écrire et partager vos documents Markdown.\n\n## Écrire et prévisualiser\n\nModifiez le texte Markdown dans l’éditeur et consultez son rendu en direct dans le panneau d’aperçu.\n\n## Organiser vos documents\n\nOuvrez un fichier Markdown ou un dossier pour travailler avec plusieurs documents. Retrouvez-les dans la bibliothèque, recherchez par nom ou chemin, puis passez d’un onglet à l’autre.\n\n## Exporter et personnaliser\n\nExportez vos documents en PDF et adaptez l’apparence de l’application dans les paramètres. Vos fichiers restent sur votre appareil.\n\n### Pour commencer\n\nChoisissez **Fichier → Ouvrir un fichier** ou **Ouvrir un dossier**. Vous pouvez aussi déposer un fichier Markdown sur l’application.";
+        const string welcomeMarkdown = "# markdim\n\nUn espace de travail pour lire, écrire et partager vos documents Markdown.\n\n## Écrire et prévisualiser\n\nModifiez le texte Markdown dans l’éditeur et consultez son rendu en direct dans le panneau d’aperçu.\n\n## Organiser vos documents\n\nOuvrez un fichier Markdown ou un dossier pour travailler avec plusieurs documents. Retrouvez-les dans la bibliothèque, recherchez par nom ou chemin, puis passez d’un onglet à l’autre.\n\n## Exporter et personnaliser\n\nExportez vos documents en PDF et adaptez l’apparence de l’application dans les paramètres. Vos fichiers restent sur votre appareil.\n\n### Pour commencer\n\nChoisissez **Fichier → Ouvrir un fichier** ou **Ouvrir un dossier**. Vous pouvez aussi déposer un fichier Markdown sur l’application.";
         _activationRequest++;
         _activationCancellation?.Cancel();
         _previewTimer.Stop();
         _loading = true;
         try { Editor.Text = welcomeMarkdown; }
         finally { _loading = false; }
-        Title = "Marginalia";
+        Title = "markdim";
         UpdatePreview(welcomeMarkdown);
         UpdateHeadingOutline(welcomeMarkdown);
         StatusText.Text = "Ouvrez un fichier Markdown ou choisissez un dossier pour commencer.";
@@ -354,7 +354,7 @@ public partial class MainWindow : Window
             }
             finally { _loading = false; }
 
-            Title = document is null ? "Marginalia" : $"Marginalia — {document.Title}{(document.Dirty ? " •" : "")}";
+            Title = document is null ? "markdim" : $"markdim — {document.Title}{(document.Dirty ? " •" : "")}";
             if (document is not null && !document.IsUntitled)
             {
                 _settings.LastDocumentPath = Path.GetFullPath(document.Path);
@@ -477,7 +477,7 @@ public partial class MainWindow : Window
         {
             _active.Text = Editor.Text ?? "";
             if (_tabButtons.TryGetValue(_active, out var tabButton)) tabButton.Content = CreateTabLabel(_active);
-            Title = $"Marginalia — {_active.Title} •";
+            Title = $"markdim — {_active.Title} •";
         }
         _previewTimer.Stop();
         _previewTimer.Start();
@@ -877,8 +877,8 @@ public partial class MainWindow : Window
                 FileAssociationService.RegisterCurrentApplication();
             UpdateAssociationControls();
             StatusText.Text = FileAssociationService.IsRegistered
-                ? "Ouvrir avec pointe vers cette version de Marginalia."
-                : "Marginalia a été retirée de Ouvrir avec.";
+                ? "Ouvrir avec pointe vers cette version de markdim."
+                : "markdim a été retirée de Ouvrir avec.";
         }
         catch (Exception ex)
         {
@@ -898,13 +898,21 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (FileAssociationService.IsPackagedApplication)
+        {
+            _associationStatus.Text = "Les associations .md et .markdown sont gérées par le paquet Microsoft Store.";
+            SetModalButtonLabel(_associationButton, "Gérées par le Microsoft Store");
+            _associationButton.IsEnabled = false;
+            return;
+        }
+
         var registered = FileAssociationService.IsRegistered;
         var pointsToThisVersion = registered && FileAssociationService.IsRegisteredToCurrentApplication;
         _associationStatus.Text = !registered
-            ? "Marginalia n’est pas encore enregistrée dans Ouvrir avec."
+            ? "markdim n’est pas encore enregistrée dans Ouvrir avec."
             : pointsToThisVersion
-                ? "Ouvrir avec lance cette version de Marginalia."
-                : "L’association pointe vers une autre version de Marginalia.";
+                ? "Ouvrir avec lance cette version de markdim."
+                : "L’association pointe vers une autre version de markdim.";
         var label = !registered
             ? "Activer l’association"
             : pointsToThisVersion ? "Désactiver l’association" : "Mettre à jour l’association";
@@ -1176,7 +1184,7 @@ public partial class MainWindow : Window
     {
         if (!AppDiagnostics.DebugEnabled)
         {
-            StatusText.Text = "Lancez Marginalia avec --debug pour activer les captures de diagnostic.";
+            StatusText.Text = "Lancez markdim avec --debug pour activer les captures de diagnostic.";
             return;
         }
 
@@ -1462,7 +1470,7 @@ public partial class MainWindow : Window
 
     private async void AboutClick(object? sender, RoutedEventArgs e)
     {
-        using var iconStream = AssetLoader.Open(new Uri("avares://Marginalia/Assets/marginalia.ico"));
+        using var iconStream = AssetLoader.Open(new Uri("avares://markdim/Assets/markdim.ico"));
         using var icon = new Avalonia.Media.Imaging.Bitmap(iconStream);
         var closeButton = CreateModalButton("Fermer");
         closeButton.IsDefault = true;
@@ -1486,7 +1494,7 @@ public partial class MainWindow : Window
                             Spacing = 3,
                             Children =
                             {
-                                new TextBlock { Text = "Marginalia", FontSize = 25, FontWeight = Avalonia.Media.FontWeight.SemiBold },
+                                new TextBlock { Text = "markdim", FontSize = 25, FontWeight = Avalonia.Media.FontWeight.SemiBold },
                                  new TextBlock { Text = $"Version {ProductInfo.Version}", FontSize = 14, Foreground = AppTheme.MutedTextBrush }
                             }
                         }
@@ -1502,7 +1510,7 @@ public partial class MainWindow : Window
         };
         var dialog = new Window
         {
-            Title = "À propos de Marginalia",
+            Title = "À propos de markdim",
             Width = 380,
             SizeToContent = Avalonia.Controls.SizeToContent.Height,
             CanResize = false,
@@ -1600,7 +1608,7 @@ public partial class MainWindow : Window
                 RefreshFileList();
                 UpdateStatusBar();
                 RecordRecentFiles([targetPath]);
-                if (_active == document) Title = $"Marginalia — {document.Title}";
+                if (_active == document) Title = $"markdim — {document.Title}";
                 StatusText.Text = $"Enregistré sous {document.Title} · {DateTime.Now:t}";
                 return true;
             }
@@ -1622,7 +1630,7 @@ public partial class MainWindow : Window
             await document.WriteToFileAtomicallyAsync(document.Path);
             document.MarkSaved();
             RebuildTabs();
-            if (_active == document) Title = $"Marginalia — {document.Title}";
+            if (_active == document) Title = $"markdim — {document.Title}";
             StatusText.Text = $"Enregistré · {DateTime.Now:t}";
             return true;
         }

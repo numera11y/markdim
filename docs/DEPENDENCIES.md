@@ -14,4 +14,4 @@ Les versions directes sont centralisées dans `Directory.Packages.props`; les gr
 | xUnit et Microsoft.NET.Test.Sdk | tests automatisés | licences du paquet NuGet épinglé |
 | Tmds.DBus.Protocol | intégration desktop Linux transitive/explicite | version corrigée épinglée à `0.21.3`; licence/avis à conserver avec l’archive de distribution |
 
-Avant une distribution publique, vérifier les licences de toutes les dépendances transitives (`dotnet list Marginalia.slnx package --include-transitive`) et inclure les notices requises. Aucun paquet ne doit être mis à jour sans restore, tests, audit de vulnérabilités et revue de licence.
+Avant une distribution publique, vérifier les licences de toutes les dépendances transitives (`dotnet list markdim.slnx package --include-transitive`) et inclure les notices requises. Aucun paquet ne doit être mis à jour sans restore, tests, audit de vulnérabilités et revue de licence.

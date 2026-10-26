@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=Marginalia
+Name=markdim
 Comment=Read and edit Markdown documents
-Exec=Marginalia %F
-Icon=marginalia
+Exec=markdim %F
+Icon=markdim
 Terminal=false
 Categories=Office;TextEditor;
 MimeType=text/markdown;text/x-markdown;

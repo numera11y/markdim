@@ -10,7 +10,7 @@ L’application vise le contraste WCAG AA de **4,5:1** pour le texte courant dan
 | Toutes les couleurs déclarées de coloration Markdown et de code, y compris les fonds locaux de code | 5,64:1 | 4,93:1 |
 | Liens du source Markdown | 7,14:1 | 11,15:1 |
 
-Le minimum clair de la palette est l’accent `#315EC7` sur le fond de survol `#DDE3EB` (4,57:1). Le minimum sombre est le texte secondaire `#A0AAB8` sur le survol sélectionné `#29354A` (5,25:1). Les couleurs de syntaxe externes enregistrées par AvaloniaEdit ne sont plus utilisées dans l’aperçu : chaque langage utilise la palette contrôlée par Marginalia.
+Le minimum clair de la palette est l’accent `#315EC7` sur le fond de survol `#DDE3EB` (4,57:1). Le minimum sombre est le texte secondaire `#A0AAB8` sur le survol sélectionné `#29354A` (5,25:1). Les couleurs de syntaxe externes enregistrées par AvaloniaEdit ne sont plus utilisées dans l’aperçu : chaque langage utilise la palette contrôlée par markdim.
 
 ## Éléments couverts
 

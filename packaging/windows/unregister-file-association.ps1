@@ -4,7 +4,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$progId = 'Marginalia.Markdown'
+$progId = 'markdim.Markdown'
 $classes = 'HKCU:\Software\Classes'
 $commandKey = Join-Path $classes "$progId\shell\open\command"
 $commandEntry = Get-Item -LiteralPath $commandKey -ErrorAction SilentlyContinue
@@ -22,7 +22,7 @@ if ($value.StartsWith('"')) {
 
 $targetExecutable = [System.IO.Path]::GetFullPath($ApplicationPath)
 if (-not [string]::Equals($registeredExecutable, $targetExecutable, [StringComparison]::OrdinalIgnoreCase)) {
-    Write-Host 'A newer Marginalia installation owns the file association; leaving it in place.'
+    Write-Host 'A newer markdim installation owns the file association; leaving it in place.'
     exit 0
 }
 
@@ -31,4 +31,4 @@ foreach ($extension in @('.md', '.markdown')) {
     Remove-ItemProperty -LiteralPath $openWithKey -Name $progId -ErrorAction SilentlyContinue
 }
 Remove-Item -LiteralPath (Join-Path $classes $progId) -Recurse -Force -ErrorAction SilentlyContinue
-Remove-Item -LiteralPath (Join-Path $classes 'Applications\Marginalia.exe') -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath (Join-Path $classes 'Applications\markdim.exe') -Recurse -Force -ErrorAction SilentlyContinue

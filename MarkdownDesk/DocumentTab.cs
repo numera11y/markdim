@@ -80,7 +80,7 @@ public sealed class DocumentTab : INotifyPropertyChanged
         var fullPath = System.IO.Path.GetFullPath(destinationPath);
         var directory = System.IO.Path.GetDirectoryName(fullPath)
             ?? throw new ArgumentException("The destination path must include a directory.", nameof(destinationPath));
-        var temporaryPath = System.IO.Path.Combine(directory, $".marginalia-{Guid.NewGuid():N}.tmp");
+        var temporaryPath = System.IO.Path.Combine(directory, $".markdim-{Guid.NewGuid():N}.tmp");
         try
         {
             await File.WriteAllTextAsync(temporaryPath, GetTextForSaving(), _encoding, cancellationToken);

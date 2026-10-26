@@ -11,7 +11,7 @@
     <PackageVersion Include="Avalonia.AvaloniaEdit" Version="11.2.0" />
     <PackageVersion Include="Markdig" Version="0.44.0" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.13.1" />
-    <PackageVersion Include="PDFsharp-MigraDoc" Version="6.2.4" />
+    <PackageVersion Include="PDFsharp-MigraDoc" Version="6.5.0" />
     <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="8.0.2" />
     <PackageVersion Include="Tmds.DBus.Protocol" Version="0.21.3" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />

@@ -4,6 +4,12 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 
 ## [Unreleased]
 
+## [0.3.0-beta.2] - 2026-10-26
+
+### Added
+- Ajoute un installateur graphique Windows `.exe` avec raccourcis et désinstallation propre de l’association `.md`.
+- Garde l’archive ZIP portable disponible à côté de l’installateur.
+
 ## [0.3.0-beta.1] - 2026-10-26
 
 ### Beta

@@ -8,7 +8,7 @@ public sealed class UserSettingsTests
     [Fact]
     public void ProductVersionComesFromTheCentralBuildVersion()
     {
-        Assert.Equal("0.3.0-beta.1", ProductInfo.Version);
+        Assert.Equal("0.3.0-beta.2", ProductInfo.Version);
     }
 
     [Fact]

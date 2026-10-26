@@ -2,7 +2,7 @@
 
 Application desktop C#/Avalonia pour ouvrir, lire, corriger et exporter des documents Markdown sous Windows, macOS et Linux.
 
-Version actuelle : **0.3.0-beta.1** — bêta publique Windows. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
+Version actuelle : **0.3.0-beta.2** — bêta publique Windows. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
 
 ## Développement
 
@@ -19,10 +19,11 @@ dotnet test Marginalia.slnx -c Release
 Depuis un environnement avec le SDK .NET 10 :
 
 ```sh
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.1 -RuntimeIdentifier win-x64
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.2 -RuntimeIdentifier win-x64
+./packaging/windows/Build-Installer.ps1 -Version 0.3.0-beta.2
 ```
 
-La bêta Windows est publiée dans `release/v0.3.0-beta.1/windows/x64/Marginalia/Marginalia.exe`. Pour installer ou mettre à jour en conservant l’association `.md`, extraire le ZIP et lancer `Install-Marginalia.ps1`; il vérifie l’intégrité du payload et installe la version pour l’utilisateur courant.
+La bêta Windows fournit un installateur graphique `Marginalia-Setup-v0.3.0-beta.2-windows-x64.exe` et une archive ZIP portable. L’installateur crée un raccourci du menu Démarrer, ajoute Marginalia à « Ouvrir avec » et prend en charge sa propre désinstallation. Le ZIP peut être extrait puis installé avec `Install-Marginalia.ps1`.
 
 L’interface utilise la police par défaut de chaque plateforme; l’éditeur et le code utilisent JetBrains Mono NL, distribuée sous licence SIL Open Font License 1.1 (`Assets/Fonts/JetBrainsMono-OFL.txt`, copiée dans les publications).
 
@@ -45,7 +46,9 @@ L’éditeur source affiche les numéros de ligne sans coloration syntaxique, af
 
 Le menu **Paramètres** permet de choisir le thème clair/sombre, régler la taille du texte et la largeur de la bibliothèque, puis afficher/masquer chaque panneau. Les séparateurs entre bibliothèque, éditeur et aperçu se redimensionnent à la souris; les choix et dimensions sont mémorisés dans `%LOCALAPPDATA%\Marginalia\settings.json`. Le menu **Affichage** permet aussi de replier rapidement un panneau.
 
-Le workflow GitHub Actions `.github/workflows/release.yml` publie uniquement Windows pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Chaque archive inclut une somme SHA-256. La signature/notarisation macOS et les paquets natifs MSIX/DMG/AppImage/DEB restent à configurer pour une diffusion grand public.
+Le workflow GitHub Actions `.github/workflows/release.yml` publie uniquement Windows pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Le ZIP portable et l’installateur EXE ont chacun une somme SHA-256. La signature/notarisation macOS et les paquets natifs MSIX/DMG/AppImage/DEB restent à configurer pour une diffusion grand public.
+
+L’installateur de cette bêta n’est pas signé; Windows peut afficher un avertissement SmartScreen au téléchargement ou au lancement.
 
 La génération PDF utilise QuestPDF; la distribution de cette bêta est soumise aux conditions de sa licence Community ou à une licence commerciale. Vérifier l’éligibilité de Numera11y avant de distribuer l’archive.
 

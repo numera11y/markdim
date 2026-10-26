@@ -95,9 +95,9 @@ Marginalia release v$Version
 Portable, self-contained builds are organized by platform and architecture:
 - windows/x64, macos/x64, macos/arm64, linux/x64, linux/arm64
 - Each directory contains its portable archive and SHA-256 checksum.
-- The Windows archive also contains an installer and an integrity manifest for its application payload.
+- The Windows ZIP contains the portable payload and integrity manifest; the release workflow also builds a graphical Setup executable.
 
-For Windows, extract the ZIP and run windows/x64/Install-Marginalia.ps1 to install for the current user.
+For Windows, run windows/x64/Marginalia-Setup-v$Version-windows-x64.exe, or extract the portable ZIP and run Install-Marginalia.ps1.
 "@
 [System.IO.File]::WriteAllText($releaseReadme, $releaseReadmeText, [System.Text.Encoding]::ASCII)
 

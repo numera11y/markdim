@@ -32,6 +32,10 @@ jobs:
       - name: Build release package
         shell: pwsh
         run: ./packaging/Publish-Release.ps1 -Version ("${{ github.ref_name }}".TrimStart('v')) -RuntimeIdentifier "${{ matrix.rid }}"
+      - name: Build Windows setup installer
+        if: matrix.rid == 'win-x64'
+        shell: pwsh
+        run: ./packaging/windows/Build-Installer.ps1 -Version ("${{ github.ref_name }}".TrimStart('v'))
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.rid }}
@@ -39,6 +43,8 @@ jobs:
             release/${{ github.ref_name }}/README.txt
             release/${{ github.ref_name }}/**/Marginalia-v*.zip
             release/${{ github.ref_name }}/**/Marginalia-v*.zip.sha256
+            release/${{ github.ref_name }}/**/Marginalia-Setup-v*.exe
+            release/${{ github.ref_name }}/**/Marginalia-Setup-v*.exe.sha256
             release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz
             release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz.sha256
           if-no-files-found: error

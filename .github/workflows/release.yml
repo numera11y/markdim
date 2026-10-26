@@ -35,7 +35,12 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.rid }}
-          path: release/${{ github.ref_name }}/**/*
+          path: |
+            release/${{ github.ref_name }}/README.txt
+            release/${{ github.ref_name }}/**/Marginalia-v*.zip
+            release/${{ github.ref_name }}/**/Marginalia-v*.zip.sha256
+            release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz
+            release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz.sha256
           if-no-files-found: error
 
   publish:

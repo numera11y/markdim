@@ -4,6 +4,12 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 
 ## [Unreleased]
 
+## [0.3.0-beta.6] - 2026-10-26
+
+### Changed
+- Renomme l’application, ses installateurs et ses archives de distribution en markdim.
+- Ajoute le manifeste et le script de préparation du paquet Windows Store au format MSIX, avec associations `.md` et `.markdown`.
+
 ## [0.3.0-beta.5] - 2026-10-26
 
 ### Fixed

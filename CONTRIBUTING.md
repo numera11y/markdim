@@ -16,4 +16,4 @@ Les pull requests doivent passer les checks GitHub Actions. Ne jamais inclure do
 
 ## Version et release
 
-La version suit SemVer, sa source est `Directory.Build.props` et les changements sont décrits dans `CHANGELOG.md`. Les tags bêta `vX.Y.Z-beta.N` publient uniquement Windows et sont marqués préversions; les tags stables `vX.Y.Z` publient les cinq RID. Les clés de signature/notarisation ne sont pas stockées dans le dépôt; la signature pourra être activée par secrets CI dédiés. Pour créer une sortie locale : `./packaging/Publish-Release.ps1 -Version X.Y.Z-beta.N -RuntimeIdentifier win-x64`.
+La version suit SemVer, sa source est `Directory.Build.props` et les changements sont décrits dans `CHANGELOG.md`. Les tags bêta `vX.Y.Z-beta.N` publient Windows et Linux (avec des `.deb` pour Debian/Ubuntu) et sont marqués préversions; les tags stables `vX.Y.Z` publient les cinq RID. Les clés de signature/notarisation ne sont pas stockées dans le dépôt; la signature pourra être activée par secrets CI dédiés.

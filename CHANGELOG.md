@@ -4,6 +4,12 @@ Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le v
 
 ## [Unreleased]
 
+## [0.3.0-beta.3] - 2026-10-26
+
+### Added
+- Ajoute des paquets installables `.deb` pour Debian/Ubuntu sur x64 et ARM64, avec entrée de menu, icône et association « Ouvrir avec ».
+- Conserve l’archive `.tar.gz` portable pour les autres distributions Linux.
+
 ## [0.3.0-beta.2] - 2026-10-26
 
 ### Added

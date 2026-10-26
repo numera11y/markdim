@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJSON(contains(github.ref_name, '-beta.') && '[{"rid":"win-x64","runner":"windows-latest"}]' || '[{"rid":"win-x64","runner":"windows-latest"},{"rid":"osx-x64","runner":"macos-latest"},{"rid":"osx-arm64","runner":"macos-latest"},{"rid":"linux-x64","runner":"ubuntu-latest"},{"rid":"linux-arm64","runner":"ubuntu-latest"}]') }}
+        include: ${{ fromJSON(contains(github.ref_name, '-beta.') && '[{"rid":"win-x64","runner":"windows-latest"},{"rid":"linux-x64","runner":"ubuntu-latest"},{"rid":"linux-arm64","runner":"ubuntu-latest"}]' || '[{"rid":"win-x64","runner":"windows-latest"},{"rid":"osx-x64","runner":"macos-latest"},{"rid":"osx-arm64","runner":"macos-latest"},{"rid":"linux-x64","runner":"ubuntu-latest"},{"rid":"linux-arm64","runner":"ubuntu-latest"}]') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
@@ -36,6 +36,10 @@ jobs:
         if: matrix.rid == 'win-x64'
         shell: pwsh
         run: ./packaging/windows/Build-Installer.ps1 -Version ("${{ github.ref_name }}".TrimStart('v'))
+      - name: Build Debian package
+        if: startsWith(matrix.rid, 'linux-')
+        shell: bash
+        run: bash packaging/linux/Build-DebianPackage.sh "${GITHUB_REF_NAME#v}" "${{ matrix.rid }}"
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ matrix.rid }}
@@ -45,6 +49,8 @@ jobs:
             release/${{ github.ref_name }}/**/Marginalia-v*.zip.sha256
             release/${{ github.ref_name }}/**/Marginalia-Setup-v*.exe
             release/${{ github.ref_name }}/**/Marginalia-Setup-v*.exe.sha256
+            release/${{ github.ref_name }}/**/Marginalia-v*.deb
+            release/${{ github.ref_name }}/**/Marginalia-v*.deb.sha256
             release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz
             release/${{ github.ref_name }}/**/Marginalia-v*.tar.gz.sha256
           if-no-files-found: error

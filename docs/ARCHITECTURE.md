@@ -27,4 +27,4 @@ Les versions NuGet sont explicites dans les fichiers projet. Le restore NuGet ef
 
 ## Distribution
 
-Le publish est self-contained par RID. Les archives sont produites pour win-x64, osx-x64, osx-arm64, linux-x64 et linux-arm64. Ce sont des archives exécutables, pas encore des installateurs signés. Le premier lancement/association par défaut reste soumis au mécanisme de chaque OS. Linux requiert certaines bibliothèques graphiques système; macOS requiert signature et notarisation pour une distribution grand public sans avertissement Gatekeeper.
+Le publish est self-contained par RID. Les builds sont produites pour win-x64, osx-x64, osx-arm64, linux-x64 et linux-arm64. Les bêta Windows ont un installateur Setup non signé; Debian/Ubuntu reçoivent des paquets `.deb`, et les autres distributions Linux les archives TAR.GZ portables. Le premier lancement/association par défaut reste soumis au mécanisme de chaque OS. Linux requiert certaines bibliothèques graphiques système; macOS requiert signature et notarisation pour une distribution grand public sans avertissement Gatekeeper.

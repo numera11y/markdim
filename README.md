@@ -2,7 +2,7 @@
 
 Application desktop C#/Avalonia pour ouvrir, lire, corriger et exporter des documents Markdown sous Windows, macOS et Linux.
 
-Version actuelle : **0.3.0-beta.2** — bêta publique Windows. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
+Version actuelle : **0.3.0-beta.3** — bêta publique Windows et Linux. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
 
 ## Développement
 
@@ -19,11 +19,15 @@ dotnet test Marginalia.slnx -c Release
 Depuis un environnement avec le SDK .NET 10 :
 
 ```sh
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.2 -RuntimeIdentifier win-x64
-./packaging/windows/Build-Installer.ps1 -Version 0.3.0-beta.2
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.3 -RuntimeIdentifier win-x64
+./packaging/windows/Build-Installer.ps1 -Version 0.3.0-beta.3
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.3 -RuntimeIdentifier linux-x64
+bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.3 linux-x64
+./packaging/Publish-Release.ps1 -Version 0.3.0-beta.3 -RuntimeIdentifier linux-arm64
+bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.3 linux-arm64
 ```
 
-La bêta Windows fournit un installateur graphique `Marginalia-Setup-v0.3.0-beta.2-windows-x64.exe` et une archive ZIP portable. L’installateur crée un raccourci du menu Démarrer, ajoute Marginalia à « Ouvrir avec » et prend en charge sa propre désinstallation. Le ZIP peut être extrait puis installé avec `Install-Marginalia.ps1`.
+La bêta Windows fournit un installateur graphique `.exe` et une archive ZIP portable. Linux fournit des paquets `.deb` installables sur Debian/Ubuntu (amd64 et arm64), ainsi qu’une archive `.tar.gz` portable pour les autres distributions. Les paquets installables créent les raccourcis et intègrent Marginalia au menu « Ouvrir avec ». Sous Debian/Ubuntu, installer le paquet téléchargé avec `sudo apt install ./Marginalia-v0.3.0-beta.3-linux-amd64.deb`.
 
 L’interface utilise la police par défaut de chaque plateforme; l’éditeur et le code utilisent JetBrains Mono NL, distribuée sous licence SIL Open Font License 1.1 (`Assets/Fonts/JetBrainsMono-OFL.txt`, copiée dans les publications).
 
@@ -46,7 +50,7 @@ L’éditeur source affiche les numéros de ligne sans coloration syntaxique, af
 
 Le menu **Paramètres** permet de choisir le thème clair/sombre, régler la taille du texte et la largeur de la bibliothèque, puis afficher/masquer chaque panneau. Les séparateurs entre bibliothèque, éditeur et aperçu se redimensionnent à la souris; les choix et dimensions sont mémorisés dans `%LOCALAPPDATA%\Marginalia\settings.json`. Le menu **Affichage** permet aussi de replier rapidement un panneau.
 
-Le workflow GitHub Actions `.github/workflows/release.yml` publie uniquement Windows pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Le ZIP portable et l’installateur EXE ont chacun une somme SHA-256. La signature/notarisation macOS et les paquets natifs MSIX/DMG/AppImage/DEB restent à configurer pour une diffusion grand public.
+Le workflow GitHub Actions `.github/workflows/release.yml` publie Windows et Linux pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Les archives, l’installateur EXE et les paquets `.deb` ont chacun une somme SHA-256. La signature/notarisation macOS et les paquets natifs MSIX/DMG/AppImage restent à configurer pour une diffusion grand public.
 
 L’installateur de cette bêta n’est pas signé; Windows peut afficher un avertissement SmartScreen au téléchargement ou au lancement.
 

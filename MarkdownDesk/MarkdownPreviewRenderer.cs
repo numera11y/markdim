@@ -127,7 +127,7 @@ public static class MarkdownPreviewRenderer
 
     private static Control PreviewLimitMessage() => new TextBlock
     {
-        Text = "L’aperçu de ce document est suspendu pour préserver la réactivité. Le texte source reste entièrement accessible dans l’éditeur.",
+        Text = Localization.Translate("L’aperçu de ce document est suspendu pour préserver la réactivité. Le texte source reste entièrement accessible dans l’éditeur."),
         FontSize = 16,
         Foreground = AppTheme.SubtleTextBrush,
         TextWrapping = TextWrapping.Wrap,
@@ -137,7 +137,7 @@ public static class MarkdownPreviewRenderer
     private static void ReportRenderLimit(PreviewImageBudget budget)
     {
         if (!budget.TryMarkLimitMessage()) return;
-        budget.StatusMessage?.Invoke("Aperçu limité : le document contient trop d’éléments à afficher en même temps.");
+        budget.StatusMessage?.Invoke(Localization.Translate("Aperçu limité : le document contient trop d’éléments à afficher en même temps."));
     }
 
     private static Control? RenderBlock(HtmlNode node, string? baseDirectory, int depth, Action<string>? statusMessage)
@@ -284,7 +284,7 @@ public static class MarkdownPreviewRenderer
                     FontSize = 15
                 };
                 ToolTip.SetTip(link, uri.AbsoluteUri);
-                Avalonia.Automation.AutomationProperties.SetName(link, $"Ouvrir le lien {uri.Host}");
+                Avalonia.Automation.AutomationProperties.SetName(link, Localization.Format("Ouvrir le lien {0}", uri.Host));
                 inlines.Add(new InlineUIContainer { Child = link, BaselineAlignment = BaselineAlignment.Center });
                 return;
             }
@@ -500,21 +500,21 @@ public static class MarkdownPreviewRenderer
                 Data = Geometry.Parse("M8,8 V3 H19 V17 H14 M5,7 H15 V21 H5 Z")
             }
         };
-        copyButton.SetValue(ToolTip.TipProperty, "Copier le code");
-        Avalonia.Automation.AutomationProperties.SetName(copyButton, "Copier le bloc de code");
+        copyButton.SetValue(ToolTip.TipProperty, Localization.Translate("Copier le code"));
+        Avalonia.Automation.AutomationProperties.SetName(copyButton, Localization.Translate("Copier le bloc de code"));
         copyButton.Click += async (_, _) =>
         {
             try
             {
                 var clipboard = TopLevel.GetTopLevel(copyButton)?.Clipboard;
-                if (clipboard is null) throw new InvalidOperationException("Le presse-papiers est indisponible.");
+                if (clipboard is null) throw new InvalidOperationException(Localization.Translate("Le presse-papiers est indisponible."));
                 await clipboard.SetTextAsync(source);
-                statusMessage?.Invoke("Bloc de code copié.");
+                statusMessage?.Invoke(Localization.Translate("Bloc de code copié."));
             }
             catch (Exception ex)
             {
                 AppDiagnostics.Error("copy-code-block", ex);
-                statusMessage?.Invoke("Impossible de copier le bloc de code.");
+                statusMessage?.Invoke(Localization.Translate("Impossible de copier le bloc de code."));
             }
         };
         Grid.SetColumn(copyButton, 1);
@@ -592,7 +592,7 @@ public static class MarkdownPreviewRenderer
         if (image is not null) return image;
         return new TextBlock
         {
-            Text = $"[Image: {imageNode.GetAttributeValue("alt", "image")}]",
+            Text = Localization.Format("[Image: {0}]", imageNode.GetAttributeValue("alt", "image")),
             Foreground = AppTheme.SubtleTextBrush,
             FontStyle = FontStyle.Italic,
             Margin = new Thickness(0, 4, 0, 12)
@@ -681,7 +681,7 @@ public static class MarkdownPreviewRenderer
         Avalonia.Automation.AutomationProperties.SetName(image, alt);
         var placeholder = new TextBlock
         {
-            Text = $"Chargement de l’image : {alt}",
+            Text = Localization.Format("Chargement de l’image : {0}", alt),
             Foreground = AppTheme.SubtleTextBrush,
             FontStyle = FontStyle.Italic,
             TextWrapping = TextWrapping.Wrap
@@ -700,7 +700,7 @@ public static class MarkdownPreviewRenderer
         {
             if (hasBeenAttached) _ = CancelRemoteImageAfterDetachAsync(image, cancellation);
         };
-        ToolTip.SetTip(container, $"Image distante : {uri.Host}");
+        ToolTip.SetTip(container, Localization.Format("Image distante : {0}", uri.Host));
         _ = LoadRemoteImageAsync(uri, alt, image, placeholder, container, budget, cancellation);
         return container;
     }
@@ -787,7 +787,7 @@ public static class MarkdownPreviewRenderer
             AppDiagnostics.Debug("preview-image-remote", ("phase", cancellation.IsCancellationRequested ? "cancelled" : "timeout"));
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                if (!cancellation.IsCancellationRequested) placeholder.Text = $"Délai dépassé pour l’image : {alt}";
+                if (!cancellation.IsCancellationRequested) placeholder.Text = Localization.Format("Délai dépassé pour l’image : {0}", alt);
             }, DispatcherPriority.Background);
         }
         catch (Exception ex)
@@ -795,7 +795,7 @@ public static class MarkdownPreviewRenderer
             AppDiagnostics.Debug("preview-image-remote", ("phase", "failed"), ("error", ex.GetType().Name));
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                if (!token.IsCancellationRequested) placeholder.Text = $"Image indisponible : {alt}";
+                if (!token.IsCancellationRequested) placeholder.Text = Localization.Format("Image indisponible : {0}", alt);
             }, DispatcherPriority.Background);
         }
         finally
@@ -872,7 +872,7 @@ public static class MarkdownPreviewRenderer
     private static void ReportImageLimit(PreviewImageBudget budget)
     {
         if (!budget.TryMarkLimitMessage() || budget.StatusMessage is not { } statusMessage) return;
-        const string message = "Certaines images de l’aperçu ont été ignorées pour limiter la consommation mémoire.";
+        var message = Localization.Translate("Certaines images de l’aperçu ont été ignorées pour limiter la consommation mémoire.");
         if (Dispatcher.UIThread.CheckAccess()) statusMessage(message);
         else Dispatcher.UIThread.Post(() => statusMessage(message), DispatcherPriority.Background);
     }

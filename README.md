@@ -1,63 +1,103 @@
 # markdim
 
-Application desktop C#/Avalonia pour ouvrir, lire, corriger et exporter des documents Markdown sous Windows, macOS et Linux.
+**A free, open-source desktop Markdown workspace for reading, writing, organizing, and exporting documents—with live preview and local PDF export.**
 
-Version actuelle : **0.3.0-beta.6** — bêta publique Windows et Linux. Elle est visible dans **Aide → À propos** et centralisée dans `Directory.Build.props`.
+[![CI](https://github.com/numera11y/markdim/actions/workflows/ci.yml/badge.svg)](https://github.com/numera11y/markdim/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/numera11y/markdim?include_prereleases&label=latest%20release)](https://github.com/numera11y/markdim/releases/latest)
+[![License: MIT](https://img.shields.io/github/license/numera11y/markdim)](LICENSE)
+[![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-blue)](https://github.com/numera11y/markdim/releases/latest)
 
-## Développement
+The current version is **0.3.0-beta.7**. This public beta provides Windows x64 and Linux x64/ARM64 downloads. The version is shown in **Help → About** and is defined in `Directory.Build.props`.
 
-Prérequis : .NET 10 SDK (le dépôt contient un `global.json` pour sélectionner une version compatible).
+![markdim showing its Markdown editor and live preview](packaging/windows/Store/ListingAssets/Store-Screenshot-Source.png)
+
+*The screenshot shows the interface in French; English and French are available in Settings → Language.*
+
+## Why markdim?
+
+markdim keeps the Markdown source and its rendered result side by side. Open one file or a folder of notes, switch between documents in reorderable tabs, and export a local PDF without leaving the desktop app.
+
+### Features
+
+- **Live Markdown preview** powered by Markdig: CommonMark and advanced GFM extensions, including nested lists, tables, task lists, reference links, local images, and HTTPS remote images.
+- **Multi-document workspace** with tabs, drag-and-drop opening, recent files, document search, and a heading outline.
+- **Search and replace** in the current document, with next/previous navigation.
+- **Local PDF export** with embedded IBM Plex Sans for text and JetBrains Mono for code.
+- **A configurable workspace**: light/dark themes, resizable panels, adjustable editor text size, visible whitespace and line endings, and persisted layout preferences.
+- **English and French UI**, following the system language by default and falling back to English.
+- **Local-first document handling**: files stay at their existing locations; there is no account, cloud sync, advertising, or telemetry.
+
+The source editor intentionally remains plain text (without syntax highlighting) so Markdown characters are easy to inspect. Whitespace and line-ending markers are enabled by default and can be changed independently.
+
+## Download and install
+
+Download the latest beta from [GitHub Releases](https://github.com/numera11y/markdim/releases/latest).
+
+| Platform | Available packages | Notes |
+|---|---|---|
+| Windows x64 | Setup `.exe`, portable `.zip` | Windows 10 version 2004 (build 19041) or later, or Windows 11. The beta installer is unsigned, so Windows may show a SmartScreen warning. |
+| Debian/Ubuntu x64 | `.deb` package, portable `.tar.gz` | Install a downloaded package with `sudo apt install ./markdim-v0.3.0-beta.7-linux-amd64.deb`. |
+| Debian/Ubuntu ARM64 | `.deb` package, portable `.tar.gz` | Use the ARM64 assets on the Releases page. |
+| Other Linux distributions | Portable `.tar.gz` for x64 or ARM64 | Required system graphics libraries depend on the distribution. |
+| macOS | No public beta package yet | macOS x64 and ARM64 are configured as stable-release build targets; signing and notarization are still required for public distribution. |
+
+Installable packages add application shortcuts and register Markdown file associations where supported. On Windows, markdim can be added to **Open with** from **Settings → Markdown file association**; choosing the system default app remains an action in Windows Settings.
+
+## Getting started
+
+1. Open a `.md` or `.markdown` file, open a folder, or drag Markdown files onto the app.
+2. Edit the source in the editor and review the rendered result in the preview pane.
+3. Use the library, search field, heading outline, and tabs to navigate your notes.
+4. Choose **File → Export PDF** to create a PDF on your device.
+
+### Keyboard shortcuts
+
+| Shortcut | Action |
+|---|---|
+| `Ctrl+O` / `Ctrl+Shift+O` | Open file / open folder |
+| `Ctrl+N` | Create a blank document |
+| `Ctrl+S` / `Ctrl+Shift+S` | Save / Save as |
+| `Ctrl+W` | Close the active tab |
+| `Ctrl+Shift+E` | Export to PDF |
+| `Ctrl+F` / `Ctrl+H` | Find / find and replace in the document |
+| `Ctrl+Tab` / `Ctrl+Shift+Tab` | Next / previous document |
+| `Ctrl+Shift+Page Up` / `Ctrl+Shift+Page Down` | Reorder the active tab |
+| `Ctrl+K` / `Ctrl+E` | Focus library search / editor |
+| `F11` | Toggle full screen |
+| `Ctrl` + mouse wheel | Increase or decrease editor text size |
+
+The complete list is available under **Help → Keyboard Shortcuts**.
+
+## Files, settings, and privacy
+
+Markdown files are read and saved locally. Application settings and diagnostic logs are stored under the current user profile:
+
+- Windows: `%LOCALAPPDATA%\markdim\settings.json` and `%LOCALAPPDATA%\markdim\logs\application.log`
+- macOS: `~/Library/Application Support/markdim/`
+- Linux: `~/.local/share/markdim/`
+
+The preview can load remote images referenced by a Markdown document over HTTPS. In that case, markdim requests the image from its host to display it; the document itself is not uploaded. External links open through the operating system.
+
+For optional UI diagnostics, launch `markdim.exe --debug file.md` and press `Ctrl+Shift+F12` to save a screenshot. Diagnostic screenshots may contain the document currently displayed; review them before sharing. Logs record app operations and exception types, not document text or paths.
+
+## Build and test
+
+Requirements: .NET 10 SDK (the repository's `global.json` selects a compatible SDK).
 
 ```sh
-dotnet restore --locked-mode
+dotnet restore markdim.slnx --locked-mode
 dotnet run --project MarkdownDesk/MarkdownDesk.csproj
 dotnet test markdim.slnx -c Release
 ```
 
-## Publier une version autonome
+For the full formatting, build, test, and dependency-audit checks, see [docs/TESTING.md](docs/TESTING.md). Contribution and translation instructions are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Depuis un environnement avec le SDK .NET 10 :
+## Version and releases
 
-```sh
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.6 -RuntimeIdentifier win-x64
-./packaging/windows/Build-Installer.ps1 -Version 0.3.0-beta.6
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.6 -RuntimeIdentifier linux-x64
-bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.6 linux-x64
-./packaging/Publish-Release.ps1 -Version 0.3.0-beta.6 -RuntimeIdentifier linux-arm64
-bash ./packaging/linux/Build-DebianPackage.sh 0.3.0-beta.6 linux-arm64
-```
+`Directory.Build.props` is the single source for the app's semantic version. GitHub Actions publishes Windows and Linux packages for beta tags (`vX.Y.Z-beta.N`); stable tags (`vX.Y.Z`) build Windows, macOS, and Linux targets. Release archives, installers, and Debian packages include SHA-256 checksums. See [docs/RELEASE_LAYOUT.md](docs/RELEASE_LAYOUT.md) for package details.
 
-La bêta Windows fournit un installateur graphique `.exe` et une archive ZIP portable. Linux fournit des paquets `.deb` installables sur Debian/Ubuntu (amd64 et arm64), ainsi qu’une archive `.tar.gz` portable pour les autres distributions. Les paquets installables créent les raccourcis et intègrent markdim au menu « Ouvrir avec ». Sous Debian/Ubuntu, installer le paquet téléchargé avec `sudo apt install ./markdim-v0.3.0-beta.6-linux-amd64.deb`.
+The separate Microsoft Store MSIX package is built with `packaging/windows/Build-StorePackage.ps1`; its four-part package version is distinct from the app's semantic version. Microsoft signs the submitted MSIX package.
 
-L’interface utilise la police par défaut de chaque plateforme. L’export PDF intègre IBM Plex Sans pour le texte et JetBrains Mono NL pour le code; leurs licences SIL Open Font License 1.1 sont copiées dans les publications (`Assets/Fonts/IBMPlexSans-OFL.txt` et `Assets/Fonts/JetBrainsMono-OFL.txt`).
+## License
 
-## Raccourcis clavier
-
-- `Ctrl+O` ouvrir un fichier; `Ctrl+Maj+O` ouvrir un dossier.
-- `Ctrl+N` créer un document Markdown vierge.
-- `Ctrl+S` enregistrer; `Ctrl+W` fermer l’onglet; `Ctrl+Maj+E` exporter en PDF.
-- `Ctrl+Maj+S` enregistrer sous un autre nom.
-- `Ctrl+Tab` / `Ctrl+Maj+Tab` document suivant/précédent.
-- `Ctrl+Maj+Page ↑` / `Ctrl+Maj+Page ↓` réordonner l’onglet.
-- `Ctrl+K` recherche; `Ctrl+E` éditeur; `F11` plein écran.
-- `Ctrl` + molette de la souris agrandit ou réduit le texte dans l’éditeur.
-
-Le menu **Aide → Raccourcis clavier** récapitule ces commandes. En cas de plantage, le journal local (sans texte ni chemin des fichiers) se trouve sous `%LOCALAPPDATA%\markdim\logs\application.log`.
-
-Pour diagnostiquer le thème ou les images de l’aperçu, lancer `markdim.exe --debug fichier.md`, reproduire le problème, puis utiliser `Ctrl+Maj+F12` pour enregistrer une capture. Pour une capture automatique après chargement et attente des images : `markdim.exe --debug-capture --debug-theme=light --debug-menu fichier.md` (remplacer par `dark` pour l’autre thème). Cette option ouvre Fichier et enregistre également son menu déroulant dans un fichier `menu-*.png`. Les journaux sont dans `%LOCALAPPDATA%\markdim\logs\application.log`; les captures sont dans `%LOCALAPPDATA%\markdim\diagnostics\`. Les captures peuvent contenir le document affiché : vérifie leur contenu avant de les partager. Le journal de debug trace le thème effectif et les étapes de chargement d’image sans enregistrer l’URL ni le contenu du document.
-
-L’éditeur source affiche les numéros de ligne sans coloration syntaxique, afin de préserver chaque caractère; les espaces/tabulations et fins de ligne sont visibles par défaut et se règlent indépendamment dans les paramètres. L’aperçu s’appuie sur Markdig (CommonMark et extensions avancées GFM), rend les listes imbriquées, liens automatiques et de référence, tableaux, tâches et images locales; les blocs de code disposent de coloration selon le langage, numéros de ligne espacés, d’un bouton icône Copier et d’une scrollbar uniquement lorsqu’ils sont longs.
-
-Le menu **Paramètres** permet de choisir le thème clair/sombre, régler la taille du texte et la largeur de la bibliothèque, puis afficher/masquer chaque panneau. Les séparateurs entre bibliothèque, éditeur et aperçu se redimensionnent à la souris; les choix et dimensions sont mémorisés dans `%LOCALAPPDATA%\markdim\settings.json`. Le menu **Affichage** permet aussi de replier rapidement un panneau.
-
-Le workflow GitHub Actions `.github/workflows/release.yml` publie Windows et Linux pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Les archives, l’installateur EXE et les paquets `.deb` ont chacun une somme SHA-256. Pour préparer le paquet Microsoft Store MSIX x64, exécuter `./packaging/windows/Build-StorePackage.ps1 -PackageVersion 1.0.0.0 -Publisher "CN=…"`; le quatrième champ de version Store reste à `0` et cette version Store est distincte de la version affichée par l’application. Microsoft signe le MSIX après son envoi à Partner Center. La signature/notarisation macOS et les paquets natifs DMG/AppImage restent à configurer pour une diffusion grand public.
-
-L’installateur de cette bêta n’est pas signé; Windows peut afficher un avertissement SmartScreen au téléchargement ou au lancement.
-
-La génération PDF utilise PDFsharp-MigraDoc, sous licence MIT.
-
-## Association des fichiers
-
-Sous Windows, **Paramètres → Association des fichiers Markdown** permet d’ajouter ou retirer markdim du menu contextuel « Ouvrir avec », sans privilèges administrateur. Pour en faire l’application par défaut, sélectionner ensuite markdim dans les paramètres Windows des applications par défaut. macOS et Linux utilisent les déclarations de leurs paquets (`CFBundleDocumentTypes` et fichier `.desktop`).
-
-Le premier prototype ouvre les fichiers passés en arguments, un fichier Markdown ou tous les fichiers `.md`/`.markdown` d’un dossier. Les onglets se sélectionnent dans la bande supérieure et se réordonnent avec les commandes fléchées. L’export PDF est local et indépendant d’un navigateur.
+markdim is distributed under the [MIT License](LICENSE). PDF fonts are distributed under the SIL Open Font License 1.1; their notices are included in the release files. See [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) for third-party dependency licenses.

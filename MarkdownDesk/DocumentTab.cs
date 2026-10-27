@@ -9,6 +9,7 @@ public sealed class DocumentTab : INotifyPropertyChanged
     public const long MaximumFileBytes = 16 * 1024 * 1024;
     private string? _text;
     private string _title;
+    private readonly int _untitledNumber;
     private bool _dirty;
     private Encoding _encoding = new UTF8Encoding(false);
     private string _lineEnding = Environment.NewLine;
@@ -20,15 +21,16 @@ public sealed class DocumentTab : INotifyPropertyChanged
         _text = text;
         _title = System.IO.Path.GetFileName(path);
     }
-    private DocumentTab(string path, string? text, string title)
+    private DocumentTab(string path, string? text, string title, int untitledNumber)
     {
         Path = path;
         _text = text;
         _title = title;
+        _untitledNumber = untitledNumber;
     }
-    public static DocumentTab CreateUntitled(string title) => new("", "", title);
+    public static DocumentTab CreateUntitled(string title, int untitledNumber = 1) => new("", "", title, Math.Max(1, untitledNumber));
     public bool IsUntitled => string.IsNullOrEmpty(Path);
-    public string LocationLabel => IsUntitled ? "Nouveau document" : Path;
+    public string LocationLabel => IsUntitled ? Localization.Translate("Nouveau document") : Path;
     public string Path { get; private set; }
     public string Text
     {
@@ -51,7 +53,7 @@ public sealed class DocumentTab : INotifyPropertyChanged
 
         await using var stream = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.Read, 64 * 1024, FileOptions.Asynchronous | FileOptions.SequentialScan);
         if (stream.Length > MaximumFileBytes)
-            throw new InvalidDataException($"Ce fichier dépasse la limite de {MaximumFileBytes / (1024 * 1024)} Mo prise en charge par l’éditeur.");
+            throw new InvalidDataException(Localization.Format("Ce fichier dépasse la limite de {0} Mo prise en charge par l’éditeur.", MaximumFileBytes / (1024 * 1024)));
         using var buffer = new MemoryStream((int)stream.Length);
         var chunk = new byte[64 * 1024];
         while (true)
@@ -59,7 +61,7 @@ public sealed class DocumentTab : INotifyPropertyChanged
             var read = await stream.ReadAsync(chunk, cancellationToken);
             if (read == 0) break;
             if (buffer.Length + read > MaximumFileBytes)
-                throw new InvalidDataException($"Ce fichier dépasse la limite de {MaximumFileBytes / (1024 * 1024)} Mo prise en charge par l’éditeur.");
+                throw new InvalidDataException(Localization.Format("Ce fichier dépasse la limite de {0} Mo prise en charge par l’éditeur.", MaximumFileBytes / (1024 * 1024)));
             buffer.Write(chunk, 0, read);
         }
         var bytes = buffer.GetBuffer();
@@ -109,6 +111,17 @@ public sealed class DocumentTab : INotifyPropertyChanged
         Changed(nameof(TabLabel));
     }
     public void MarkSaved() { Dirty = false; }
+
+    public void RefreshLocalizedLabels()
+    {
+        if (!IsUntitled) return;
+        _title = _untitledNumber == 1
+            ? Localization.Translate("Sans titre")
+            : Localization.Format("Sans titre {0}", _untitledNumber);
+        Changed(nameof(Title));
+        Changed(nameof(LocationLabel));
+        Changed(nameof(TabLabel));
+    }
 
     private static (Encoding Encoding, int PreambleLength) DetectEncoding(ReadOnlySpan<byte> bytes)
     {

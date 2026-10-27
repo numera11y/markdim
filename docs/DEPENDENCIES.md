@@ -1,17 +1,17 @@
-# Dépendances et licences
+# Dependencies and licenses
 
-Les versions directes sont centralisées dans `Directory.Packages.props`; les graphes résolus sont verrouillés dans les fichiers `packages.lock.json` de chaque projet.
+Direct package versions are centralized in `Directory.Packages.props`; resolved graphs are locked in each project's `packages.lock.json` file.
 
-| Dépendance | Usage | Licence / vérification |
+| Dependency | Use | License / review |
 |---|---|---|
-| Avalonia et packages Avalonia | UI native multiplateforme | MIT (vérifier les avis des paquets transitifs au moment de chaque release) |
-| AvaloniaEdit | édition professionnelle, numéros de ligne et moteur de coloration | MIT |
-| Markdig | analyse CommonMark et extensions avancées GFM du Markdown | BSD-2-Clause |
-| HtmlAgilityPack | conversion sûre de la structure HTML Markdig en contrôles Avalonia | MIT |
-| PDFsharp-MigraDoc | génération et mise en page PDF locale | MIT (version 6.2.4) |
-| Microsoft.Extensions.Logging.Abstractions | dépendance transitive PDFsharp | MIT |
-| System.Security.Cryptography.Pkcs | dépendance transitive PDFsharp | MIT; version 8.0.2 épinglée pour inclure les correctifs de sécurité |
-| xUnit et Microsoft.NET.Test.Sdk | tests automatisés | licences du paquet NuGet épinglé |
-| Tmds.DBus.Protocol | intégration desktop Linux transitive/explicite | version corrigée épinglée à `0.21.3`; licence/avis à conserver avec l’archive de distribution |
+| Avalonia and Avalonia packages | Cross-platform native UI | MIT (review transitive package notices for each release) |
+| AvaloniaEdit | Source editing, line numbers, highlighting engine | MIT |
+| Markdig | CommonMark parsing and advanced GFM extensions | BSD-2-Clause |
+| HtmlAgilityPack | Convert Markdig HTML structure into Avalonia controls | MIT |
+| PDFsharp-MigraDoc | Local PDF generation and layout | MIT (version 6.2.4) |
+| Microsoft.Extensions.Logging.Abstractions | PDFsharp transitive dependency | MIT |
+| System.Security.Cryptography.Pkcs | PDFsharp transitive dependency | MIT; pinned to 8.0.2 for security fixes |
+| xUnit and Microsoft.NET.Test.Sdk | Automated tests | See pinned NuGet package licenses |
+| Tmds.DBus.Protocol | Explicit/transitive Linux desktop integration | Pinned to fixed version `0.21.3`; retain its license notice with release archives |
 
-Avant une distribution publique, vérifier les licences de toutes les dépendances transitives (`dotnet list markdim.slnx package --include-transitive`) et inclure les notices requises. Aucun paquet ne doit être mis à jour sans restore, tests, audit de vulnérabilités et revue de licence.
+Before a public release, review licenses for all transitive dependencies with `dotnet list markdim.slnx package --include-transitive` and include required notices. Do not update a package without restore, tests, vulnerability audit, and license review.

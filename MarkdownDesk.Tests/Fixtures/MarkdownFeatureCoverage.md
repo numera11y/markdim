@@ -1,11 +1,11 @@
-# Votre espace Markdown
-Ouvrez un fichier ou un dossier pour commencer.
+# Your Markdown workspace
+Open a file or folder to get started.
 
-- **Éditez** avec la source et l’aperçu côte à côte
-- **Naviguez** entre vos documents avec les onglets
-- **Exportez** en PDF pour partager un document
+- **Edit** with the source and preview side by side
+- **Navigate** between documents using tabs
+- **Export** a PDF to share a document
 
-Vos fichiers restent sur votre appareil.
+Your files stay on your device.
 
 # Here's a Heading
 ## Here's a Heading

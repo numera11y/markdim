@@ -60,7 +60,7 @@ $shortcut = $shell.CreateShortcut($shortcutPath)
 $shortcut.TargetPath = $installedExecutable
 $shortcut.WorkingDirectory = $installedApp
 $shortcut.IconLocation = "$installedExecutable,0"
-$shortcut.Description = 'Lire, corriger et exporter des documents Markdown'
+$shortcut.Description = 'Read, edit, and export Markdown documents'
 $shortcut.Save()
 
 Write-Host "markdim $version has been installed for the current Windows user."

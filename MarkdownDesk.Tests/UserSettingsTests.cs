@@ -8,7 +8,7 @@ public sealed class UserSettingsTests
     [Fact]
     public void ProductVersionComesFromTheCentralBuildVersion()
     {
-        Assert.Equal("0.3.0-beta.6", ProductInfo.Version);
+        Assert.Equal("0.3.0-beta.7", ProductInfo.Version);
     }
 
     [Fact]
@@ -32,6 +32,46 @@ public sealed class UserSettingsTests
         var minimumFontSize = new UserSettings { EditorFontSize = 1 };
         minimumFontSize.Normalize();
         Assert.Equal(8, minimumFontSize.EditorFontSize);
+    }
+
+    [Theory]
+    [InlineData("fr", "fr")]
+    [InlineData("en", "en")]
+    [InlineData("de", "System")]
+    [InlineData(null, "System")]
+    public void NormalizeKeepsOnlySupportedLanguagePreferences(string? language, string expected)
+    {
+        var settings = new UserSettings { Language = language! };
+
+        settings.Normalize();
+
+        Assert.Equal(expected, settings.Language);
+    }
+
+    [Fact]
+    public void TranslationCatalogSupportsEnglishAndFrenchFallback()
+    {
+        Assert.Equal("_File", Localization.Translate("_Fichier", "en"));
+        Assert.Equal("_Fichier", Localization.Translate("_File", "fr"));
+        Assert.Equal("No results", Localization.Translate("Aucun résultat", "en"));
+        Assert.Equal("PDF export failed: {0}", Localization.Translate("Échec de l’export PDF : {0}", "en"));
+        Assert.Equal("Untranslated label", Localization.Translate("Untranslated label", "en"));
+    }
+
+    [Fact]
+    public void TranslationCatalogsHaveMatchingKeysAndNonEmptyValues()
+    {
+        var french = Localization.LoadCatalog("fr");
+        var english = Localization.LoadCatalog("en");
+
+        Assert.Equal(french.Keys.Order(), english.Keys.Order());
+        Assert.All(french.Values.Concat(english.Values), value => Assert.False(string.IsNullOrWhiteSpace(value)));
+        foreach (var key in french.Keys)
+        {
+            var placeholders = System.Text.RegularExpressions.Regex.Matches(key, @"\{[^}]+\}").Select(match => match.Value).Order();
+            var translatedPlaceholders = System.Text.RegularExpressions.Regex.Matches(english[key], @"\{[^}]+\}").Select(match => match.Value).Order();
+            Assert.Equal(placeholders, translatedPlaceholders);
+        }
     }
 
     [Fact]
@@ -82,6 +122,7 @@ public sealed class UserSettingsTests
             ShowWhitespaceCharacters = false,
             ShowLineEndings = false,
             ThemeMode = "Dark",
+            Language = "en",
             ResumeLastDocument = true,
             LastDocumentPath = "C:\\Notes\\daily.md",
             RecentFiles = ["C:\\Notes\\daily.md", "C:\\Notes\\ideas.md"]
@@ -101,6 +142,7 @@ public sealed class UserSettingsTests
             Assert.Equal(expected.ShowWhitespaceCharacters, actual.ShowWhitespaceCharacters);
             Assert.Equal(expected.ShowLineEndings, actual.ShowLineEndings);
             Assert.Equal(expected.ThemeMode, actual.ThemeMode);
+            Assert.Equal(expected.Language, actual.Language);
             Assert.Equal(expected.ResumeLastDocument, actual.ResumeLastDocument);
             Assert.Equal(expected.LastDocumentPath, actual.LastDocumentPath);
             Assert.Equal(expected.RecentFiles, actual.RecentFiles);

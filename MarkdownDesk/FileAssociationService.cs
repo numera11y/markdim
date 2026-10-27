@@ -80,16 +80,16 @@ public static class FileAssociationService
     public static void RegisterCurrentApplication()
     {
         if (!OperatingSystem.IsWindows())
-            throw new PlatformNotSupportedException("La gestion directe du menu Ouvrir avec est disponible sous Windows.");
+            throw new PlatformNotSupportedException(Localization.Translate("La gestion directe du menu Ouvrir avec est disponible sous Windows."));
         if (IsPackagedApplication)
-            throw new InvalidOperationException("Les associations Markdown sont gérées par le manifeste du paquet Microsoft Store.");
+            throw new InvalidOperationException(Localization.Translate("Les associations Markdown sont gérées par le manifeste du paquet Microsoft Store."));
         var executablePath = GetPreferredExecutablePath();
 
         var programPath = $@"{ClassesPath}\{ProgrammaticId}";
         using (var program = Registry.CurrentUser.CreateSubKey(programPath)
-            ?? throw new InvalidOperationException("Impossible de créer l’entrée markdim dans le Registre."))
+            ?? throw new InvalidOperationException(Localization.Translate("Impossible de créer l’entrée markdim dans le Registre.")))
         {
-            program.SetValue(null, "markdim Markdown document");
+            program.SetValue(null, Localization.Translate("markdim Markdown document"));
             using var icon = program.CreateSubKey("DefaultIcon");
             icon.SetValue(null, $"\"{executablePath}\",0");
             using var command = program.CreateSubKey(@"shell\open\command");
@@ -99,16 +99,16 @@ public static class FileAssociationService
         foreach (var extension in Extensions)
         {
             using var openWith = Registry.CurrentUser.CreateSubKey($@"{ClassesPath}\{extension}\OpenWithProgids")
-                ?? throw new InvalidOperationException($"Impossible d’enregistrer l’extension {extension}.");
+                ?? throw new InvalidOperationException(Localization.Format("Impossible d’enregistrer l’extension {0}.", extension));
             openWith.SetValue(ProgrammaticId, string.Empty, RegistryValueKind.String);
         }
 
         using (var application = Registry.CurrentUser.CreateSubKey($@"{ClassesPath}\Applications\markdim.exe")
-            ?? throw new InvalidOperationException("Impossible de créer l’entrée markdim dans le menu Ouvrir avec."))
+            ?? throw new InvalidOperationException(Localization.Translate("Impossible de créer l’entrée markdim dans le menu Ouvrir avec.")))
         {
             application.SetValue("FriendlyAppName", "markdim");
             using var supportedTypes = application.CreateSubKey("SupportedTypes")
-                ?? throw new InvalidOperationException("Impossible d’enregistrer les types de fichiers pris en charge.");
+                ?? throw new InvalidOperationException(Localization.Translate("Impossible d’enregistrer les types de fichiers pris en charge."));
             foreach (var extension in Extensions) supportedTypes.SetValue(extension, string.Empty, RegistryValueKind.String);
         }
 
@@ -118,9 +118,9 @@ public static class FileAssociationService
     public static void UnregisterCurrentApplication()
     {
         if (!OperatingSystem.IsWindows())
-            throw new PlatformNotSupportedException("La gestion directe du menu Ouvrir avec est disponible sous Windows.");
+            throw new PlatformNotSupportedException(Localization.Translate("La gestion directe du menu Ouvrir avec est disponible sous Windows."));
         if (IsPackagedApplication)
-            throw new InvalidOperationException("Les associations Markdown sont gérées par le manifeste du paquet Microsoft Store.");
+            throw new InvalidOperationException(Localization.Translate("Les associations Markdown sont gérées par le manifeste du paquet Microsoft Store."));
         foreach (var extension in Extensions)
         {
             using var openWith = Registry.CurrentUser.OpenSubKey($@"{ClassesPath}\{extension}\OpenWithProgids", writable: true);
@@ -146,7 +146,7 @@ public static class FileAssociationService
         if (string.IsNullOrWhiteSpace(currentPath)
             || !Path.GetFileNameWithoutExtension(currentPath).Equals("markdim", StringComparison.OrdinalIgnoreCase))
         {
-            throw new InvalidOperationException("L’association doit être activée depuis l’application publiée markdim.exe.");
+            throw new InvalidOperationException(Localization.Translate("L’association doit être activée depuis l’application publiée markdim.exe."));
         }
 
         var installedRoot = Path.Combine(

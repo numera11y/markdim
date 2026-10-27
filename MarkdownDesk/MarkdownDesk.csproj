@@ -12,7 +12,7 @@
     <FileVersion>$(VersionPrefix).0</FileVersion>
     <InformationalVersion>$(Version)</InformationalVersion>
     <Authors>Numera11y</Authors>
-    <Description>Local Markdown reading, editing, and PDF export workspace.</Description>
+    <Description>A free, open-source desktop Markdown workspace with live preview, multi-document tabs, and local PDF export.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Deterministic>true</Deterministic>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -32,6 +32,7 @@
     <PackageReference Include="Tmds.DBus.Protocol" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Localization\*.json" LogicalName="markdim.Localization.%(Filename)%(Extension)" />
     <AvaloniaResource Include="Assets\markdim.ico" />
     <AvaloniaResource Include="Assets\Icons\*.svg" />
     <AvaloniaResource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" />

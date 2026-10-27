@@ -1,30 +1,31 @@
-# Architecture technique
+# Architecture
 
-## Couches actuelles
+## Current components
 
-- `MarkdownDesk`: application desktop Avalonia, gestion du cycle de vie, dialogues natifs, édition/aperçu et génération PDF.
-- `DocumentTab`: modèle observable d’un document ouvert et suivi du statut modifié.
-- `AppDiagnostics`: journal local borné (1 Mo + un fichier de rotation), limité aux horodatages, opérations et types d’exception.
-- `UserSettingsStore`: préférences d’interface JSON locales, écrites atomiquement et bornées à des valeurs valides.
-- `FileAssociationService`: enregistrement/retrait par utilisateur dans le Registre Windows; ne modifie pas le choix système protégé de l’application par défaut.
-- `AppTheme`: palette sémantique claire/sombre exposée en ressources Avalonia dynamiques.
-- `MarkdownHighlighting`: définitions XSHD légères pour colorer le Markdown source sans service externe.
-- `MarkdownPreviewRenderer`: pipeline Markdig CommonMark/GFM et construction de contrôles Avalonia pour le HTML structuré, listes imbriquées, tableaux, images locales et blocs de code.
-- `MarkdownDesk.Tests`: tests unitaires indépendants de l’interface.
-- `packaging/`: métadonnées et scripts d’intégration aux associations de fichiers par OS.
+- `MarkdownDesk`: Avalonia desktop app, lifecycle management, native dialogs, editing, preview, and PDF generation.
+- `DocumentTab`: observable model for an open document and its modified state.
+- `AppDiagnostics`: bounded local log (1 MB plus one rotated file), limited to timestamps, operations, and exception types.
+- `UserSettingsStore`: local JSON UI preferences, written atomically and normalized to valid values.
+- `FileAssociationService`: per-user registration/removal in the Windows Registry; it does not change the protected system default-app choice.
+- `AppTheme`: semantic light/dark palette exposed through dynamic Avalonia resources.
+- `MarkdownHighlighting`: lightweight XSHD definitions for source Markdown highlighting without an external service.
+- `MarkdownPreviewRenderer`: Markdig CommonMark/GFM pipeline and Avalonia controls for structured HTML, nested lists, tables, images, and code blocks.
+- `Localization`: embedded JSON catalogs for English and French, with system-language selection and fallback behavior.
+- `MarkdownDesk.Tests`: unit tests independent of the UI.
+- `packaging/`: metadata and scripts for OS-level file association integration and release packages.
 
-## Fichiers et mémoire
+## Files and memory
 
-Les documents restent à leur emplacement et ne sont jamais copiés vers un service distant. Les onglets d’un dossier sont indexés sans charger tout leur contenu : le texte est lu à la première activation, puis conservé en mémoire pour préserver les modifications lors des changements d’onglet. L’aperçu est temporisé de 180 ms après la dernière frappe; au-delà de 500 000 caractères, il est suspendu sans désactiver l’éditeur. Les erreurs du moteur de rendu sont isolées de la navigation. Le filtrage et la prévisualisation ne créent pas de fichiers temporaires persistants.
+Documents stay at their existing locations and are never copied to a remote service. Folder tabs are indexed without loading every file: content is read on first activation and then retained in memory so edits survive tab switches. Preview rendering is debounced by 180 ms after the last keystroke; above 500,000 characters it pauses without disabling the editor. Rendering errors are isolated from navigation. Filtering and preview do not create persistent temporary files.
 
-Le journal applicatif se trouve dans `%LOCALAPPDATA%/markdim/logs/application.log` (Windows), `~/Library/Application Support/markdim/logs/application.log` (macOS) ou `~/.local/share/markdim/logs/application.log` (Linux selon le chemin .NET). La rotation conserve au plus le journal courant et sa copie `.1`. Les textes et chemins des documents ne sont pas journalisés. Aucun télémétrie ni réseau au runtime n’est ajouté.
+The application log is stored at `%LOCALAPPDATA%/markdim/logs/application.log` (Windows), `~/Library/Application Support/markdim/logs/application.log` (macOS), or `~/.local/share/markdim/logs/application.log` (Linux, via .NET). Rotation keeps the current log and one `.1` backup. Document text and paths are not logged. Runtime telemetry and general network access are not added; remote images referenced by a document are fetched over HTTPS for preview rendering.
 
-Les préférences utilisateur sont séparées dans `%LOCALAPPDATA%/markdim/settings.json`, enregistrées de façon atomique. Le choix du thème ne modifie pas les fichiers Markdown.
+User preferences are stored separately in `%LOCALAPPDATA%/markdim/settings.json` on Windows, `~/Library/Application Support/markdim/settings.json` on macOS, or `~/.local/share/markdim/settings.json` on Linux. Settings are written atomically. Theme and language choices do not modify Markdown files.
 
-## Dépendances et audit
+## Dependencies and audit
 
-Les versions NuGet sont explicites dans les fichiers projet. Le restore NuGet effectue l’audit des avis connus; les workflows CI doivent échouer si une dépendance vulnérable est ajoutée. Le protocole D-Bus est explicitement sur une version corrigée (0.21.3) pour éviter la version vulnérable transitivement fournie par la pile Avalonia.
+Direct NuGet versions are explicit in the project files and resolved graphs are locked. NuGet restore audits known advisories; CI must fail if a vulnerable dependency is introduced. `Tmds.DBus.Protocol` is pinned to a fixed version (`0.21.3`) to avoid the vulnerable version previously pulled transitively by Avalonia.
 
 ## Distribution
 
-Le publish est self-contained par RID. Les builds sont produites pour win-x64, osx-x64, osx-arm64, linux-x64 et linux-arm64. Les bêta Windows ont un installateur Setup non signé; Debian/Ubuntu reçoivent des paquets `.deb`, et les autres distributions Linux les archives TAR.GZ portables. Le premier lancement/association par défaut reste soumis au mécanisme de chaque OS. Linux requiert certaines bibliothèques graphiques système; macOS requiert signature et notarisation pour une distribution grand public sans avertissement Gatekeeper.
+Publishing is self-contained per runtime identifier. Configured targets are `win-x64`, `osx-x64`, `osx-arm64`, `linux-x64`, and `linux-arm64`. The beta provides a Windows Setup installer and ZIP, Debian/Ubuntu `.deb` packages, and portable Linux TAR.GZ archives. The Windows beta installer is unsigned. macOS releases require signing and notarization for distribution without Gatekeeper warnings. Linux distributions may require system graphics libraries.

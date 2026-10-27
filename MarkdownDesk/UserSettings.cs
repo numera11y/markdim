@@ -13,6 +13,7 @@ public sealed class UserSettings
     public bool ShowWhitespaceCharacters { get; set; } = true;
     public bool ShowLineEndings { get; set; } = true;
     public string ThemeMode { get; set; } = "Light";
+    public string Language { get; set; } = "System";
     public bool ResumeLastDocument { get; set; }
     public string? LastDocumentPath { get; set; }
     public List<string> RecentFiles { get; set; } = [];
@@ -23,6 +24,7 @@ public sealed class UserSettings
         SidebarWidth = ClampOrDefault(SidebarWidth, 190, 420, 264);
         EditorPaneRatio = ClampOrDefault(EditorPaneRatio, 0.25, 0.75, 0.5);
         ThemeMode = string.Equals(ThemeMode, "Dark", StringComparison.OrdinalIgnoreCase) ? "Dark" : "Light";
+        Language = Localization.NormalizeLanguage(Language);
         if (string.IsNullOrWhiteSpace(LastDocumentPath)) LastDocumentPath = null;
         var pathComparer = OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
         RecentFiles = (RecentFiles ?? [])

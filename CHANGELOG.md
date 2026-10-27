@@ -1,493 +1,503 @@
 # Changelog
 
-Ce fichier suit [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) et le versionnement [Semantic Versioning](https://semver.org/).
+This file follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+
+## [0.3.0-beta.7] - 2026-10-27
+
+### Changed
+- Localizes the app's user-facing workflows in English and French, including menus, dialogs, status messages, errors, previews, and export actions.
+- Replaces the short French README with a detailed English project guide, badges, installation instructions, feature overview, and shortcuts.
+- Translates the remaining repository documentation to English and updates the Windows Store package description.
+
+### Added
+- Adds embedded English and French JSON translation catalogs and documents the community contribution workflow.
 
 ## [0.3.0-beta.6] - 2026-10-26
 
 ### Changed
-- Renomme l’application, ses installateurs et ses archives de distribution en markdim.
-- Ajoute le manifeste et le script de préparation du paquet Windows Store au format MSIX, avec associations `.md` et `.markdown`.
+- Renames the application, installers, and distribution archives to markdim.
+- Adds the Windows Store MSIX manifest and package preparation script, including `.md` and `.markdown` associations.
 
 ## [0.3.0-beta.5] - 2026-10-26
 
 ### Fixed
-- Utilise IBM Plex Sans pour le texte et les titres du PDF; JetBrains Mono reste réservé aux blocs de code.
+- Uses IBM Plex Sans for PDF text and headings; JetBrains Mono remains reserved for code blocks.
 
 ## [0.3.0-beta.4] - 2026-10-26
 
 ### Changed
-- Remplace QuestPDF par PDFsharp-MigraDoc 6.2.4 (MIT) pour la génération PDF.
-- Épingle System.Security.Cryptography.Pkcs à 8.0.2 pour éviter les avis CVE de la version transitive précédente.
+- Replaces QuestPDF with PDFsharp-MigraDoc 6.2.4 (MIT) for PDF generation.
+- Pins System.Security.Cryptography.Pkcs to 8.0.2 to avoid CVE advisories against the previous transitive version.
 
 ## [0.3.0-beta.3] - 2026-10-26
 
 ### Added
-- Ajoute des paquets installables `.deb` pour Debian/Ubuntu sur x64 et ARM64, avec entrée de menu, icône et association « Ouvrir avec ».
-- Conserve l’archive `.tar.gz` portable pour les autres distributions Linux.
+- Adds installable `.deb` packages for Debian/Ubuntu on x64 and ARM64, with menu entry, icon, and Open With association.
+- Keeps the portable `.tar.gz` archive for other Linux distributions.
 
 ## [0.3.0-beta.2] - 2026-10-26
 
 ### Added
-- Ajoute un installateur graphique Windows `.exe` avec raccourcis et désinstallation propre de l’association `.md`.
-- Garde l’archive ZIP portable disponible à côté de l’installateur.
+- Adds a graphical Windows `.exe` installer with shortcuts and clean removal of the `.md` association.
+- Keeps the portable ZIP archive alongside the installer.
 
 ## [0.3.0-beta.1] - 2026-10-26
 
 ### Beta
-- Première préversion publique Windows de markdim, éditeur Markdown multiplateforme avec aperçu en direct, onglets et export PDF.
-- La préversion ne distribue qu’un paquet Windows x64; les plateformes macOS et Linux seront publiées après validation dédiée.
+- First public Windows preview of markdim, a cross-platform Markdown editor with live preview, tabs, and PDF export.
+- This preview ships only as a Windows x64 package; macOS and Linux releases will follow platform-specific validation.
 
 ## [0.2.34] - 2026-10-25
 
 ### Fixed
-- Révèle aussi horizontalement la ligne et le caret de chaque résultat de recherche, y compris lorsque l’occurrence déborde à droite.
+- Horizontally reveals the line and caret for each search result, including matches extending beyond the viewport.
 
 ## [0.2.33] - 2026-10-25
 
 ### Changed
-- Valide la recherche du document avec Entrée (Maj+Entrée pour l’occurrence précédente) sans quitter le champ, et donne le focus au champ après ouverture depuis le menu.
+- Confirms a document search with Enter (Shift+Enter for the previous match) without leaving the search field, and focuses the field when opened from the menu.
 
 ## [0.2.32] - 2026-10-25
 
 ### Changed
-- Présente les raccourcis clavier dans une grille à deux colonnes réellement alignées, indépendante de la police proportionnelle du système.
+- Presents keyboard shortcuts in a genuinely aligned two-column grid, independent of the system's proportional font.
 
 ## [0.2.31] - 2026-10-25
 
 ### Changed
-- Utilise la police d’interface par défaut de la plateforme au lieu d’embarquer IBM Plex Sans; conserve JetBrains Mono NL dans l’éditeur.
+- Uses each platform's default UI font instead of bundling IBM Plex Sans; retains JetBrains Mono NL in the editor.
 
 ## [0.2.30] - 2026-10-25
 
 ### Fixed
-- Conserve le pinceau de texte contrasté du bouton d’association quand son libellé est actualisé dans Paramètres.
-- Fixe directement les états de survol des boutons modaux afin que les boutons principaux gardent un fond d’accent foncé et un texte contrasté.
+- Preserves the association button's contrasting text brush when its label is updated in Settings.
+- Sets modal button hover states directly so primary buttons retain a dark accent background and readable text.
 
 ## [0.2.29] - 2026-10-25
 
 ### Changed
-- Simplifie l’état de l’association Markdown; n’affiche plus le chemin complet de l’autre installation.
+- Simplifies the Markdown association status and no longer displays the other installation's full path.
 
 ## [0.2.28] - 2026-10-25
 
 ### Fixed
-- Améliore la lisibilité réelle des modales : corps en 16 px semi-gras et couleurs fortes sur le texte rendu par les présentateurs de cases à cocher Fluent.
-- Vérifie visuellement les modales À propos, Raccourcis et Paramètres en thèmes clair et sombre par captures du rendu Avalonia.
+- Improves modal readability with 16 px semibold body text and strong colors on text rendered by Fluent checkbox presenters.
+- Visually verifies About, Shortcuts, and Settings dialogs in light and dark themes using Avalonia render captures.
 
 ## [0.2.27] - 2026-10-25
 
 ### Fixed
-- Cible enfin tous les textes visuels réellement présents dans les fenêtres modales après leur ouverture, sans dépendre de leur position sous un `ScrollViewer`.
-- Ajoute une capture et un relevé des couleurs effectives des modales en mode `--debug-modal=about|shortcuts|settings` pour vérifier le rendu produit.
+- Targets all visual text in modal windows after they open, without depending on their position under a `ScrollViewer`.
+- Adds a capture and report of effective modal colors in `--debug-modal=about|shortcuts|settings` mode.
 
 ## [0.2.26] - 2026-10-25
 
 ### Fixed
-- Applique les couleurs contrastées des textes de dialogue après l’ouverture, une fois les fenêtres et templates Fluent réellement matérialisés.
+- Applies contrasting dialog text colors after windows and Fluent templates have been materialized.
 
 ## [0.2.25] - 2026-10-25
 
 ### Fixed
-- Force l’héritage du thème clair/sombre et des couleurs de texte à contraste élevé dans toutes les fenêtres modales, y compris leurs boutons.
+- Forces light/dark theme inheritance and high-contrast text colors in every modal window, including its buttons.
 
 ## [0.2.24] - 2026-10-25
 
 ### Fixed
-- Supprime le traitement spécial qui empêchait le menu « Fichier » de suivre les mêmes états Fluent que les autres menus.
-- Relie les couleurs de sélection ListBox/ComboBox (normal, survol, pression) aux couleurs contrastées du thème clair ou sombre.
+- Removes special handling that prevented the File menu from using the same Fluent states as other menus.
+- Connects ListBox/ComboBox selection colors (normal, hover, and pressed) to contrasting light/dark theme colors.
 
 ## [0.2.23] - 2026-10-25
 
 ### Fixed
-- Remplace la palette claire grise et trop uniforme par une hiérarchie papier blanc / coque gris clair / bibliothèque légèrement teintée, avec texte plus dense.
-- Renforce nettement le fond de survol des menus et couvre les états pointeur, sélection et pression des contrôles Fluent.
-- Applique directement les pinceaux du thème aux fenêtres modales et au contenu textuel, avec fonds blancs explicites.
-- Vérifie le contraste AA du texte courant (4,5:1 minimum) pour les surfaces et tokens des deux thèmes.
+- Replaces the flat gray light palette with a clearer white-paper/light-shell/tinted-library hierarchy and denser text.
+- Strengthens menu hover backgrounds and covers Fluent pointer, selected, and pressed states.
+- Applies theme brushes directly to modal windows and text content, with explicit white backgrounds.
+- Verifies AA contrast for body text (4.5:1 minimum) across surfaces and tokens in both themes.
 
 ## [0.2.22] - 2026-10-25
 
 ### Fixed
-- Force un contraste explicite pour les tooltips, les libellés d’onglets, le plan du document et la liste de fichiers dans les deux thèmes.
-- Rend les watermarks des champs de recherche entièrement opaques et journalise leur application effective en mode debug.
+- Forces explicit contrast for tooltips, tab labels, document outline, and file list in both themes.
+- Makes search-field watermarks fully opaque and logs their effective application in debug mode.
 
 ## [0.2.21] - 2026-10-25
 
 ### Fixed
-- Applique les couleurs markdim au contenu réel des présentateurs Fluent pour les menus, onglets, listes, sélections et boutons (pas seulement au contrôle parent).
-- Rend le mode clair noir sur des surfaces grises et renforce les libellés de bibliothèque/plan.
+- Applies markdim colors to the actual Fluent presenters for menus, tabs, lists, selections, and buttons, not just their parent controls.
+- Makes light mode black-on-gray and strengthens library/outline labels.
 
 ## [0.2.20] - 2026-10-25
 
 ### Fixed
-- Assombrit fortement le texte du thème clair et augmente le poids des titres de fichier et libellés pour répondre à la demande « noir sur gris ».
-- Force l’accent de sélection des listes à être opaque, avec texte blanc lisible; configure aussi les popups de menu selon le thème.
-- Le mode debug capture séparément le popup Fichier et inscrit ses couleurs/opacités effectives.
+- Darkens light-theme text substantially and increases file-title and label weight for the requested black-on-gray appearance.
+- Makes list selection accents opaque with readable white text and configures menu popups by theme.
+- Debug mode separately captures the File popup and records its effective colors and opacity.
 
 ## [0.2.19] - 2026-10-25
 
 ### Fixed
-- Applique explicitement les couleurs du thème aux menus Fluent qui continuaient d’utiliser leur palette système claire en mode sombre.
-- Renforce la palette claire avec des fonds gris lisibles et un texte sombre plus affirmé.
+- Explicitly applies theme colors to Fluent menus that continued to use the system light palette in dark mode.
+- Strengthens the light palette with readable gray surfaces and more assertive dark text.
 
 ## [0.2.18] - 2026-10-25
 
 ### Fixed
-- Renforce le texte clair en adoptant des fonds gris légèrement soutenus et des libellés noirs plus lourds.
-- Écrase les couleurs de sélection Fluent avec une couleur accent opaque et conserve le texte accentué contrasté.
-- Ajoute un export séparé du popup Fichier en debug, car il vit dans une fenêtre native distincte.
+- Strengthens light-theme text with slightly darker gray surfaces and heavier black labels.
+- Overrides Fluent selection colors with an opaque accent and retains contrasting text.
+- Adds a separate debug export of the File popup, which lives in a separate native window.
 
 ## [0.2.17] - 2026-10-25
 
 ### Fixed
-- Passe le thème clair à des surfaces grises distinctes avec texte presque noir et typographie renforcée.
-- Applique explicitement les couleurs de survol et de texte aux menus déroulants Fluent.
-- Ajoute un mode debug qui peut ouvrir le menu Fichier dans une capture pour valider ses couleurs.
+- Changes light mode to distinct gray surfaces with near-black text and stronger typography.
+- Explicitly applies hover and text colors to Fluent dropdown menus.
+- Adds a debug mode that can open the File menu in a capture to verify its colors.
 
 ## [0.2.16] - 2026-10-25
 
 ### Fixed
-- Adopte un vrai canevas gris clair avec texte quasi noir et poids typographique plus marqué pour la lisibilité.
-- Ouvre le menu Fichier dans les captures de diagnostic avec `--debug-menu`, pour vérifier ses couleurs en clair et en sombre.
-- Configure la sélection et les popups de menu avec des surfaces et textes assortis à chaque thème.
+- Uses a true light-gray canvas, near-black text, and stronger type for readability.
+- Opens the File menu in diagnostic captures with `--debug-menu` to verify light and dark colors.
+- Configures list selection and menu popups with surfaces and text matching each theme.
 
 ## [0.2.15] - 2026-10-25
 
 ### Fixed
-- Évite l’exception visuelle quand une image est le seul contenu d’un paragraphe; détache le bloc avant son insertion finale.
-- Rend les images Markdown dans des blocs séparés afin qu’elles ne soient plus rognées à la hauteur d’une ligne de texte.
-- Conserve les liens automatiques de l’éditeur dans la couleur du thème au lieu du bleu par défaut d’AvaloniaEdit.
-- Renforce le texte courant clair et les labels avec des valeurs plus sombres et un poids supérieur.
+- Avoids a visual-tree exception when an image is the only paragraph content by detaching the block before final insertion.
+- Renders Markdown images in separate blocks so they are no longer clipped to text-line height.
+- Keeps editor autolinks in the theme color instead of AvaloniaEdit's default blue.
+- Strengthens light-theme body text and labels with darker colors and higher weight.
 
 ## [0.2.14] - 2026-10-25
 
 ### Fixed
-- Détache correctement les blocs d’image issus d’un paragraphe avant leur insertion dans l’aperçu, au lieu de déclencher `A visual is already attached to another control`.
-- Applique le pinceau de thème d’AvaloniaEdit aux URL automatiques de l’éditeur et dimensionne les paragraphes d’image comme des blocs.
-- Renforce la typographie courante claire.
+- Detaches preview image blocks from their original paragraph before inserting them, avoiding `A visual is already attached to another control`.
+- Applies AvaloniaEdit's theme brush to automatic URLs in the editor and sizes image paragraphs as blocks.
+- Strengthens light-theme typography.
 
 ### Added
-- Capture debug avec état effectif des contrôles (opacité/foreground/enabled) et trace détaillée de chaque phase de connexion/décodage d’image.
+- Debug capture with effective control state (opacity/foreground/enabled) and detailed image connection/decoding phases.
 
 ## [0.2.13] - 2026-10-25
 
 ### Fixed
-- Rend les images Markdown autonomes en blocs, hors des lignes de texte qui les coupaient.
-- Garde les téléchargements d’images pendant les détachements transitoires du visual tree; annule seulement après un vrai retrait prolongé.
-- Lie la couleur des liens automatiques de l’éditeur au pinceau du thème et renforce les poids typographiques du thème clair.
+- Renders Markdown images as standalone blocks instead of clipping them to text lines.
+- Keeps remote image downloads alive through transient visual-tree detachments; cancels only after a sustained removal.
+- Connects editor autolink colors to the theme brush and strengthens light-theme font weights.
 
 ## [0.2.12] - 2026-10-25
 
 ### Fixed
-- Force les hyperliens automatiques AvaloniaEdit à utiliser le pinceau de lien markdim au lieu du bleu système par défaut.
-- Diffère l’annulation réseau d’une image pendant 750 ms pour ignorer les détachements transitoires de layout; une vraie navigation annule toujours les téléchargements obsolètes.
-- Rend les images Markdown comme blocs autonomes plutôt que comme objets inline coupés par la hauteur de ligne.
-- Augmente le contraste et le poids du texte courant en thème clair.
+- Forces AvaloniaEdit automatic hyperlinks to use the markdim link brush instead of the system blue.
+- Delays image request cancellation by 750 ms to ignore transient layout detachments; real navigation still cancels obsolete downloads.
+- Renders Markdown images as standalone blocks instead of clipped inline objects.
+- Improves light-theme text contrast and weight.
 
 ## [0.2.11] - 2026-10-25
 
 ### Fixed
-- Utilise le pinceau du thème pour les hyperliens automatiques de l’éditeur (AvaloniaEdit les peignait en bleu système par défaut).
-- Ne coupe plus le téléchargement d’une image lors d’un détachement transitoire pendant la mise en page; les previews lui attribuent une taille après décodage.
-- Renforce le poids du texte courant de l’aperçu clair pour rendre la lecture plus nette.
+- Uses the theme brush for editor autolinks (AvaloniaEdit previously painted them in the system default blue).
+- Avoids canceling image downloads during transient layout detachments and assigns previews a size after decoding.
+- Strengthens light-theme preview body text.
 
 ### Added
-- Ajoute le mode `--debug` avec journal et capture (`--debug-capture`, `--debug-theme=light|dark`).
+- Adds `--debug` logging and capture options (`--debug-capture`, `--debug-theme=light|dark`).
 
 ## [0.2.10] - 2026-10-25
 
 ### Added
-- Mode `--debug` avec journal de diagnostic exploitable et captures PNG à la demande (`Ctrl+Maj+F12`) ou au démarrage (`--debug-capture`).
-- Surcharge de thème pour capturer séparément Light ou Dark (`--debug-theme=light|dark`).
+- Adds `--debug` logging and on-demand PNG captures (`Ctrl+Shift+F12`) or startup capture (`--debug-capture`).
+- Adds a theme override for separate Light or Dark captures (`--debug-theme=light|dark`).
 
 ### Fixed
-- Corrige le bleu système automatique des URL dans l’éditeur avec le pinceau dédié au thème.
-- Dimensionne la preview des images distantes décodées à partir de leur taille réelle.
+- Replaces the editor's automatic system-blue URLs with the theme-specific link brush.
+- Sizes decoded remote-image previews from their actual dimensions.
 
 ## [0.2.9] - 2026-10-25
 
 ### Added
-- Mode `--debug` : journalise les couleurs Fluent réellement activées et les résultats du chargement d’images; `Ctrl+Maj+F12` exporte une capture locale du rendu.
-- Le chargement des images distantes borne les requêtes et pixels décodés, refuse les hôtes non publics et n’effectue pas de redirections.
-- Dimensionne les images distantes décodées pour leur donner une place visible dans le preview.
+- Adds `--debug` logging of effective Fluent colors and image-load results; `Ctrl+Shift+F12` saves a local render capture.
+- Bounds remote image requests and decoded pixels, rejects non-public hosts, and disables redirects.
+- Sizes decoded remote images so they are visible in the preview.
 
 ## [0.2.8] - 2026-10-25
 
 ### Fixed
-- Dimensionne explicitement les images distantes décodées à partir de leurs pixels, pour qu’elles prennent une taille visible dans la mise en page du preview.
+- Explicitly sizes decoded remote images from their pixel dimensions so they occupy visible space in the preview layout.
 
 ## [0.2.7] - 2026-10-25
 
 ### Fixed
-- Configure le thème Fluent depuis ses palettes officielles markdim pour rendre les couleurs réellement cohérentes sur les contrôles natifs.
-- Affiche les images Markdown HTTPS distantes en plus des images relatives locales, avec validation DNS publique, HTTPS strict et limites mémoire/décodeur.
+- Configures Fluent from the markdim palettes so native controls use consistent theme colors.
+- Displays HTTPS remote Markdown images as well as local relative images, with public-DNS validation, strict HTTPS, and memory/decoder limits.
 
 ## [0.2.6] - 2026-10-25
 
 ### Fixed
-- Remplace les overrides dispersés des couleurs Fluent par les palettes officielles clair/sombre `ColorPaletteResources`, configurées depuis les tokens audités.
-- Conserve un token de lien dédié par thème et applique explicitement le contraste des watermarks après chargement des templates.
+- Replaces scattered Fluent color overrides with official light/dark `ColorPaletteResources` configured from audited tokens.
+- Keeps a dedicated link token per theme and explicitly applies watermark contrast after templates load.
 
 ## [0.2.5] - 2026-10-25
 
 ### Fixed
-- Configure les palettes Fluent Light/Dark officielles avec les tokens de contraste de markdim, au lieu de patcher ses ressources internes contrôle par contrôle.
-- Retire effectivement l’opacité de 50 % du watermark des champs de recherche une fois les templates appliqués.
-- Le plan force maintenant une seconde mise à jour du défilement après le layout de l’éditeur.
+- Configures official Fluent Light/Dark palettes with markdim contrast tokens instead of patching internal resources control by control.
+- Removes the search watermark's 50% opacity after templates are applied.
+- Makes the outline perform a second scroll update after the editor layout completes.
 
 ## [0.2.4] - 2026-10-25
 
 ### Fixed
-- Force la couleur du texte de chaque run de l’aperçu selon le thème, pour empêcher l’héritage de couleurs trop pâles.
-- Le plan positionne maintenant le caret, sélectionne le titre et force le défilement de l’éditeur jusqu’à la ligne choisie.
-- Applique explicitement la couleur de lien du thème au texte de l’éditeur et de l’aperçu.
+- Forces every preview text run to use the current theme, preventing overly pale inherited colors.
+- Makes the document outline position the caret, select the heading, and scroll the editor to the chosen line.
+- Explicitly applies the theme link color to editor and preview text.
 
 ## [0.2.3] - 2026-10-25
 
 ### Fixed
-- Renforce le contraste des listes sélectionnées, des menus et des champs de recherche; retire l’atténuation translucide des textes indicatifs.
-- Vérifie toutes les paires texte/fond des palettes, ainsi que les couleurs des syntaxes Markdown/code en thèmes clair et sombre.
+- Strengthens contrast for selected lists, menus, and search fields; removes translucent attenuation from hint text.
+- Verifies all text/background pairs and Markdown/code syntax colors in both themes.
 
 ## [0.2.2] - 2026-10-25
 
 ### Fixed
-- Remplace les bleus à faible contraste en mode sombre pour les liens de l’éditeur et de l’aperçu.
-- Applique une palette syntaxique contrôlée par markdim à tous les langages des blocs de code, avec vérification WCAG AA en thèmes clair et sombre.
+- Replaces low-contrast dark-theme blues for editor and preview links.
+- Applies a markdim-controlled syntax palette to all code-block languages and verifies WCAG AA in light and dark themes.
 
 ## [0.2.1] - 2026-10-25
 
 ### Added
-- Réorganisation des onglets par glisser-déposer.
-- Recherche dans l’éditeur avec défilement automatique à chaque occurrence trouvée.
-- Couleur des liens Markdown adaptée au thème et vérifiée avec un contraste WCAG AA; les autres caractères source restent sans coloration.
+- Adds drag-and-drop tab reordering.
+- Adds editor search with automatic scrolling to each match.
+- Adds theme-aware Markdown link colors verified for WCAG AA; other source characters remain unhighlighted.
 
 ## [0.2.0] - 2026-10-25
 
 ### Added
-- Limites de ressources et chargement asynchrone pour les documents, dossiers et aperçus; chemins d’images et liens externes filtrés.
-- Recherche/remplacement, plan du document et ouverture par glisser-déposer.
-- Export PDF avec blocs de code et remplacement atomique du fichier de destination.
+- Adds resource limits and asynchronous loading for documents, folders, and previews; filters image paths and external links.
+- Adds find/replace, document outline, and drag-and-drop opening.
+- Adds PDF export with code blocks and atomic destination replacement.
 
 ### Fixed
-- Préserve l’encodage et les fins de ligne à la sauvegarde, avec écriture atomique.
-- Accepte les chemins d’images locales valides même avant la création du fichier cible.
+- Preserves file encoding and line endings on save, using atomic writes.
+- Accepts valid local image paths even before the target file has been created.
 
 ## [0.1.31] - 2026-10-25
 
 ### Changed
-- Remplace l’icône historique par le symbole vectoriel fourni, avec fond ardoise et accent bleu assortis au thème markdim; met à jour l’icône Windows multi-résolution.
+- Replaces the legacy icon with the supplied vector symbol, matching the slate background and blue accent, and updates the multi-resolution Windows icon.
 
 ## [0.1.30] - 2026-10-25
 
 ### Changed
-- Renforce la lisibilité des en-têtes de panneaux, métadonnées de bibliothèque et textes de la barre d’état par une taille et un contraste accrus.
+- Improves readability of panel headers, library metadata, and status-bar text with larger type and stronger contrast.
 
 ## [0.1.29] - 2026-10-25
 
 ### Changed
-- Utilise les trois icônes SVG fournies pour la navigation et le bouton d’ouverture de dossier, avec ressources de couleur adaptées aux thèmes clair et sombre.
+- Uses the supplied three SVG icons for navigation and folder opening, with light/dark color variants.
 
 ## [0.1.28] - 2026-10-25
 
 ### Changed
-- Adopte le duo typographique IBM Plex Sans pour l’interface et JetBrains Mono NL pour le code.
+- Adopts IBM Plex Sans for the UI and JetBrains Mono NL for code.
 
 ## [0.1.27] - 2026-10-25
 
 ### Changed
-- Ouvre Paramètres et Raccourcis clavier dans des fenêtres redimensionnables non modales, avec corps défilant et pied de page fixe.
-- Rend le contenu des autres fenêtres d’aide et de confirmation défilant, en gardant leurs actions en pied de fenêtre.
+- Moves Settings and Keyboard Shortcuts into resizable, non-modal windows with a scrollable body and fixed footer.
+- Makes the other help and confirmation window content scrollable while keeping actions in the footer.
 
 ## [0.1.26] - 2026-10-25
 
 ### Changed
-- Remplace Geist Mono par JetBrains Mono NL pour l’éditeur et le code, choisi pour sa lisibilité et ses caractères distincts; conserve Geist pour l’interface.
+- Replaces Geist Mono with JetBrains Mono NL for the editor and code, chosen for readability and distinct characters; retains Geist for the UI.
 
 ## [0.1.25] - 2026-10-25
 
 ### Fixed
-- Embarque des variantes Geist Mono sans substitutions de ligatures `#`, afin que l’éditeur affiche les caractères source séparément.
+- Bundles static regular/bold/italic Geist Mono variants without `#` ligature substitutions so source characters remain separate in the editor.
 
 ## [0.1.24] - 2026-10-25
 
 ### Fixed
-- Met à jour AvaloniaEdit en 11.2.0 pour corriger le rendu des caractères répétés dans l’éditeur.
+- Updates AvaloniaEdit to 11.2.0 to fix repeated-character rendering in the editor.
 
 ## [0.1.23] - 2026-10-25
 
 ### Changed
-- Retire la coloration syntaxique de l’éditeur source pour préserver la visibilité exacte de tous les caractères.
-- Affiche les espaces, tabulations et fins de ligne par défaut, avec deux options indépendantes dans les paramètres.
+- Removes source-editor syntax highlighting to preserve exact visibility of every character.
+- Shows spaces, tabs, and line endings by default, with two independent Settings options.
 
 ## [0.1.22] - 2026-10-25
 
 ### Fixed
-- Retire le gras du surlignage des lignes de titre dans l’éditeur pour préserver l’affichage de chaque marqueur `#`.
+- Removes bold styling from editor heading highlights so every `#` marker remains visible.
 
 ## [0.1.21] - 2026-10-25
 
 ### Fixed
-- Désactive les ligatures dans les zones de code afin que chaque caractère Markdown saisi reste visible dans l’éditeur.
+- Disables ligatures in code areas so every typed Markdown character remains visible in the editor.
 
 ## [0.1.20] - 2026-10-25
 
 ### Fixed
-- Utilise les variantes statiques régulière/gras/italique de Geist Mono pour stabiliser le rendu du texte Markdown accentué dans l’éditeur.
-- Aligne la géométrie des icônes de navigation dans une boîte de rendu commune.
+- Uses static regular/bold/italic Geist Mono variants to stabilize accented Markdown rendering in the editor.
+- Aligns navigation icon geometry within a shared render box.
 
 ## [0.1.19] - 2026-10-25
 
 ### Added
-- Commande « Nouveau » (Ctrl+N) pour créer un document Markdown vierge; Enregistrer le dirige vers Enregistrer sous.
+- Adds a New command (`Ctrl+N`) for blank Markdown documents; Save opens Save As for untitled documents.
 
 ### Fixed
-- Contraste du bouton destructif « Abandonner » conforme à 4,5:1 en thèmes clair et sombre.
-- Alignement central explicite des boutons contenant les icônes de dossier.
+- Brings the destructive Discard button to 4.5:1 contrast in light and dark themes.
+- Explicitly centers folder icons in their buttons.
 
 ## [0.1.18] - 2026-10-25
 
 ### Added
-- Commande « Enregistrer sous… » pour créer une copie Markdown et continuer l’édition sous le nouveau nom.
+- Adds **Save As…** to create a Markdown copy and continue editing under its new name.
 
 ### Changed
-- Boutons des fenêtres modales visibles, différenciés selon l’action et alignés dans un pied de dialogue pleine largeur.
+- Makes modal buttons visible, distinguishes actions by role, and aligns them in a full-width footer.
 
 ## [0.1.17] - 2026-10-25
 
 ### Changed
-- Toute la ligne d’un fichier de la bibliothèque cible maintenant les clics et le menu contextuel.
-- Remplace Inter et les polices de code système par Geist pour l’interface/aperçu et Geist Mono pour l’éditeur et le code.
+- Makes the whole file row in the library respond to clicks and context-menu actions.
+- Replaces Inter and system code fonts with Geist for the UI/preview and Geist Mono for the editor/code.
 
 ## [0.1.16] - 2026-10-25
 
 ### Added
-- Menu contextuel dans la bibliothèque (clic droit) pour fermer le document visé, avec protection des modifications non enregistrées.
+- Adds a library context menu (right-click) to close the selected document, with unsaved-change protection.
 
 ## [0.1.15] - 2026-10-25
 
 ### Changed
-- Réduit et centre l’icône de fermeture des onglets.
+- Shrinks and centers the tab close icon.
 
 ## [0.1.14] - 2026-10-25
 
 ### Fixed
-- Évite le double remplacement du texte de l’éditeur lors de la fermeture du dernier document.
-- Remplace la marge AvaloniaEdit des blocs de code de l’aperçu par une gouttière de numéros stable, après un crash signalé à la fermeture d’un document.
+- Avoids a duplicate editor-text replacement when closing the final document.
+- Replaces preview code-block line-number margins with a stable gutter after a reported close-document crash.
 
 ## [0.1.13] - 2026-10-25
 
 ### Added
-- Sous-menu « Ouvrir récent » avec les cinq derniers fichiers Markdown, mémorisés entre les sessions.
-- Action pour effacer la liste; les chemins manquants sont retirés lorsqu’ils sont sélectionnés.
+- Adds an **Open Recent** submenu with the five most recently used Markdown files, persisted between sessions.
+- Adds an action to clear the list; missing paths are removed when selected.
 
 ## [0.1.12] - 2026-10-25
 
 ### Added
-- Démarrage de la fenêtre en mode maximisé et bascule plein écran avec F11 ou le menu Affichage.
-- Zoom du texte de l’éditeur avec Ctrl+molette, mémorisé entre les sessions.
-- Plage de taille de texte étendue de 8 à 32 points.
+- Starts the window maximized and toggles full screen with F11 or the View menu.
+- Adds `Ctrl` + mouse-wheel editor zoom, persisted between sessions.
+- Extends editor text size range from 8 to 32 pt.
 
 ## [0.1.11] - 2026-10-25
 
 ### Fixed
-- Contraste insuffisant des libellés secondaires en thème clair.
-- Aperçu Markdown et onglets actualisés après un changement de thème pour éviter de conserver d’anciennes couleurs.
+- Improves low-contrast secondary labels in the light theme.
+- Refreshes Markdown preview and tabs after theme changes to avoid stale colors.
 
 ## [0.1.10] - 2026-10-25
 
 ### Added
-- Icône de fermeture sur chaque onglet et raccourci Ctrl+W, avec choix d’enregistrer ou d’abandonner les modifications.
-- Page d’accueil Markdown décrivant les fonctions de l’application, affichée quand aucun document n’est ouvert.
-- Préférence de démarrage pour ouvrir l’accueil ou reprendre le dernier document.
+- Adds a close icon to every tab and the `Ctrl+W` shortcut, with save/discard handling for unsaved changes.
+- Adds a Markdown home page describing app features, shown when no document is open.
+- Adds a startup preference to show the home page or resume the last document.
 
 ## [0.1.9] - 2026-10-25
 
 ### Added
-- Bouton Copier dans l’en-tête de chaque bloc de code de l’aperçu, avec retour d’état.
-- Barre d’état avec document, position du curseur et compte des lignes/caractères.
+- Adds a Copy button to each preview code-block header, with status feedback.
+- Adds a status bar showing document, caret position, and line/character counts.
 
 ### Changed
-- Espacement plus lisible entre gouttière de numéros et texte, dans l’éditeur et les blocs de code.
-- Masque la scrollbar verticale des extraits courts; elle apparaît pour les blocs longs seulement.
+- Improves spacing between the line-number gutter and text in the editor and preview code blocks.
+- Hides the vertical scrollbar for short code samples; shows it only for long blocks.
 
 ## [0.1.8] - 2026-10-25
 
 ### Added
-- Bouton Copier dans l’en-tête de chaque bloc de code de l’aperçu, avec retour d’état.
+- Adds a Copy button to each preview code-block header, with status feedback.
 
 ### Changed
-- Gouttières des numéros de ligne et espacements intérieurs des blocs de code élargis.
-- Masque la scrollbar verticale des extraits courts; elle apparaît pour les blocs longs seulement.
+- Widens code-block line-number gutters and inner spacing.
+- Hides the vertical scrollbar for short samples; shows it only for long blocks.
 
 ## [0.1.7] - 2026-10-25
 
 ### Added
-- Bouton Copier et badge du langage dans chaque bloc de code de l’aperçu.
-- Barre d’état avec document, position du curseur et compte des lignes/caractères.
+- Adds a Copy button and language badge to each preview code block.
+- Adds a status bar showing document, caret position, and line/character counts.
 
 ### Changed
-- Espacement plus lisible entre gouttière de numéros et texte, dans l’éditeur et les blocs de code.
-- Scrollbar verticale des blocs de code uniquement lorsqu’ils dépassent la hauteur visible.
+- Improves spacing between line-number gutters and text in the editor and code blocks.
+- Shows vertical scrollbars in code blocks only when they exceed the visible height.
 
 ## [0.1.6] - 2026-10-25
 
 ### Added
-- Installateur de mise à jour Windows par utilisateur, qui réenregistre `.md`/`.markdown` sur la version fraîchement installée.
+- Adds a per-user Windows update installer that re-registers `.md`/`.markdown` with the newly installed release.
 
 ### Fixed
-- La commande Windows Ouvrir avec est actualisée vers le nouvel exécutable à chaque installation de release.
+- Updates the Windows Open With command to the new executable on every release install.
 
 ## [0.1.5] - 2026-10-25
 
 ### Added
-- Barre d’état avec chemin et nom du fichier actif, position curseur, nombre de lignes et caractères, encodage de sauvegarde.
-- Barre latérale persistante d’icônes pour restaurer bibliothèque, éditeur ou aperçu repliés.
+- Adds a status bar with active file path/name, caret position, line/character counts, and save encoding.
+- Adds a persistent icon rail to restore collapsed library, editor, or preview panels.
 
 ### Changed
-- Retire les chevrons de repli des en-têtes; la barre latérale sert de commande toujours visible.
-- Remplace le bouton texte « Ouvrir dossier » par une action icône compacte dans la bibliothèque.
+- Removes collapse chevrons from panel headers; the icon rail becomes the always-visible control.
+- Replaces the text-based Open Folder button with a compact icon action in the library.
 
 ## [0.1.4] - 2026-10-25
 
 ### Added
-- Aperçu basé sur Markdig pour CommonMark/GFM : autolinks, liens de référence, listes imbriquées, tableaux, tâches et HTML sûr.
-- Icônes vectorielles de dossier et de repli des panneaux.
+- Adds a Markdig-based preview for CommonMark/GFM: autolinks, reference links, nested lists, tables, tasks, and safe HTML.
+- Adds vector folder and panel-collapse icons.
 
 ### Changed
-- Déplace les paramètres d’interface dans le menu Fichier.
+- Moves UI settings into the File menu.
 
 ### Fixed
-- Corrige le plantage provoqué par un bloc de code imbriqué dans une liste numérotée.
-- Préserve le rendu et la structure HTML issue du Markdown dans l’aperçu.
+- Fixes a crash caused by a code block nested inside an ordered list.
+- Preserves Markdown-derived HTML rendering and structure in the preview.
 
 ## [0.1.3] - 2026-10-25
 
 ### Added
-- Version de l’application portée à `0.1.3`, affichée dans **Aide → À propos**.
-- Icône de marque SVG et icône Windows intégrées à l’application.
-- Une seule rangée de menu principale; les commandes restent accessibles dans ses menus.
-- Menus Fichier, Édition, Document et Aide, avec commandes accessibles au clavier.
-- Raccourcis pour ouvrir, enregistrer, exporter, chercher, changer et réordonner les documents.
-- Menu Paramètres avec options persistantes pour la taille de police, la bibliothèque, l’aperçu et les proportions de panneaux.
-- Séparateurs à glisser pour redimensionner la bibliothèque et les panneaux éditeur/aperçu.
-- Affichage/masquage indépendant des panneaux bibliothèque, éditeur et aperçu.
-- Thème clair/sombre persistant, également appliqué à l’aperçu Markdown.
-- Activation/retrait par utilisateur de markdim dans le menu Windows « Ouvrir avec » pour `.md` et `.markdown`.
-- Éditeur de code avec numéros de ligne et coloration Markdown accordée au thème clair/sombre.
-- Blocs de code d’aperçu avec coloration selon le langage de la fence, numéros de ligne, défilement borné et présentation affinée.
+- Sets the app version to `0.1.3` and displays it in **Help → About**.
+- Integrates the SVG brand icon and Windows icon.
+- Uses a single-row main menu; commands remain available in its menus.
+- Adds File, Edit, Document, and Help menus with keyboard-accessible commands.
+- Adds shortcuts for opening, saving, exporting, searching, switching, and reordering documents.
+- Adds persistent Settings for editor font size, library, preview, and panel proportions.
+- Adds draggable splitters for resizing the library and editor/preview panes.
+- Adds independent show/hide controls for the library, editor, and preview.
+- Adds a persistent light/dark theme, also applied to the Markdown preview.
+- Adds per-user Windows registration/removal of markdim in **Open with** for `.md` and `.markdown`.
+- Adds a code editor with line numbers and Markdown highlighting for both themes.
+- Adds syntax-highlighted preview code blocks with line numbers, bounded scrolling, and refined layout.
 
 ### Fixed
-- Charge l’assemblage Markdown complet requis au rendu; l’aperçu ne plante plus sur `NotSupportedException`.
-- Évite les changements de sélection involontaires lors du chargement ou du filtrage de la liste de documents.
-- Isole les erreurs de rendu Markdown et suspend l’aperçu au-delà de 500 000 caractères pour préserver la réactivité.
-- Garde les chemins de fichiers de la bibliothèque sur une ligne avec troncature et infobulle du chemin complet.
-- Journalise les exceptions fatales sans conserver le texte ni le chemin des documents.
+- Loads the complete Markdown assembly required for rendering; preview no longer fails with `NotSupportedException`.
+- Avoids unintended selection changes while loading or filtering the document list.
+- Isolates Markdown rendering errors and pauses preview above 500,000 characters to preserve responsiveness.
+- Keeps library file paths on one line with truncation and a tooltip containing the full path.
+- Logs fatal exceptions without retaining document text or paths.
 
 ## [0.1.0] - 2026-10-25
 
 ### Added
-- Première version de markdim : espace desktop d’édition et de lecture Markdown.
-- Ouverture de fichiers et dossiers, recherche de documents, onglets et aperçu en direct.
-- Export PDF local et journal de diagnostic local avec rotation, sans contenu ni chemin de document.
-- Tests unitaires du modèle document et workflows CI/release multi-plateforme.
+- First markdim release: a desktop Markdown reading and editing workspace.
+- Adds file/folder opening, document search, tabs, and live preview.
+- Adds local PDF export and a rotating local diagnostic log that excludes document contents and paths.
+- Adds unit tests for the document model and multi-platform CI/release workflows.

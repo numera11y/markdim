@@ -50,6 +50,7 @@ public partial class MainWindow : Window
     public MainWindow(IEnumerable<string>? startupPaths, bool captureAfterStartup = false)
     {
         InitializeComponent();
+        Localization.Apply(this, _settings.Language);
         _startupPaths = startupPaths?.ToArray() ?? [];
         _captureAfterStartup = captureAfterStartup;
         using (var iconStream = AssetLoader.Open(new Uri("avares://markdim/Assets/markdim.ico")))
@@ -107,7 +108,7 @@ public partial class MainWindow : Window
 
     private void ShowWelcome()
     {
-        const string welcomeMarkdown = "# markdim\n\nUn espace de travail pour lire, écrire et partager vos documents Markdown.\n\n## Écrire et prévisualiser\n\nModifiez le texte Markdown dans l’éditeur et consultez son rendu en direct dans le panneau d’aperçu.\n\n## Organiser vos documents\n\nOuvrez un fichier Markdown ou un dossier pour travailler avec plusieurs documents. Retrouvez-les dans la bibliothèque, recherchez par nom ou chemin, puis passez d’un onglet à l’autre.\n\n## Exporter et personnaliser\n\nExportez vos documents en PDF et adaptez l’apparence de l’application dans les paramètres. Vos fichiers restent sur votre appareil.\n\n### Pour commencer\n\nChoisissez **Fichier → Ouvrir un fichier** ou **Ouvrir un dossier**. Vous pouvez aussi déposer un fichier Markdown sur l’application.";
+        var welcomeMarkdown = Localization.Translate("# markdim\n\nUn espace de travail pour lire, écrire et partager vos documents Markdown.\n\n## Écrire et prévisualiser\n\nModifiez le texte Markdown dans l’éditeur et consultez son rendu en direct dans le panneau d’aperçu.\n\n## Organiser vos documents\n\nOuvrez un fichier Markdown ou un dossier pour travailler avec plusieurs documents. Retrouvez-les dans la bibliothèque, recherchez par nom ou chemin, puis passez d’un onglet à l’autre.\n\n## Exporter et personnaliser\n\nExportez vos documents en PDF et adaptez l’apparence de l’application dans les paramètres. Vos fichiers restent sur votre appareil.\n\n### Pour commencer\n\nChoisissez **Fichier → Ouvrir un fichier** ou **Ouvrir un dossier**. Vous pouvez aussi déposer un fichier Markdown sur l’application.");
         _activationRequest++;
         _activationCancellation?.Cancel();
         _previewTimer.Stop();
@@ -117,22 +118,25 @@ public partial class MainWindow : Window
         Title = "markdim";
         UpdatePreview(welcomeMarkdown);
         UpdateHeadingOutline(welcomeMarkdown);
-        StatusText.Text = "Ouvrez un fichier Markdown ou choisissez un dossier pour commencer.";
+        StatusText.Text = Localization.Translate("Ouvrez un fichier Markdown ou choisissez un dossier pour commencer.");
         UpdateStatusBar();
     }
 
     private void NewDocumentClick(object? sender, RoutedEventArgs e)
     {
         var number = 1;
+        int untitledNumber;
         string title;
         do
         {
-            title = number == 1 ? "Sans titre" : $"Sans titre {number}";
+            var untitled = Localization.Translate("Sans titre");
+            title = number == 1 ? untitled : $"{untitled} {number}";
             number++;
         }
         while (_documents.Any(document => document.IsUntitled && string.Equals(document.Title, title, StringComparison.CurrentCultureIgnoreCase)));
 
-        var document = DocumentTab.CreateUntitled(title);
+        untitledNumber = number - 1;
+        var document = DocumentTab.CreateUntitled(title, untitledNumber);
         _suppressFileSelection = true;
         try { _documents.Add(document); }
         finally { _suppressFileSelection = false; }
@@ -151,7 +155,7 @@ public partial class MainWindow : Window
         {
             if (_documents.Count >= MaximumOpenDocuments)
             {
-                StatusText.Text = $"Limite de {MaximumOpenDocuments} documents ouverts atteinte.";
+                StatusText.Text = Localization.Format("Limite de {0} documents ouverts atteinte.", MaximumOpenDocuments);
                 return;
             }
             existing = new DocumentTab(fullPath);
@@ -196,7 +200,7 @@ public partial class MainWindow : Window
         OpenRecentMenuItem.Items.Clear();
         if (_settings.RecentFiles.Count == 0)
         {
-            OpenRecentMenuItem.Items.Add(new MenuItem { Header = "Aucun fichier récent", IsEnabled = false });
+            OpenRecentMenuItem.Items.Add(new MenuItem { Header = Localization.Translate("Aucun fichier récent"), IsEnabled = false });
             return;
         }
 
@@ -204,13 +208,13 @@ public partial class MainWindow : Window
         {
             var item = new MenuItem { Header = Path.GetFileName(path), Tag = path };
             ToolTip.SetTip(item, path);
-            Avalonia.Automation.AutomationProperties.SetName(item, $"Ouvrir le fichier récent {Path.GetFileName(path)}");
+            Avalonia.Automation.AutomationProperties.SetName(item, Localization.Format("Ouvrir le fichier récent {0}", Path.GetFileName(path)));
             item.Click += (_, _) => OpenRecentFile(path);
             OpenRecentMenuItem.Items.Add(item);
         }
 
         OpenRecentMenuItem.Items.Add(new Separator());
-        var clearItem = new MenuItem { Header = "Effacer les fichiers récents" };
+        var clearItem = new MenuItem { Header = Localization.Translate("Effacer les fichiers récents") };
         clearItem.Click += ClearRecentFilesClick;
         OpenRecentMenuItem.Items.Add(clearItem);
     }
@@ -223,7 +227,7 @@ public partial class MainWindow : Window
             _settings.RecentFiles.RemoveAll(recent => comparer.Equals(recent, path));
             PersistSettingsSilently();
             RefreshRecentFilesMenu();
-            StatusText.Text = $"Fichier récent introuvable : {path}";
+            StatusText.Text = Localization.Format("Fichier récent introuvable : {0}", path);
             return;
         }
 
@@ -235,14 +239,14 @@ public partial class MainWindow : Window
         _settings.RecentFiles.Clear();
         PersistSettingsSilently();
         RefreshRecentFilesMenu();
-        StatusText.Text = "Liste des fichiers récents effacée.";
+        StatusText.Text = Localization.Translate("Liste des fichiers récents effacée.");
     }
 
     private async void OpenFileClick(object? sender, RoutedEventArgs e)
     {
         try
         {
-            var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions { Title = "Ouvrir un fichier Markdown", AllowMultiple = true, FileTypeFilter = new[] { new FilePickerFileType("Markdown") { Patterns = new[] { "*.md", "*.markdown" } } } });
+            var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions { Title = Localization.Translate("Ouvrir un fichier Markdown"), AllowMultiple = true, FileTypeFilter = new[] { new FilePickerFileType("Markdown") { Patterns = new[] { "*.md", "*.markdown" } } } });
             foreach (var file in files)
             {
                 using (file) await OpenPathAsync(file.Path.LocalPath);
@@ -251,14 +255,14 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             AppDiagnostics.Error("open-file-picker", ex);
-            StatusText.Text = $"Impossible d’ouvrir le sélecteur de fichiers : {ex.Message}";
+            StatusText.Text = Localization.Format("Impossible d’ouvrir le sélecteur de fichiers : {0}", ex.Message);
         }
     }
     private async void OpenFolderClick(object? sender, RoutedEventArgs e)
     {
         try
         {
-            var folders = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { Title = "Ouvrir un dossier", AllowMultiple = false });
+            var folders = await StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { Title = Localization.Translate("Ouvrir un dossier"), AllowMultiple = false });
             if (folders.Count > 0)
             {
                 using (folders[0]) await OpenFolderAsync(folders[0].Path.LocalPath);
@@ -267,7 +271,7 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             AppDiagnostics.Error("open-folder-picker", ex);
-            StatusText.Text = $"Impossible d’ouvrir le sélecteur de dossiers : {ex.Message}";
+            StatusText.Text = Localization.Format("Impossible d’ouvrir le sélecteur de dossiers : {0}", ex.Message);
         }
     }
     private async Task OpenFolderAsync(string folder)
@@ -307,10 +311,12 @@ public partial class MainWindow : Window
                 if (await ActivateAsync(folderDocuments[0])) RecordRecentFiles(folderDocuments.Select(document => document.Path));
             }
             StatusText.Text = truncated
-                ? $"Limite de {MaximumOpenDocuments} documents atteinte dans {Path.GetFileName(folder)}."
-                : $"{folderDocuments.Count} document{(folderDocuments.Count == 1 ? "" : "s")} Markdown ouverts depuis {Path.GetFileName(folder)}.";
+                ? Localization.Format("Limite de {0} documents atteinte dans {1}.", MaximumOpenDocuments, Path.GetFileName(folder))
+                : folderDocuments.Count == 1
+                    ? Localization.Format("1 document Markdown ouvert depuis {0}.", Path.GetFileName(folder))
+                    : Localization.Format("{0} documents Markdown ouverts depuis {1}.", folderDocuments.Count, Path.GetFileName(folder));
         }
-        catch (Exception ex) { AppDiagnostics.Error("open-folder", ex); StatusText.Text = $"Could not read folder: {ex.Message}"; }
+        catch (Exception ex) { AppDiagnostics.Error("open-folder", ex); StatusText.Text = Localization.Format("Impossible de lire le dossier : {0}", ex.Message); }
     }
     private async Task<bool> ActivateAsync(DocumentTab? document)
     {
@@ -328,7 +334,7 @@ public partial class MainWindow : Window
             catch (Exception ex)
             {
                 AppDiagnostics.Error("load-document", ex);
-                if (request == _activationRequest) StatusText.Text = $"Impossible d’ouvrir {document?.Title ?? "le document"} : {ex.Message}";
+                if (request == _activationRequest) StatusText.Text = Localization.Format("Impossible d’ouvrir {0} : {1}", document?.Title ?? Localization.Translate("le document"), ex.Message);
                 return false;
             }
 
@@ -349,7 +355,7 @@ public partial class MainWindow : Window
             {
                 AppDiagnostics.Error("activate-document", ex);
                 _active = previousActive;
-                StatusText.Text = $"Impossible d’afficher le document : {ex.Message}";
+                StatusText.Text = Localization.Format("Impossible d’afficher le document : {0}", ex.Message);
                 return false;
             }
             finally { _loading = false; }
@@ -367,7 +373,7 @@ public partial class MainWindow : Window
                 _tabRebuild = true;
                 try { FileList.SelectedItem = document; }
                 finally { _tabRebuild = false; }
-                StatusText.Text = "Prêt";
+                StatusText.Text = Localization.Translate("Prêt");
             }
             return true;
         }
@@ -385,7 +391,7 @@ public partial class MainWindow : Window
         {
             var active = document == _active;
             var button = new Button { Content = CreateTabLabel(document), Tag = document, Padding = new Avalonia.Thickness(12, 7), Background = Avalonia.Media.Brushes.Transparent, Foreground = AppTheme.TextBrush, BorderThickness = new Avalonia.Thickness(0), FontSize = 13, FontWeight = Avalonia.Media.FontWeight.Medium };
-            ToolTip.SetTip(button, $"{document.Title} — glisser pour réorganiser les onglets");
+            ToolTip.SetTip(button, Localization.Format("{0} — glisser pour réorganiser les onglets", document.Title));
             button.Click += (_, _) => _ = ActivateAsync((DocumentTab)button.Tag!);
             var dragStart = default(Avalonia.Point);
             var dragMoved = false;
@@ -440,8 +446,8 @@ public partial class MainWindow : Window
                     StrokeLineCap = Avalonia.Media.PenLineCap.Round
                 }
             };
-            ToolTip.SetTip(closeButton, $"Fermer {document.Title}");
-            Avalonia.Automation.AutomationProperties.SetName(closeButton, $"Fermer l’onglet {document.Title}");
+            ToolTip.SetTip(closeButton, Localization.Format("Fermer {0}", document.Title));
+            Avalonia.Automation.AutomationProperties.SetName(closeButton, Localization.Format("Fermer l’onglet {0}", document.Title));
             closeButton.Click += CloseTabClick;
             var tabContents = new StackPanel { Orientation = Avalonia.Layout.Orientation.Horizontal, Spacing = 2, VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center };
             tabContents.Children.Add(button);
@@ -496,10 +502,14 @@ public partial class MainWindow : Window
     private void UpdateStatusBar()
     {
         StatusFilePath.Text = _active is null
-            ? "Aucun document ouvert"
+            ? Localization.Translate("Aucun document ouvert")
             : _active.IsUntitled ? _active.Title : $"{_active.Title} — {_active.Path}";
-        StatusCursor.Text = $"Ln {Editor.TextArea.Caret.Line}, Col {Editor.TextArea.Caret.Column}";
-        StatusDocumentDetails.Text = $"{Editor.LineCount:N0} lignes · {(Editor.Text ?? "").Length:N0} caractères";
+        StatusCursor.Text = Localization.Format("Ligne {0}, colonne {1}", Editor.TextArea.Caret.Line, Editor.TextArea.Caret.Column);
+        var lineCount = Editor.LineCount;
+        var characterCount = (Editor.Text ?? "").Length;
+        StatusDocumentDetails.Text = lineCount == 1 && characterCount == 1
+            ? Localization.Translate("1 ligne · 1 caractère")
+            : Localization.Format("{0} lignes · {1} caractères", lineCount, characterCount);
         StatusEncoding.Text = "Markdown";
     }
 
@@ -576,7 +586,7 @@ public partial class MainWindow : Window
         {
             PreviewContent.Content = new TextBlock
             {
-                Text = "Ce document est volumineux. L’aperçu est suspendu pour garder l’application réactive; le texte source reste entièrement accessible dans l’éditeur.",
+                Text = Localization.Translate("Ce document est volumineux. L’aperçu est suspendu pour garder l’application réactive; le texte source reste entièrement accessible dans l’éditeur."),
                 FontSize = 16,
                 Foreground = AppTheme.SubtleTextBrush,
                 TextWrapping = Avalonia.Media.TextWrapping.Wrap,
@@ -595,7 +605,7 @@ public partial class MainWindow : Window
             AppDiagnostics.Error("render-preview", ex);
             PreviewContent.Content = new TextBlock
             {
-                Text = "L’aperçu n’a pas pu afficher ce document. Le texte source reste ouvert et modifiable.",
+                Text = Localization.Translate("L’aperçu n’a pas pu afficher ce document. Le texte source reste ouvert et modifiable."),
                 FontSize = 16,
                 Foreground = AppTheme.SubtleTextBrush,
                 TextWrapping = Avalonia.Media.TextWrapping.Wrap,
@@ -699,12 +709,12 @@ public partial class MainWindow : Window
         {
             UserSettingsStore.Save(settings);
             _settings = settings;
-            StatusText.Text = "Paramètres enregistrés.";
+            StatusText.Text = Localization.Translate("Paramètres enregistrés.");
         }
         catch (Exception ex)
         {
             AppDiagnostics.Error("save-settings", ex);
-            StatusText.Text = $"Impossible d’enregistrer les paramètres : {ex.Message}";
+            StatusText.Text = Localization.Format("Impossible d’enregistrer les paramètres : {0}", ex.Message);
         }
     }
 
@@ -742,10 +752,16 @@ public partial class MainWindow : Window
         Avalonia.Automation.AutomationProperties.SetName(sidebarWidth, "Largeur de la bibliothèque");
         var theme = new ComboBox
         {
-            ItemsSource = new[] { "Clair", "Sombre" },
+            ItemsSource = Localization.ResolveLanguage(_settings.Language) == "en" ? new[] { "Light", "Dark" } : new[] { "Clair", "Sombre" },
             SelectedIndex = _settings.ThemeMode == "Dark" ? 1 : 0
         };
         Avalonia.Automation.AutomationProperties.SetName(theme, "Thème de l’interface");
+        var language = new ComboBox
+        {
+            ItemsSource = Localization.ResolveLanguage(_settings.Language) == "en" ? new[] { "System default", "French", "English" } : new[] { "Système", "Français", "Anglais" },
+            SelectedIndex = _settings.Language switch { "fr" => 1, "en" => 2, _ => 0 }
+        };
+        Avalonia.Automation.AutomationProperties.SetName(language, "Langue");
         var showLibrary = new CheckBox { Content = "Afficher la bibliothèque", IsChecked = _settings.ShowLibrary };
         var showEditor = new CheckBox { Content = "Afficher l’éditeur", IsChecked = _settings.ShowEditor };
         var showPreview = new CheckBox { Content = "Afficher l’aperçu en direct", IsChecked = _settings.ShowPreview };
@@ -786,6 +802,8 @@ public partial class MainWindow : Window
                 sidebarWidth,
                 new TextBlock { Text = "Thème", FontWeight = Avalonia.Media.FontWeight.SemiBold, Margin = new Avalonia.Thickness(0, 8, 0, 0) },
                 theme,
+                new TextBlock { Text = "Langue", FontWeight = Avalonia.Media.FontWeight.SemiBold, Margin = new Avalonia.Thickness(0, 8, 0, 0) },
+                language,
                 showLibrary,
                 showEditor,
                 showPreview,
@@ -806,6 +824,7 @@ public partial class MainWindow : Window
             }
         };
         dialog.Content = CreateModalContent(settingsBody, cancel, save);
+        Localization.Apply(dialog, _settings.Language);
         dialog.Closed += (_, _) =>
         {
             _associationStatus = null;
@@ -825,6 +844,7 @@ public partial class MainWindow : Window
                 ShowWhitespaceCharacters = showWhitespace.IsChecked == true,
                 ShowLineEndings = showLineEndings.IsChecked == true,
                 ThemeMode = theme.SelectedIndex == 1 ? "Dark" : "Light",
+                Language = language.SelectedIndex switch { 1 => "fr", 2 => "en", _ => "System" },
                 ResumeLastDocument = resumeLastDocument.IsChecked == true,
                 LastDocumentPath = _settings.LastDocumentPath,
                 RecentFiles = _settings.RecentFiles
@@ -835,17 +855,31 @@ public partial class MainWindow : Window
                 UserSettingsStore.Save(settings);
                 _settings = settings;
                 ApplySettings();
-                StatusText.Text = "Paramètres enregistrés.";
+                Localization.Apply(this, _settings.Language);
+                foreach (var document in _documents) document.RefreshLocalizedLabels();
+                RebuildTabs();
+                RefreshFileList();
+                RefreshRecentFilesMenu();
+                if (_active is null) ShowWelcome();
+                else
+                {
+                    Title = $"markdim — {_active.Title}{(_active.Dirty ? " •" : "")}";
+                    UpdatePreview(_active.Text);
+                    UpdateStatusBar();
+                }
+                FindStatusText.Text = Localization.Translate(FindStatusText.Text ?? string.Empty);
+                StatusText.Text = Localization.Translate("Paramètres enregistrés.");
                 dialog.Close();
             }
             catch (Exception ex)
             {
                 AppDiagnostics.Error("save-settings", ex);
-                StatusText.Text = $"Impossible d’enregistrer les paramètres : {ex.Message}";
+                StatusText.Text = Localization.Format("Impossible d’enregistrer les paramètres : {0}", ex.Message);
                 if (_associationStatus is not null)
-                    _associationStatus.Text = $"Impossible d’enregistrer les paramètres : {ex.Message}";
+                    _associationStatus.Text = Localization.Format("Impossible d’enregistrer les paramètres : {0}", ex.Message);
             }
         };
+        Localization.Apply(dialog, _settings.Language);
         dialog.Show(this);
     }
 
@@ -876,14 +910,14 @@ public partial class MainWindow : Window
             else
                 FileAssociationService.RegisterCurrentApplication();
             UpdateAssociationControls();
-            StatusText.Text = FileAssociationService.IsRegistered
+            StatusText.Text = Localization.Translate(FileAssociationService.IsRegistered
                 ? "Ouvrir avec pointe vers cette version de markdim."
-                : "markdim a été retirée de Ouvrir avec.";
+                : "markdim a été retirée de Ouvrir avec.");
         }
         catch (Exception ex)
         {
             AppDiagnostics.Error("file-association", ex);
-            if (_associationStatus is not null) _associationStatus.Text = ex.Message;
+            if (_associationStatus is not null) _associationStatus.Text = Localization.Translate(ex.Message);
         }
     }
 
@@ -892,30 +926,30 @@ public partial class MainWindow : Window
         if (_associationStatus is null || _associationButton is null) return;
         if (!FileAssociationService.IsSupported)
         {
-            _associationStatus.Text = "L’association interactive est gérée par le paquet d’installation de ce système.";
-            SetModalButtonLabel(_associationButton, "Indisponible sur ce système");
+            _associationStatus.Text = Localization.Translate("L’association interactive est gérée par le paquet d’installation de ce système.");
+            SetModalButtonLabel(_associationButton, Localization.Translate("Indisponible sur ce système"));
             _associationButton.IsEnabled = false;
             return;
         }
 
         if (FileAssociationService.IsPackagedApplication)
         {
-            _associationStatus.Text = "Les associations .md et .markdown sont gérées par le paquet Microsoft Store.";
-            SetModalButtonLabel(_associationButton, "Gérées par le Microsoft Store");
+            _associationStatus.Text = Localization.Translate("Les associations .md et .markdown sont gérées par le paquet Microsoft Store.");
+            SetModalButtonLabel(_associationButton, Localization.Translate("Gérées par le Microsoft Store"));
             _associationButton.IsEnabled = false;
             return;
         }
 
         var registered = FileAssociationService.IsRegistered;
         var pointsToThisVersion = registered && FileAssociationService.IsRegisteredToCurrentApplication;
-        _associationStatus.Text = !registered
+        _associationStatus.Text = Localization.Translate(!registered
             ? "markdim n’est pas encore enregistrée dans Ouvrir avec."
             : pointsToThisVersion
                 ? "Ouvrir avec lance cette version de markdim."
-                : "L’association pointe vers une autre version de markdim.";
-        var label = !registered
+                : "L’association pointe vers une autre version de markdim.");
+        var label = Localization.Translate(!registered
             ? "Activer l’association"
-            : pointsToThisVersion ? "Désactiver l’association" : "Mettre à jour l’association";
+            : pointsToThisVersion ? "Désactiver l’association" : "Mettre à jour l’association");
         SetModalButtonLabel(_associationButton, label);
         _associationButton.IsEnabled = FileAssociationService.CanRegisterCurrentApplication || pointsToThisVersion;
     }
@@ -963,13 +997,13 @@ public partial class MainWindow : Window
         if (WindowState == Avalonia.Controls.WindowState.FullScreen)
         {
             WindowState = _windowStateBeforeFullScreen;
-            FullScreenMenuItem.Header = "Plein écran     F11";
+            FullScreenMenuItem.Header = Localization.Translate("Plein écran     F11");
             return;
         }
 
         _windowStateBeforeFullScreen = WindowState;
         WindowState = Avalonia.Controls.WindowState.FullScreen;
-        FullScreenMenuItem.Header = "Quitter le plein écran     F11";
+        FullScreenMenuItem.Header = Localization.Translate("Quitter le plein écran     F11");
     }
 
     private void EditorPointerWheelChanged(object? sender, PointerWheelEventArgs e)
@@ -982,7 +1016,7 @@ public partial class MainWindow : Window
             Editor.FontSize = fontSize;
             _settings.EditorFontSize = fontSize;
             PersistSettingsSilently();
-            StatusText.Text = $"Taille du texte : {fontSize:0} pt";
+            StatusText.Text = Localization.Format("Taille du texte : {0:0} pt", fontSize);
         }
         e.Handled = true;
     }
@@ -1023,7 +1057,7 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             AppDiagnostics.Error("drop-files", ex);
-            StatusText.Text = $"Impossible d’ouvrir les éléments déposés : {ex.Message}";
+            StatusText.Text = Localization.Format("Impossible d’ouvrir les éléments déposés : {0}", ex.Message);
         }
         finally { e.Handled = true; }
     }
@@ -1076,7 +1110,7 @@ public partial class MainWindow : Window
         var text = Editor.Text ?? "";
         if (query.Length == 0 || query.Length > text.Length)
         {
-            FindStatusText.Text = "Aucun résultat";
+            FindStatusText.Text = Localization.Translate("Aucun résultat");
             return false;
         }
 
@@ -1098,7 +1132,7 @@ public partial class MainWindow : Window
 
         if (match < 0)
         {
-            FindStatusText.Text = "Aucun résultat";
+            FindStatusText.Text = Localization.Translate("Aucun résultat");
             return false;
         }
 
@@ -1114,7 +1148,7 @@ public partial class MainWindow : Window
         }, DispatcherPriority.Loaded);
         if (keepSearchFocus) FindTextBox.Focus();
         else Editor.Focus();
-        FindStatusText.Text = $"Ligne {lineNumber}";
+        FindStatusText.Text = Localization.Format("Ligne {0}", lineNumber);
         return true;
     }
 
@@ -1133,7 +1167,7 @@ public partial class MainWindow : Window
         Editor.Document.Replace(start, Editor.SelectionLength, replacement);
         Editor.Select(start, replacement.Length);
         Editor.Focus();
-        FindStatusText.Text = "Occurrence remplacée";
+        FindStatusText.Text = Localization.Translate("Occurrence remplacée");
     }
 
     private void ReplaceAllClick(object? sender, RoutedEventArgs e)
@@ -1150,7 +1184,7 @@ public partial class MainWindow : Window
             if (match < 0) break;
             if (matches.Count == maximumReplacements)
             {
-                FindStatusText.Text = $"Plus de {maximumReplacements:N0} résultats; précisez votre recherche.";
+                FindStatusText.Text = Localization.Format("Plus de {0:N0} résultats; précisez votre recherche.", maximumReplacements);
                 return;
             }
             matches.Add(match);
@@ -1159,7 +1193,7 @@ public partial class MainWindow : Window
 
         if (matches.Count == 0)
         {
-            FindStatusText.Text = "Aucun résultat";
+            FindStatusText.Text = Localization.Translate("Aucun résultat");
             return;
         }
 
@@ -1172,7 +1206,9 @@ public partial class MainWindow : Window
                 document.Replace(matches[index], query.Length, replacement);
         }
         finally { document.EndUpdate(); }
-        FindStatusText.Text = $"{matches.Count:N0} occurrence{(matches.Count == 1 ? "" : "s")} remplacée{(matches.Count == 1 ? "" : "s")}";
+        FindStatusText.Text = matches.Count == 1
+            ? Localization.Translate("1 occurrence remplacée")
+            : Localization.Format("{0:N0} occurrences remplacées", matches.Count);
         Editor.Focus();
     }
 
@@ -1184,7 +1220,7 @@ public partial class MainWindow : Window
     {
         if (!AppDiagnostics.DebugEnabled)
         {
-            StatusText.Text = "Lancez markdim avec --debug pour activer les captures de diagnostic.";
+            StatusText.Text = Localization.Translate("Lancez markdim avec --debug pour activer les captures de diagnostic.");
             return;
         }
 
@@ -1217,13 +1253,13 @@ public partial class MainWindow : Window
                 bitmap.Render(this);
                 bitmap.Save(path);
                 AppDiagnostics.Debug("ui-capture", ("source", "render-target"), ("width", pixelSize.Width.ToString(System.Globalization.CultureInfo.InvariantCulture)), ("height", pixelSize.Height.ToString(System.Globalization.CultureInfo.InvariantCulture)));
-                StatusText.Text = $"Capture de diagnostic enregistrée : {path}";
+                StatusText.Text = Localization.Format("Capture de diagnostic enregistrée : {0}", path);
                 if (AppDiagnostics.DebugMenuOpen) CaptureDebugMenuScreenshot();
             }
             catch (Exception ex)
             {
                 AppDiagnostics.Error("ui-capture", ex);
-                StatusText.Text = "Impossible de créer la capture de diagnostic.";
+                StatusText.Text = Localization.Translate("Impossible de créer la capture de diagnostic.");
             }
         }, DispatcherPriority.Render);
     }
@@ -1276,7 +1312,7 @@ public partial class MainWindow : Window
             var path = AppDiagnostics.CreateScreenshotPath("menu");
             bitmap.Save(path);
             AppDiagnostics.Debug("ui-menu-capture", ("phase", "saved"), ("width", pixelSize.Width.ToString(System.Globalization.CultureInfo.InvariantCulture)), ("height", pixelSize.Height.ToString(System.Globalization.CultureInfo.InvariantCulture)));
-            StatusText.Text = $"Capture du menu enregistrée : {path}";
+            StatusText.Text = Localization.Format("Capture du menu enregistrée : {0}", path);
         }
         catch (Exception ex)
         {
@@ -1455,6 +1491,7 @@ public partial class MainWindow : Window
         {
             if (ReferenceEquals(_shortcutsWindow, dialog)) _shortcutsWindow = null;
         };
+        Localization.Apply(dialog, _settings.Language);
         dialog.Show(this);
     }
 
@@ -1495,7 +1532,7 @@ public partial class MainWindow : Window
                             Children =
                             {
                                 new TextBlock { Text = "markdim", FontSize = 25, FontWeight = Avalonia.Media.FontWeight.SemiBold },
-                                 new TextBlock { Text = $"Version {ProductInfo.Version}", FontSize = 14, Foreground = AppTheme.MutedTextBrush }
+                new TextBlock { Text = Localization.Format("Version {0}", ProductInfo.Version), FontSize = 14, Foreground = AppTheme.MutedTextBrush }
                             }
                         }
                     }
@@ -1518,6 +1555,7 @@ public partial class MainWindow : Window
             Content = CreateModalContent(body, closeButton)
         };
         ApplyModalWindowPalette(dialog);
+        Localization.Apply(dialog, _settings.Language);
         await dialog.ShowDialog(this);
     }
 
@@ -1554,7 +1592,7 @@ public partial class MainWindow : Window
         var document = _active;
         if (document is null)
         {
-            StatusText.Text = "Ouvrez un document avant d’utiliser Enregistrer sous.";
+            StatusText.Text = Localization.Translate("Ouvrez un document avant d’utiliser Enregistrer sous.");
             return;
         }
         await SaveAsDocumentAsync(document);
@@ -1568,7 +1606,7 @@ public partial class MainWindow : Window
             if (extension is not ".md" and not ".markdown") extension = ".md";
             var output = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
             {
-                Title = "Enregistrer le document sous",
+                Title = Localization.Translate("Enregistrer le document sous"),
                 SuggestedFileName = document.IsUntitled ? $"{document.Title}.md" : Path.GetFileName(document.Path),
                 DefaultExtension = extension.TrimStart('.'),
                 ShowOverwritePrompt = true,
@@ -1596,7 +1634,7 @@ public partial class MainWindow : Window
                 }
                 if (_documents.Any(openDocument => openDocument != document && !openDocument.IsUntitled && pathComparer.Equals(Path.GetFullPath(openDocument.Path), targetPath)))
                 {
-                    StatusText.Text = "Ce fichier est déjà ouvert dans un autre onglet.";
+                    StatusText.Text = Localization.Translate("Ce fichier est déjà ouvert dans un autre onglet.");
                     return false;
                 }
 
@@ -1609,14 +1647,14 @@ public partial class MainWindow : Window
                 UpdateStatusBar();
                 RecordRecentFiles([targetPath]);
                 if (_active == document) Title = $"markdim — {document.Title}";
-                StatusText.Text = $"Enregistré sous {document.Title} · {DateTime.Now:t}";
+                StatusText.Text = Localization.Format("Enregistré sous {0} · {1:t}", document.Title, DateTime.Now);
                 return true;
             }
         }
         catch (Exception ex)
         {
             AppDiagnostics.Error("save-as", ex);
-            StatusText.Text = $"Échec de l’enregistrement sous : {ex.Message}";
+            StatusText.Text = Localization.Format("Échec de l’enregistrement sous : {0}", ex.Message);
             return false;
         }
     }
@@ -1631,13 +1669,13 @@ public partial class MainWindow : Window
             document.MarkSaved();
             RebuildTabs();
             if (_active == document) Title = $"markdim — {document.Title}";
-            StatusText.Text = $"Enregistré · {DateTime.Now:t}";
+            StatusText.Text = Localization.Format("Enregistré · {0:t}", DateTime.Now);
             return true;
         }
         catch (Exception ex)
         {
             AppDiagnostics.Error("save", ex);
-            StatusText.Text = $"Échec de l’enregistrement : {ex.Message}";
+            StatusText.Text = Localization.Format("Échec de l’enregistrement : {0}", ex.Message);
             return false;
         }
     }
@@ -1700,17 +1738,17 @@ public partial class MainWindow : Window
     }
     private async void ExportPdfClick(object? sender, RoutedEventArgs e)
     {
-        if (_active is null) { StatusText.Text = "Ouvrez un document avant l’export PDF."; return; }
-        var output = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions { Title = "Exporter en PDF", SuggestedFileName = Path.GetFileNameWithoutExtension(_active.Path) + ".pdf", FileTypeChoices = new[] { new FilePickerFileType("Document PDF") { Patterns = new[] { "*.pdf" } } } });
+        if (_active is null) { StatusText.Text = Localization.Translate("Ouvrez un document avant l’export PDF."); return; }
+        var output = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions { Title = Localization.Translate("Exporter en PDF"), SuggestedFileName = Path.GetFileNameWithoutExtension(_active.Path) + ".pdf", FileTypeChoices = new[] { new FilePickerFileType(Localization.Translate("Document PDF")) { Patterns = new[] { "*.pdf" } } } });
         if (output is null) return;
         try
         {
             var content = _active.Text;
             var title = Path.GetFileName(_active.Path);
             await Task.Run(() => MarkdownPdfExporter.Export(content, title, output.Path.LocalPath));
-            StatusText.Text = "PDF exporté.";
+            StatusText.Text = Localization.Translate("PDF exporté.");
         }
-        catch (Exception ex) { AppDiagnostics.Error("pdf-export", ex); StatusText.Text = $"Échec de l’export PDF : {ex.Message}"; }
+        catch (Exception ex) { AppDiagnostics.Error("pdf-export", ex); StatusText.Text = Localization.Format("Échec de l’export PDF : {0}", ex.Message); }
     }
 
     private void MoveTabLeftClick(object? sender, RoutedEventArgs e) => MoveActiveTab(-1);
@@ -1778,13 +1816,14 @@ public partial class MainWindow : Window
                 new TextBlock
                 {
                     Text = count == 1
-                        ? "Ce document contient des modifications non enregistrées. Voulez-vous les enregistrer avant de le fermer ?"
-                        : $"Ces {count} documents contiennent des modifications non enregistrées. Voulez-vous les enregistrer avant de les fermer ?",
+                        ? Localization.Translate("Ce document contient des modifications non enregistrées. Voulez-vous les enregistrer avant de le fermer ?")
+                        : Localization.Format("Ces {0} documents contiennent des modifications non enregistrées. Voulez-vous les enregistrer avant de les fermer ?", count),
                     TextWrapping = Avalonia.Media.TextWrapping.Wrap,
                     FontSize = 14
                 }
             }
         }, DialogButton("Annuler", 0), DialogButton("Abandonner", 2), DialogButton("Enregistrer", 1));
+        Localization.Apply(dialog, _settings.Language);
         return await dialog.ShowDialog<int>(this);
 
         Button DialogButton(string label, int result)

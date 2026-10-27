@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
     <VersionPrefix>0.3.0</VersionPrefix>
-    <VersionSuffix>beta.6</VersionSuffix>
+    <VersionSuffix>beta.7</VersionSuffix>
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

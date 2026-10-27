@@ -4,7 +4,7 @@
 
 ## Platform
 
-Adaptive desktop application.
+adaptive
 
 ## Stack
 

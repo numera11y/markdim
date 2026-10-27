@@ -50,7 +50,7 @@ L’éditeur source affiche les numéros de ligne sans coloration syntaxique, af
 
 Le menu **Paramètres** permet de choisir le thème clair/sombre, régler la taille du texte et la largeur de la bibliothèque, puis afficher/masquer chaque panneau. Les séparateurs entre bibliothèque, éditeur et aperçu se redimensionnent à la souris; les choix et dimensions sont mémorisés dans `%LOCALAPPDATA%\markdim\settings.json`. Le menu **Affichage** permet aussi de replier rapidement un panneau.
 
-Le workflow GitHub Actions `.github/workflows/release.yml` publie Windows et Linux pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Les archives, l’installateur EXE et les paquets `.deb` ont chacun une somme SHA-256. La signature/notarisation macOS et les paquets natifs MSIX/DMG/AppImage restent à configurer pour une diffusion grand public.
+Le workflow GitHub Actions `.github/workflows/release.yml` publie Windows et Linux pour les tags bêta `vX.Y.Z-beta.N`; un tag stable `vX.Y.Z` publie les cinq RID. Les archives, l’installateur EXE et les paquets `.deb` ont chacun une somme SHA-256. Pour préparer le paquet Microsoft Store MSIX x64, exécuter `./packaging/windows/Build-StorePackage.ps1 -PackageVersion 1.0.0.0 -Publisher "CN=…"`; le quatrième champ de version Store reste à `0` et cette version Store est distincte de la version affichée par l’application. Microsoft signe le MSIX après son envoi à Partner Center. La signature/notarisation macOS et les paquets natifs DMG/AppImage restent à configurer pour une diffusion grand public.
 
 L’installateur de cette bêta n’est pas signé; Windows peut afficher un avertissement SmartScreen au téléchargement ou au lancement.
 

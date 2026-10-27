@@ -9,9 +9,7 @@
 
 The current version is **0.3.0-beta.7**. This public beta provides Windows x64 and Linux x64/ARM64 downloads. The version is shown in **Help → About** and is defined in `Directory.Build.props`.
 
-![markdim showing its Markdown editor and live preview](packaging/windows/Store/ListingAssets/Store-Screenshot-Source.png)
-
-*The screenshot shows the interface in French; English and French are available in Settings → Language.*
+![markdim showing its English-language Markdown editor and live preview](packaging/windows/Store/ListingAssets/Store-Screenshot-Source.en.png)
 
 ## Why markdim?
 

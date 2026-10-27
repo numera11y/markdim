@@ -1,6 +1,7 @@
 param(
     [string] $OutputDirectory,
-    [string] $ScreenshotPath
+    [string] $ScreenshotPath,
+    [string] $EnglishScreenshotPath
 )
 
 $ErrorActionPreference = 'Stop'
@@ -16,13 +17,18 @@ if ([string]::IsNullOrWhiteSpace($ScreenshotPath)) {
     $ScreenshotPath = (Resolve-Path -LiteralPath $ScreenshotPath).Path
 }
 $screenshot = $ScreenshotPath
+$englishScreenshot = if ([string]::IsNullOrWhiteSpace($EnglishScreenshotPath)) {
+    Join-Path $PSScriptRoot 'ListingAssets/Store-Screenshot-Source.en.png'
+} else {
+    (Resolve-Path -LiteralPath $EnglishScreenshotPath).Path
+}
 $logo = Join-Path $PSScriptRoot 'Assets/Square150x150Logo.png'
 $fontRegular = Join-Path $repositoryRoot 'MarkdownDesk/Assets/Fonts/IBMPlexSans.ttf'
 $fontSemiBold = Join-Path $repositoryRoot 'MarkdownDesk/Assets/Fonts/IBMPlexSans-SemiBold.ttf'
 $ffmpegCommand = Get-Command ffmpeg -ErrorAction SilentlyContinue
 $ffmpeg = if ($ffmpegCommand) { $ffmpegCommand.Source } else { $null }
 
-foreach ($requiredFile in @($screenshot, $logo, $fontRegular, $fontSemiBold)) {
+foreach ($requiredFile in @($screenshot, $englishScreenshot, $logo, $fontRegular, $fontSemiBold)) {
     if (-not (Test-Path -LiteralPath $requiredFile -PathType Leaf)) {
         throw "A source file required for Store artwork is missing: $requiredFile"
     }
@@ -44,8 +50,11 @@ $posterHeadline = "Lire. ${upperE}crire. Exporter."
 $featureOne = "${upperE}diteur et aper${lowerE}u en direct"
 $featureTwo = "Biblioth${lowerE}que et onglets r${lowerE}ordonnables"
 $featureThree = "Export PDF int${lowerE}gr${lowerE}"
+$posterSubhead = 'Vos documents Markdown. Du brouillon au PDF.'
+$squareSubhead = 'Votre espace Markdown.'
 $squareFeatureOne = "Source + aper${lowerE}u en direct"
 $squareFeatureTwo = "Onglets et biblioth${lowerE}que"
+$squareFeatureThree = 'Export PDF'
 $footerText = "B${lowerE}ta publique Windows  |  Gratuit  |  Open source MIT"
 $posterPath = Join-Path $OutputDirectory 'Store-Poster-9x16.png'
 $squarePath = Join-Path $OutputDirectory 'Store-Hero-1x1.png'
@@ -58,8 +67,11 @@ $textFiles = @{
     featureOne = $featureOne
     featureTwo = $featureTwo
     featureThree = $featureThree
+    posterSubhead = $posterSubhead
+    squareSubhead = $squareSubhead
     squareFeatureOne = $squareFeatureOne
     squareFeatureTwo = $squareFeatureTwo
+    squareFeatureThree = $squareFeatureThree
     footer = $footerText
 }
 $textPaths = @{}
@@ -76,7 +88,7 @@ $posterFilter = @"
 [base][logo]overlay=96:88:format=auto[brandmark];
 [brandmark]drawtext=fontfile='$semiBoldFontPath':text='markdim':fontcolor=0xE6EAF0:fontsize=100:x=250:y=106[brand];
 [brand]drawtext=fontfile='$semiBoldFontPath':textfile='$($textPaths.posterHeadline)':fontcolor=0xE6EAF0:fontsize=82:x=96:y=360[headline];
-[headline]drawtext=fontfile='$regularFontPath':text='Vos documents Markdown. Du brouillon au PDF.':fontcolor=0xD0D6E0:fontsize=42:x=100:y=485[subhead];
+[headline]drawtext=fontfile='$regularFontPath':textfile='$($textPaths.posterSubhead)':fontcolor=0xD0D6E0:fontsize=42:x=100:y=485[subhead];
 [subhead]drawbox=x=76:y=630:w=1288:h=685:color=0x343C49:t=2[frame];
 [frame][screen]overlay=90:642:format=auto[screenframe];
 [screenframe]drawbox=x=96:y=1380:w=1248:h=2:color=0x343C49:t=fill[rule1];
@@ -96,13 +108,13 @@ $squareFilter = @"
 [base][logo]overlay=130:105:format=auto[brandmark];
 [brandmark]drawtext=fontfile='$semiBoldFontPath':text='markdim':fontcolor=0xE6EAF0:fontsize=120:x=340:y=125[brand];
 [brand]drawtext=fontfile='$semiBoldFontPath':textfile='$($textPaths.posterHeadline)':fontcolor=0xE6EAF0:fontsize=110:x=140:y=405[headline];
-[headline]drawtext=fontfile='$regularFontPath':text='Votre espace Markdown.':fontcolor=0xD0D6E0:fontsize=58:x=145:y=560[subhead];
+[headline]drawtext=fontfile='$regularFontPath':textfile='$($textPaths.squareSubhead)':fontcolor=0xD0D6E0:fontsize=58:x=145:y=560[subhead];
 [subhead]drawbox=x=120:y=700:w=1920:h=1018:color=0x343C49:t=2[frame];
 [frame][screen]overlay=140:716:format=auto[screenframe];
 [screenframe]drawbox=x=140:y=1800:w=1880:h=2:color=0x343C49:t=fill[rule1];
 [rule1]drawtext=fontfile='$semiBoldFontPath':textfile='$($textPaths.squareFeatureOne)':fontcolor=0xE6EAF0:fontsize=46:x=145:y=1850[feature1];
 [feature1]drawtext=fontfile='$semiBoldFontPath':textfile='$($textPaths.squareFeatureTwo)':fontcolor=0xE6EAF0:fontsize=46:x=850:y=1850[feature2];
-[feature2]drawtext=fontfile='$semiBoldFontPath':text='Export PDF':fontcolor=0xE6EAF0:fontsize=46:x=1550:y=1850[feature3];
+[feature2]drawtext=fontfile='$semiBoldFontPath':textfile='$($textPaths.squareFeatureThree)':fontcolor=0xE6EAF0:fontsize=46:x=1550:y=1850[feature3];
 [feature3]drawbox=x=140:y=1975:w=1880:h=2:color=0x343C49:t=fill[footerRule];
 [footerRule]drawtext=fontfile='$regularFontPath':textfile='$($textPaths.footer)':fontcolor=0xA3B8FF:fontsize=38:x=145:y=2040[out]
 "@ -replace "`r?`n", ''
@@ -114,7 +126,41 @@ if ($LASTEXITCODE -ne 0) { throw "ffmpeg failed to create the 9:16 poster (exit 
 $squareArguments = @('-hide_banner', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=0x141820:s=2160x2160:d=1', '-i', $screenshot, '-i', $logo, '-filter_complex', $squareFilter, '-map', '[out]', '-frames:v', '1', '-map_metadata', '-1', '-compression_level', '9', '-metadata', "comment=$artworkMetadata", $squarePath)
 & $ffmpeg @squareArguments
 if ($LASTEXITCODE -ne 0) { throw "ffmpeg failed to create the 1:1 hero image (exit code $LASTEXITCODE)." }
+
+$frenchPosterPath = $posterPath
+$frenchSquarePath = $squarePath
+Write-Host "French poster created: $frenchPosterPath (1440 x 2160)"
+Write-Host "French square hero image created: $frenchSquarePath (2160 x 2160)"
+
+$englishTextFiles = @{
+    posterHeadline = 'Read. Write. Export.'
+    featureOne = 'Editor + live preview'
+    featureTwo = 'Library + reorderable tabs'
+    featureThree = 'Local PDF export'
+    posterSubhead = 'Your Markdown, from draft to PDF.'
+    squareSubhead = 'Your Markdown workspace.'
+    squareFeatureOne = 'Source + live preview'
+    squareFeatureTwo = 'Tabs + document library'
+    squareFeatureThree = 'PDF export'
+    footer = 'Public beta Windows  |  Free  |  Open source MIT'
+}
+foreach ($name in $englishTextFiles.Keys) {
+    [System.IO.File]::WriteAllText((Join-Path $textDirectory "$name.txt"), $englishTextFiles[$name], $utf8NoBom)
+}
+
+$screenshot = $englishScreenshot
+$posterPath = Join-Path $OutputDirectory 'Store-Poster-9x16.en.png'
+$squarePath = Join-Path $OutputDirectory 'Store-Hero-1x1.en.png'
+$artworkMetadata = 'Generated for the English markdim Microsoft Store listing from the official markdim icon and English-language app screenshot; no personal document content or private path is shown.'
+$posterArguments = @('-hide_banner', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=0x141820:s=1440x2160:d=1', '-i', $screenshot, '-i', $logo, '-filter_complex', $posterFilter, '-map', '[out]', '-frames:v', '1', '-map_metadata', '-1', '-compression_level', '9', '-metadata', "comment=$artworkMetadata", $posterPath)
+& $ffmpeg @posterArguments
+if ($LASTEXITCODE -ne 0) { throw "ffmpeg failed to create the English 9:16 poster (exit code $LASTEXITCODE)." }
+
+$squareArguments = @('-hide_banner', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i', 'color=c=0x141820:s=2160x2160:d=1', '-i', $screenshot, '-i', $logo, '-filter_complex', $squareFilter, '-map', '[out]', '-frames:v', '1', '-map_metadata', '-1', '-compression_level', '9', '-metadata', "comment=$artworkMetadata", $squarePath)
+& $ffmpeg @squareArguments
+if ($LASTEXITCODE -ne 0) { throw "ffmpeg failed to create the English 1:1 hero image (exit code $LASTEXITCODE)." }
+
 Remove-Item -LiteralPath $textDirectory -Recurse -Force
 
-Write-Host "Poster created: $posterPath (1440 x 2160)"
-Write-Host "Square hero image created: $squarePath (2160 x 2160)"
+Write-Host "English poster created: $posterPath (1440 x 2160)"
+Write-Host "English square hero image created: $squarePath (2160 x 2160)"

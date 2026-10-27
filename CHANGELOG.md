@@ -4,6 +4,9 @@ This file follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [
 
 ## [Unreleased]
 
+### Changed
+- Adds matching English Store poster and hero artwork alongside the French graphics; the artwork script now generates both locales from their corresponding app captures.
+
 ## [0.3.0-beta.7] - 2026-10-27
 
 ### Changed

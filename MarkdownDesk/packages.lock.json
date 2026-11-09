@@ -72,9 +72,9 @@
       },
       "Markdig": {
         "type": "Direct",
-        "requested": "[0.44.0, )",
-        "resolved": "0.44.0",
-        "contentHash": "X+CYMjcUnh/yO24wOSQxVFLiGqWrrtXJ5M7toHiM1Zk4Fg9UMLN5fkaq6FSOWH+mIprsHHgDMlq3MJhmrXalhg=="
+        "requested": "[1.6.0, )",
+        "resolved": "1.6.0",
+        "contentHash": "rJEpDfPM8wrfXUgkNejjg2bJN9bciy44uVyRwKUI+92CnSmbaLeJTLPYcCdvgM4RFsKrhs8d2H2hO78yZpMl3g=="
       },
       "PDFsharp-MigraDoc": {
         "type": "Direct",
